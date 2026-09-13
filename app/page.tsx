@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { HeroSection } from "@/components/landing/hero-section";
 import { StatsSection } from "@/components/landing/stats-section";
+import { Footer } from "@/components/public/Footer";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
         <HeroSection />
         <StatsSection />
       </main>
+      <Footer />
     </div>
   );
 }

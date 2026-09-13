@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { AuthModalProvider } from "@/components/modals";
 import { FloatingContact } from "@/components/public/floating-contact";
 import "./globals.css";
 
@@ -31,8 +32,10 @@ export default function RootLayout({
       className={`${outfit.variable} ${jakarta.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#FDFBF7] text-[#451420]">
-        {children}
-        <FloatingContact />
+        <AuthModalProvider>
+          {children}
+          <FloatingContact />
+        </AuthModalProvider>
       </body>
     </html>
   );
