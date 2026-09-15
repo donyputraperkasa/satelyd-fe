@@ -29,7 +29,7 @@ export function QuestionExplanationField({
           value={explanation}
           onChange={(e) => onUpdateExplanation(e.target.value)}
           placeholder="Tuliskan petunjuk penyelesaian atau pembahasan soal ini..."
-          className="w-full rounded-xl border border-[#E5D7DC] bg-white p-3 text-xs sm:text-sm text-[#451420] placeholder-[#9C737F] focus:border-[#451420] focus:outline-none transition shadow-2xs disabled:bg-gray-50 disabled:cursor-not-allowed"
+          className="w-full rounded-xl border border-[#E5D7DC] bg-white p-3 text-xs sm:text-sm text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:border-[#451420] focus:outline-none transition shadow-2xs disabled:bg-gray-50 disabled:cursor-not-allowed"
         />
       </div>
 
@@ -57,7 +57,7 @@ export function QuestionExplanationField({
             value={explanationLink}
             onChange={(e) => onUpdateExplanationLink(e.target.value)}
             placeholder="Contoh: https://youtube.com/watch?v=... atau link dokumen PDF"
-            className="w-full bg-transparent text-xs text-[#451420] placeholder-[#9C737F] focus:outline-none disabled:cursor-not-allowed"
+            className="w-full bg-transparent text-xs text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:outline-none disabled:cursor-not-allowed"
           />
         </div>
       </div>

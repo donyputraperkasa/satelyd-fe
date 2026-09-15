@@ -82,7 +82,7 @@ export function QuestionImageAttachment({
                 type="url"
                 placeholder="Atau tempel URL gambar (https://...)"
                 onChange={(e) => onUpdateImage(e.target.value)}
-                className="w-full bg-transparent text-xs text-[#451420] placeholder-[#9C737F] focus:outline-none"
+                className="w-full bg-transparent text-xs text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:outline-none"
               />
             </div>
           </div>
