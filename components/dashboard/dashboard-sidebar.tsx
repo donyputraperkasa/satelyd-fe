@@ -42,7 +42,7 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
         }`}
       >
         <div>
-          <div className="flex items-center justify-between border-b border-[#E5D7DC] px-6 py-5">
+          <div className="flex h-16 items-center justify-between border-b border-[#E5D7DC] px-6">
             <Link href="/dashboard" className="flex items-center gap-3 group">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#451420] text-[#FDFBF7] shadow-sm transition-transform duration-200 group-hover:scale-105">
                 <Satellite size={20} className="text-[#FDFBF7]" />

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { DashboardHeader, DashboardSidebar, DashboardBreadcrumbs } from "@/components/dashboard";
+import { DashboardHeader, DashboardSidebar } from "@/components/dashboard";
 import { Footer } from "@/components/public/Footer";
 import { useAuthModal } from "@/components/modals";
 import { getStoredUser } from "@/lib/auth";
@@ -90,14 +90,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           onOpenSidebar={() => setIsMobileSidebarOpen(true)}
         />
 
-        {/* Dynamic Breadcrumbs placed below the header line with clear spacing & divider */}
-        <div className="w-full max-w-6xl mx-auto px-5 sm:px-6 md:px-8 pt-6 pb-2">
-          <div className="border-b border-[#E5D7DC]/70 pb-3.5">
-            <DashboardBreadcrumbs />
-          </div>
-        </div>
-
-        <main className="flex-1 max-w-6xl w-full mx-auto px-5 sm:px-6 md:px-8 pt-4 pb-12">
+        <main className="flex-1 max-w-6xl w-full mx-auto px-5 sm:px-6 md:px-8 pt-8 pb-12">
           {children}
         </main>
 

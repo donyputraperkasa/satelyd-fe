@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { X, PlusCircle, Clock, BookOpen, GraduationCap, Award } from "lucide-react";
+import { X, PlusCircle } from "lucide-react";
 import type { Exam } from "@/types";
+import { ExamCreateFields } from "./exam-create-fields";
 
 interface ExamCreateModalProps {
   isOpen: boolean;
@@ -12,8 +13,8 @@ interface ExamCreateModalProps {
 
 export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalProps) {
   const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("Matematika");
-  const [gradeLevel, setGradeLevel] = useState("Kelas 9 SMP");
+  const [subject, setSubject] = useState("");
+  const [gradeLevel, setGradeLevel] = useState("");
   const [durationMinutes, setDurationMinutes] = useState(60);
   const [passingScore, setPassingScore] = useState(75);
   const [description, setDescription] = useState("");
@@ -24,15 +25,14 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
     e.preventDefault();
     if (!title.trim()) return;
 
-    // generate random token e.g. SAT-7X9
     const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase();
     const tokenCode = `SAT-${randomSuffix}`;
 
     const newExam: Exam = {
       id: `EXM-${Date.now().toString().slice(-4)}`,
       title: title.trim(),
-      subject,
-      gradeLevel,
+      subject: subject.trim() || "Umum",
+      gradeLevel: gradeLevel.trim() || "Semua Kelas",
       durationMinutes: Number(durationMinutes) || 60,
       totalQuestions: 0,
       totalParticipants: 0,
@@ -55,7 +55,7 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#451420]/50 backdrop-blur-xs animate-fade-in"
     >
       <div
-        className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#E5D7DC] bg-[#FDFBF7] p-5 sm:p-7 text-[#451420] shadow-2xl transition-all"
+        className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#E5D7DC] bg-[#FDFBF7] p-5 sm:p-7 text-[#451420] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -69,7 +69,6 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
               <p className="text-xs text-[#7A5661]">Lengkapi informasi dasar kisi-kisi dan durasi ujian</p>
             </div>
           </div>
-
           <button
             type="button"
             onClick={onClose}
@@ -79,126 +78,34 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
           </button>
         </div>
 
-        {/* Form with comfortable, tall heights */}
+        {/* Form Fields */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">
-              Judul / Nama Ujian *
-            </label>
-            <input
-              type="text"
-              required
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Contoh: Penilaian Akhir Bab: Sistem Persamaan Linear"
-              className="h-12 w-full rounded-xl border border-[#E5D7DC] bg-white px-4 text-sm font-semibold text-[#451420] placeholder-[#9C737F] focus:border-[#451420] focus:ring-2 focus:ring-[#451420]/10 focus:outline-none transition shadow-2xs"
-            />
-          </div>
+          <ExamCreateFields
+            title={title}
+            setTitle={setTitle}
+            subject={subject}
+            setSubject={setSubject}
+            gradeLevel={gradeLevel}
+            setGradeLevel={setGradeLevel}
+            durationMinutes={durationMinutes}
+            setDurationMinutes={setDurationMinutes}
+            passingScore={passingScore}
+            setPassingScore={setPassingScore}
+            description={description}
+            setDescription={setDescription}
+          />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">
-                <span className="inline-flex items-center gap-1.5">
-                  <BookOpen size={14} className="text-[#7A283C]" />
-                  Mata Pelajaran
-                </span>
-              </label>
-              <select
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                className="h-12 w-full rounded-xl border border-[#E5D7DC] bg-white px-3.5 text-sm font-semibold text-[#451420] focus:border-[#451420] focus:outline-none cursor-pointer"
-              >
-                <option value="Matematika">Matematika</option>
-                <option value="Fisika / IPA">Fisika / IPA</option>
-                <option value="Kimia">Kimia</option>
-                <option value="Biologi">Biologi</option>
-                <option value="Literasi & Numerasi">Literasi & Numerasi</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">
-                <span className="inline-flex items-center gap-1.5">
-                  <GraduationCap size={14} className="text-[#7A283C]" />
-                  Tingkat / Kelas
-                </span>
-              </label>
-              <select
-                value={gradeLevel}
-                onChange={(e) => setGradeLevel(e.target.value)}
-                className="h-12 w-full rounded-xl border border-[#E5D7DC] bg-white px-3.5 text-sm font-semibold text-[#451420] focus:border-[#451420] focus:outline-none cursor-pointer"
-              >
-                <option value="Kelas 7 SMP">Kelas 7 SMP</option>
-                <option value="Kelas 8 SMP">Kelas 8 SMP</option>
-                <option value="Kelas 9 SMP">Kelas 9 SMP</option>
-                <option value="Kelas 10 SMA">Kelas 10 SMA</option>
-                <option value="Kelas 11 SMA">Kelas 11 SMA</option>
-                <option value="Kelas 12 SMA">Kelas 12 SMA</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock size={14} className="text-[#7A283C]" />
-                  Durasi Ujian (Menit)
-                </span>
-              </label>
-              <input
-                type="number"
-                min={5}
-                max={240}
-                value={durationMinutes}
-                onChange={(e) => setDurationMinutes(Number(e.target.value))}
-                className="h-12 w-full rounded-xl border border-[#E5D7DC] bg-white px-4 text-sm font-semibold text-[#451420] focus:border-[#451420] focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">
-                <span className="inline-flex items-center gap-1.5">
-                  <Award size={14} className="text-amber-700" />
-                  Target Nilai KKM
-                </span>
-              </label>
-              <input
-                type="number"
-                min={0}
-                max={100}
-                value={passingScore}
-                onChange={(e) => setPassingScore(Number(e.target.value))}
-                className="h-12 w-full rounded-xl border border-[#E5D7DC] bg-white px-4 text-sm font-semibold text-[#451420] focus:border-[#451420] focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">
-              Petunjuk atau Deskripsi (Opsional)
-            </label>
-            <textarea
-              rows={3}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Berikan instruksi tambahan seperti penggunaan kalkulator atau kisi-kisi..."
-              className="w-full rounded-xl border border-[#E5D7DC] bg-white p-3.5 text-sm font-medium text-[#451420] placeholder-[#9C737F] focus:border-[#451420] focus:outline-none transition"
-            />
-          </div>
-
-          {/* Action buttons */}
           <div className="mt-7 pt-4 border-t border-[#E5D7DC] flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="h-11 px-5 rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F2] transition cursor-pointer"
+              className="h-11 px-6 inline-flex items-center justify-center rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F2] transition cursor-pointer"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="h-11 px-6 rounded-xl bg-[#451420] text-xs font-black text-white hover:bg-[#5B1C2E] transition cursor-pointer shadow-xs"
+              className="h-11 px-6 inline-flex items-center justify-center rounded-xl bg-[#451420] text-xs font-black text-white hover:bg-[#5B1C2E] transition cursor-pointer shadow-xs"
             >
               Simpan Sebagai Draft
             </button>

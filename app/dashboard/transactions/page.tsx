@@ -7,7 +7,7 @@ import {
   TransactionStats,
   TransactionTable,
 } from "@/components/transactions";
-import { SAMPLE_TRANSACTIONS, type TransactionOrder } from "@/types";
+import type { TransactionOrder } from "@/types";
 
 export default function TransactionsPage() {
   const [orders, setOrders] = useState<TransactionOrder[]>(() => {
@@ -21,7 +21,7 @@ export default function TransactionsPage() {
         }
       }
     }
-    return SAMPLE_TRANSACTIONS;
+    return [];
   });
 
   const [selectedProofOrder, setSelectedProofOrder] = useState<TransactionOrder | null>(null);
