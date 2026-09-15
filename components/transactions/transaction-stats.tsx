@@ -1,5 +1,5 @@
 import { ArrowUpRight, CheckCircle2, Clock, Coins, TrendingUp } from "lucide-react";
-import type { TransactionOrder } from "./transaction-types";
+import type { TransactionOrder } from "@/types";
 
 interface TransactionStatsProps {
   orders: TransactionOrder[];

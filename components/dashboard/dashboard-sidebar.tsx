@@ -30,11 +30,13 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
       {isOpenMobile && (
         <div
           onClick={onCloseMobile}
+          aria-hidden="true"
           className="fixed inset-0 z-40 bg-[#451420]/40 backdrop-blur-xs md:hidden"
         />
       )}
 
       <aside
+        aria-label="Sidebar Navigasi"
         className={`fixed top-0 bottom-0 left-0 z-50 flex w-72 flex-col justify-between border-r border-[#E5D7DC] bg-[#FAF7F2] transition-transform duration-300 ease-in-out md:translate-x-0 ${
           isOpenMobile ? "translate-x-0" : "-translate-x-full"
         }`}

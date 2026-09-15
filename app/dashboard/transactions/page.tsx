@@ -4,11 +4,10 @@ import { useState } from "react";
 import { CheckCircle2, Receipt } from "lucide-react";
 import {
   ProofModal,
-  SAMPLE_TRANSACTIONS,
   TransactionStats,
   TransactionTable,
-  type TransactionOrder,
-} from "@/components/dashboard/transactions";
+} from "@/components/transactions";
+import { SAMPLE_TRANSACTIONS, type TransactionOrder } from "@/types";
 
 export default function TransactionsPage() {
   const [orders, setOrders] = useState<TransactionOrder[]>(() => {

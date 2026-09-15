@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CheckCircle2, Eye, Search, UserCheck, XCircle } from "lucide-react";
-import type { TransactionOrder, TransactionStatus } from "./transaction-types";
+import type { TransactionOrder, TransactionStatus } from "@/types";
 
 interface TransactionTableProps {
   orders: TransactionOrder[];

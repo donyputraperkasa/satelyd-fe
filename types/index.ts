@@ -4,6 +4,8 @@ import type { Role } from "./role";
 export * from "./user";
 export * from "./role";
 export * from "./school";
+export * from "./transaction";
+export * from "./exam";
 
 export interface UserProfile {
   id: string;

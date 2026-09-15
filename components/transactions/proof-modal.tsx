@@ -1,7 +1,7 @@
 "use client";
 
-import { FileText, ShieldCheck, UserCheck, X } from "lucide-react";
-import type { TransactionOrder } from "./transaction-types";
+import { FileText, ShieldCheck, UserCheck, X, CheckCircle2, ExternalLink, Calendar, User, School, Hash, CreditCard } from "lucide-react";
+import type { TransactionOrder } from "@/types";
 
 interface ProofModalProps {
   order: TransactionOrder | null;
