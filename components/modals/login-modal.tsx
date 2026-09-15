@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, EyeOff, Loader2, Lock, User as UserIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { saveAuthSession } from "@/lib/auth";
 import { loginUser } from "@/services";
@@ -21,6 +22,7 @@ export function LoginModal({
   onSwitchToPin,
   onSuccess,
 }: LoginModalProps) {
+  const router = useRouter();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -34,6 +36,8 @@ export function LoginModal({
     try {
       const data = await loginUser({ email: identifier.trim(), password });
       saveAuthSession(data);
+      router.push("/dashboard");
+      router.refresh();
       onSuccess?.();
       onClose();
     } catch (err: unknown) {

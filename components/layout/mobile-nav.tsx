@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight, LogOut, User as UserIcon } from "lucide-react";
+import Link from "next/link";
 import type { User } from "@/types";
 
 interface MobileNavProps {
@@ -79,6 +80,13 @@ export function MobileNav({
 
           {user ? (
             <div className="flex items-center gap-2">
+              <Link
+                href="/dashboard"
+                onClick={onClose}
+                className="px-3 py-1.5 rounded-full bg-[#451420] text-[#FDFBF7] text-xs font-bold shadow-xs hover:bg-[#300C15]"
+              >
+                Dashboard
+              </Link>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F5EDF0] border border-[#E2D5D9] text-xs font-semibold text-[#451420]">
                 <UserIcon size={13} />
                 {user.name.split(" ")[0]}

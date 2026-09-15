@@ -11,11 +11,19 @@ export async function apiClient<T>(
 ): Promise<T> {
   const { token, headers, ...rest } = options;
 
+  let authToken = token;
+  if (!authToken && typeof window !== "undefined") {
+    authToken =
+      localStorage.getItem("satelyd.access-token") ??
+      localStorage.getItem("satelyd_token") ??
+      undefined;
+  }
+
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...rest,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       ...headers,
     },
   });

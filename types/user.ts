@@ -15,6 +15,9 @@ export type User = {
   email: string;
   role: Role;
   schoolId?: string | null;
+  gameTokenBalance?: number;
+  examCreditBalance?: number;
+  isUnlimited?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };

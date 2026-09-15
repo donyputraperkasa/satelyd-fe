@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, EyeOff, Loader2, Lock, Mail, User as UserIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { saveAuthSession } from "@/lib/auth";
 import { registerUser } from "@/services";
@@ -21,6 +22,7 @@ export function RegisterModal({
   onSwitchToPin,
   onSuccess,
 }: RegisterModalProps) {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +41,8 @@ export function RegisterModal({
     try {
       const data = await registerUser({ name, email, password });
       saveAuthSession(data);
+      router.push("/dashboard");
+      router.refresh();
       onSuccess?.();
       onClose();
     } catch (err: unknown) {
@@ -137,9 +141,7 @@ export function RegisterModal({
             Masuk di sini
           </button>
         </p>
-        <button type="button" onClick={onSwitchToPin} className="text-[#613D48] hover:text-[#451420] font-medium cursor-pointer">
-          Masuk cepat via PIN Sesi →
-        </button>
+        <button type="button" onClick={onSwitchToPin} className="text-[#613D48] hover:text-[#451420] font-medium cursor-pointer">Masuk cepat via PIN Sesi →</button>
       </div>
     </BaseModal>
   );

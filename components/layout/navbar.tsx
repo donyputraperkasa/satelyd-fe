@@ -66,6 +66,12 @@ export function Navbar() {
 
           {user ? (
             <div className="flex items-center gap-2">
+              <Link
+                href="/dashboard"
+                className="px-3.5 py-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] text-xs font-bold shadow-xs transition hover:-translate-y-0.5"
+              >
+                Dashboard
+              </Link>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5EDF0] border border-[#E2D5D9] text-xs font-semibold text-[#451420]">
                 <UserIcon size={13} />
                 {user.name.split(" ")[0]}
