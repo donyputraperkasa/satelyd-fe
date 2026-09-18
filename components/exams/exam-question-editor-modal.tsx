@@ -4,10 +4,10 @@ import { useState } from "react";
 import { Plus, FileQuestion, Lock } from "lucide-react";
 import type { Exam, ExamQuestion } from "@/types";
 import { getPublishTokenBalance, deductPublishToken } from "@/lib/publish-tokens";
-import { QuestionNavSidebar } from "./question-nav-sidebar";
-import { QuestionEditorForm, DEFAULT_OPTIONS_A_TO_E } from "./question-editor-form";
-import { QuestionEditorHeader } from "./question-editor-header";
-import { QuestionEditorFooter } from "./question-editor-footer";
+import { QuestionNavSidebar } from "../exam-question/question-nav-sidebar";
+import { QuestionEditorForm, DEFAULT_OPTIONS_A_TO_E } from "../exam-question/question-editor-form";
+import { QuestionEditorHeader } from "../exam-question/question-editor-header";
+import { QuestionEditorFooter } from "../exam-question/question-editor-footer";
 import { TokenInsufficientModal } from "./token-insufficient-modal";
 
 interface ExamQuestionEditorModalProps {
@@ -94,12 +94,28 @@ export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: E
     }
     const nextStatus = publish ? "PUBLISHED" : examStatus;
     setExamStatus(nextStatus);
-    const updatedExam: Exam = { ...exam, questions, totalQuestions: questions.length, status: nextStatus };
+
+    // Jika ujian dipublikasikan kembali dari status CLOSED, generate token sesi baru & reset peserta
+    const isRePublish = publish && exam.status === "CLOSED";
+    const nextTokenCode = isRePublish
+      ? `SAT-${Math.random().toString(36).substring(2, 5).toUpperCase()}`
+      : exam.tokenCode;
+
+    const updatedExam: Exam = {
+      ...exam,
+      questions,
+      totalQuestions: questions.length,
+      status: nextStatus,
+      tokenCode: nextTokenCode,
+      activeParticipants: 0,
+      totalParticipants: isRePublish ? 0 : exam.totalParticipants,
+    };
     onSaveExam(updatedExam);
     setIsSavedToast(true);
     setTimeout(() => setIsSavedToast(false), 2500);
     if (publish) setTimeout(() => onClose(), 800);
   };
+
 
   const totalPoints = questions.reduce((sum, q) => sum + (q.points || 0), 0);
 

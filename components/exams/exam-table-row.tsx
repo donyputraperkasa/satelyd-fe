@@ -35,12 +35,19 @@ export function ExamTableRow({
           <div className="flex items-center gap-2 flex-wrap">
             <span className="rounded-md bg-[#FAF0F3] border border-[#ECD0D8] px-2 py-0.5 text-[11px] font-bold text-[#7A283C]">{exam.subject}</span>
             <span className="rounded-md bg-[#F5EFEB] border border-[#E5D7DC] px-2 py-0.5 text-[11px] font-semibold text-[#634852]">{exam.gradeLevel}</span>
-            <div className="inline-flex items-center gap-1.5 bg-[#FAF7F2] border border-[#E5D7DC] rounded-lg px-2 py-0.5">
-              <span className="font-mono text-[11px] font-bold text-[#451420]">{exam.tokenCode}</span>
-              <button type="button" onClick={(e) => onCopyCode(exam.id, exam.tokenCode, e)} className="text-[#7A283C] hover:text-[#451420] transition cursor-pointer" title="Salin Token">
-                {isCopied ? <Check size={11} className="text-[#2E7D32]" /> : <Copy size={11} />}
-              </button>
-            </div>
+            {exam.status === "CLOSED" ? (
+              <span className="text-[10px] font-mono text-[#8F6672] bg-[#F5EFEB] border border-[#E5D7DC] rounded-lg px-2 py-0.5">
+                Kedaluwarsa
+              </span>
+            ) : (
+              <div className="inline-flex items-center gap-1.5 bg-[#FAF7F2] border border-[#E5D7DC] rounded-lg px-2 py-0.5">
+                <span className="font-mono text-[11px] font-bold text-[#451420]">{exam.tokenCode}</span>
+                <button type="button" onClick={(e) => onCopyCode(exam.id, exam.tokenCode, e)} className="text-[#7A283C] hover:text-[#451420] transition cursor-pointer" title="Salin Token">
+                  {isCopied ? <Check size={11} className="text-[#2E7D32]" /> : <Copy size={11} />}
+                </button>
+              </div>
+            )}
+
           </div>
           <h4 className="text-sm font-black text-[#451420] leading-snug">{exam.title}</h4>
         </div>

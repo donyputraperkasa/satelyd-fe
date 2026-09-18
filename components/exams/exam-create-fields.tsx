@@ -15,6 +15,8 @@ interface ExamCreateFieldsProps {
   setPassingScore: (val: number) => void;
   description: string;
   setDescription: (val: string) => void;
+  customToken?: string;
+  setCustomToken?: (val: string) => void;
 }
 
 export function ExamCreateFields({
@@ -30,8 +32,11 @@ export function ExamCreateFields({
   setPassingScore,
   description,
   setDescription,
+  customToken = "",
+  setCustomToken,
 }: ExamCreateFieldsProps) {
   return (
+
     <div className="space-y-4">
       <div>
         <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">Judul / Nama Ujian *</label>
@@ -113,16 +118,33 @@ export function ExamCreateFields({
         </div>
       </div>
 
+      {setCustomToken && (
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+            Kode Token Ujian (Opsional / Kustom)
+          </label>
+          <input
+            type="text"
+            maxLength={10}
+            value={customToken}
+            onChange={(e) => setCustomToken(e.target.value.toUpperCase())}
+            placeholder="Kosongkan untuk otomatis (cth: SAT-M9K) atau ketik kustom (cth: MAT-12A)"
+            className="h-11 w-full rounded-xl border border-[#E5D7DC] bg-white px-4 text-xs font-mono font-bold text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal placeholder:font-sans focus:border-[#451420] focus:outline-none uppercase"
+          />
+        </div>
+      )}
+
       <div>
         <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-2">Petunjuk atau Deskripsi (Opsional)</label>
         <textarea
-          rows={3}
+          rows={2}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Berikan instruksi tambahan seperti penggunaan kalkulator..."
-          className="w-full rounded-xl border border-[#E5D7DC] bg-white p-3.5 text-sm font-medium text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:border-[#451420] focus:outline-none transition"
+          className="w-full rounded-xl border border-[#E5D7DC] bg-white p-3 text-sm font-medium text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:border-[#451420] focus:outline-none transition"
         />
       </div>
     </div>
   );
 }
+

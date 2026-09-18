@@ -7,8 +7,10 @@ export * from "./exam-question-editor-modal";
 export * from "./exam-empty-state";
 export * from "./exam-header-banner";
 export * from "./token-insufficient-modal";
-export * from "./question-image-attachment";
-export * from "./question-explanation-field";
+export * from "../exam-question/question-image-attachment";
+export * from "../exam-question/question-explanation-field";
 export * from "./delete-exam-modal";
 export * from "./close-session-modal";
 export * from "./exam-recap-modal";
+export * from "./exam-live-monitor-modal";
+

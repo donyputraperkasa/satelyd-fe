@@ -18,6 +18,7 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
   const [durationMinutes, setDurationMinutes] = useState(60);
   const [passingScore, setPassingScore] = useState(75);
   const [description, setDescription] = useState("");
+  const [customToken, setCustomToken] = useState("");
 
   if (!isOpen) return null;
 
@@ -26,7 +27,9 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
     if (!title.trim()) return;
 
     const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase();
-    const tokenCode = `SAT-${randomSuffix}`;
+    const tokenCode = customToken.trim()
+      ? customToken.trim().toUpperCase()
+      : `SAT-${randomSuffix}`;
 
     const newExam: Exam = {
       id: `EXM-${Date.now().toString().slice(-4)}`,
@@ -43,6 +46,7 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
       createdAt: "Hari ini",
       description: description.trim() || undefined,
     };
+
 
     onSubmit(newExam);
     onClose();
@@ -93,7 +97,10 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
             setPassingScore={setPassingScore}
             description={description}
             setDescription={setDescription}
+            customToken={customToken}
+            setCustomToken={setCustomToken}
           />
+
 
           <div className="mt-7 pt-4 border-t border-[#E5D7DC] flex items-center justify-end gap-3">
             <button

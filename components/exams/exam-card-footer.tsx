@@ -26,35 +26,52 @@ export function ExamCardFooter({ exam, onManage, onMonitor, onCloseSession }: Ex
 
   return (
     <div className="mt-6 pt-4 border-t border-[#E5D7DC] space-y-2.5">
-      <div className="flex items-center justify-between rounded-xl border border-[#ECDDE2] bg-[#FAF7F2] px-3.5 py-2">
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] sm:text-[11px] font-black tracking-wider uppercase text-[#7A5661]">
-            KODE TOKEN:
-          </span>
-          <span className="font-mono font-black text-xs sm:text-sm tracking-widest text-[#451420]">
-            {exam.tokenCode}
+      {exam.status === "CLOSED" ? (
+        <div className="flex items-center justify-between rounded-xl border border-[#E5D7DC] bg-[#F5EFEB] px-3.5 py-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] sm:text-[11px] font-black tracking-wider uppercase text-[#7A5661]">
+              STATUS SESI:
+            </span>
+            <span className="text-xs font-bold text-[#8A1F2D]">
+              Sesi Ujian Selesai
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-[#8F6672] bg-white px-2 py-0.5 rounded border border-[#DFD0D5]">
+            Token Kedaluwarsa
           </span>
         </div>
+      ) : (
+        <div className="flex items-center justify-between rounded-xl border border-[#ECDDE2] bg-[#FAF7F2] px-3.5 py-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] sm:text-[11px] font-black tracking-wider uppercase text-[#7A5661]">
+              KODE TOKEN:
+            </span>
+            <span className="font-mono font-black text-xs sm:text-sm tracking-widest text-[#451420]">
+              {exam.tokenCode}
+            </span>
+          </div>
 
-        <button
-          type="button"
-          onClick={handleCopyCode}
-          className="h-7 inline-flex items-center gap-1.5 px-2.5 rounded-lg text-xs font-bold text-[#7A283C] bg-white border border-[#E5D7DC] hover:border-[#7A283C] hover:bg-[#FAF0F3] transition cursor-pointer shadow-2xs"
-          title="Salin Kode Ujian"
-        >
-          {copied ? (
-            <>
-              <Check size={13} className="text-[#2E7D32]" />
-              <span className="text-[#2E7D32]">Tersalin!</span>
-            </>
-          ) : (
-            <>
-              <Copy size={13} />
-              <span>Salin</span>
-            </>
-          )}
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={handleCopyCode}
+            className="h-7 inline-flex items-center gap-1.5 px-2.5 rounded-lg text-xs font-bold text-[#7A283C] bg-white border border-[#E5D7DC] hover:border-[#7A283C] hover:bg-[#FAF0F3] transition cursor-pointer shadow-2xs"
+            title="Salin Kode Ujian"
+          >
+            {copied ? (
+              <>
+                <Check size={13} className="text-[#2E7D32]" />
+                <span className="text-[#2E7D32]">Tersalin!</span>
+              </>
+            ) : (
+              <>
+                <Copy size={13} />
+                <span>Salin</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
+
 
       <div className="grid grid-cols-2 gap-2">
         {isLive ? (

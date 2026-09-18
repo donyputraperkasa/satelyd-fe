@@ -65,16 +65,23 @@ export function ExamTableMobileCard({
       </div>
 
       <div className="flex items-center justify-between gap-2 pt-1">
-        <div className="flex items-center gap-1.5 bg-white border border-[#E5D7DC] rounded-lg px-2.5 py-1 text-xs font-mono font-bold text-[#451420]">
-          <span>{exam.tokenCode}</span>
-          <button
-            type="button"
-            onClick={(e) => onCopyCode(exam.id, exam.tokenCode, e)}
-            className="p-1 text-[#7A283C] hover:bg-white rounded transition cursor-pointer"
-          >
-            {isCopied ? <Check size={12} className="text-[#2E7D32]" /> : <Copy size={12} />}
-          </button>
-        </div>
+        {exam.status === "CLOSED" ? (
+          <span className="text-[10px] font-mono text-[#8F6672] bg-[#F5EFEB] border border-[#E5D7DC] rounded-lg px-2.5 py-1">
+            Sesi Ditutup
+          </span>
+        ) : (
+          <div className="flex items-center gap-1.5 bg-white border border-[#E5D7DC] rounded-lg px-2.5 py-1 text-xs font-mono font-bold text-[#451420]">
+            <span>{exam.tokenCode}</span>
+            <button
+              type="button"
+              onClick={(e) => onCopyCode(exam.id, exam.tokenCode, e)}
+              className="p-1 text-[#7A283C] hover:bg-white rounded transition cursor-pointer"
+            >
+              {isCopied ? <Check size={12} className="text-[#2E7D32]" /> : <Copy size={12} />}
+            </button>
+          </div>
+        )}
+
 
         <div className="flex items-center gap-1.5 flex-wrap justify-end">
           {isLive ? (

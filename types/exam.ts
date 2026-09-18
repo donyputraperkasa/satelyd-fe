@@ -38,3 +38,26 @@ export interface ExamSummaryMetrics {
   totalParticipants: number;
   averageScore: number;
 }
+
+export interface StudentParticipant {
+  id: string;
+  name: string;
+  className: string;
+  attendanceNumber?: string;
+  participantToken: string;
+  startedAt?: string;
+}
+
+export interface StudentExamSession {
+  exam: Exam;
+  participant: StudentParticipant;
+  answers: Record<string, string>; // questionId -> selectedOptionKey (e.g. "A", "B")
+  doubtful: Record<string, boolean>; // questionId -> boolean
+  startedAt: number; // timestamp
+  remainingSeconds: number;
+  isSubmitted: boolean;
+  violationCount: number;
+  score?: number;
+  submittedAt?: string;
+}
+

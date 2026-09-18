@@ -1,101 +1,55 @@
 "use client";
 
-import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
+import type { Exam } from "@/types";
 import {
+  ExamHeaderBanner,
   ExamStats,
+  ExamQuickActions,
   ExamCard,
   ExamTable,
-  ExamQuickActions,
+  ExamEmptyState,
   ExamCreateModal,
   ExamQuestionEditorModal,
-  ExamEmptyState,
-  ExamHeaderBanner,
   DeleteExamModal,
   CloseSessionModal,
   ExamRecapModal,
+  ExamLiveMonitorModal,
 } from "@/components/exams";
-import { type Exam, type ExamStatus } from "@/types";
+import { useExamsPage } from "./use-exams-page";
 
 export default function ExamsPage() {
-  const [exams, setExams] = useState<Exam[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("satelyd.exams");
-      if (saved) {
-        try { return JSON.parse(saved); } catch {}
-      }
-    }
-    return [];
-  });
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<ExamStatus | "ALL">("ALL");
-  const [viewMode, setViewMode] = useState<"card" | "table">("card");
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [managingExam, setManagingExam] = useState<Exam | null>(null);
-  const [deleteCandidate, setDeleteCandidate] = useState<Exam | null>(null);
-  const [closeCandidate, setCloseCandidate] = useState<Exam | null>(null);
-  const [recapCandidate, setRecapCandidate] = useState<Exam | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
-
-  const notify = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 4000);
-  };
-
-  const persistExams = (updated: Exam[]) => {
-    setExams(updated);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("satelyd.exams", JSON.stringify(updated));
-    }
-  };
-
-  const handleCreate = (newExam: Exam) => {
-    persistExams([newExam, ...exams]);
-    notify(`Draft "${newExam.title}" berhasil dibuat! Silakan kelola butir soal.`);
-    setManagingExam(newExam);
-  };
-
-  const handleSaveQuestions = (updated: Exam) => {
-    const list = exams.some((e) => e.id === updated.id)
-      ? exams.map((e) => (e.id === updated.id ? updated : e))
-      : [updated, ...exams];
-    persistExams(list);
-    setManagingExam(updated);
-    notify(`Bank soal "${updated.title}" berhasil disimpan! (${updated.totalQuestions} Soal)`);
-  };
-
-  const handleConfirmDelete = (exam: Exam) => {
-    persistExams(exams.filter((e) => e.id !== exam.id));
-    notify(`Paket ujian "${exam.title}" berhasil dihapus.`);
-  };
-
-  const handleConfirmClose = (exam: Exam) => {
-    const updated = exams.map((e) => (e.id === exam.id ? { ...e, status: "CLOSED" as ExamStatus } : e));
-    persistExams(updated);
-    notify(`Sesi ujian "${exam.title}" ditutup. Anda kini dapat melihat rekap skor atau mengelola soal kembali.`);
-  };
-
-  const handleActionMonitor = (exam: Exam) => {
-    if (exam.status === "CLOSED") {
-      setRecapCandidate(exam);
-    } else {
-      notify(`Monitoring live pengerjaan siswa untuk "${exam.title}"`);
-    }
-  };
-
-  const counts = {
-    all: exams.length,
-    published: exams.filter((e) => e.status === "PUBLISHED").length,
-    draft: exams.filter((e) => e.status === "DRAFT").length,
-    closed: exams.filter((e) => e.status === "CLOSED").length,
-  };
-
-  const filtered = exams.filter((e) => {
-    const matchStatus = statusFilter === "ALL" || e.status === statusFilter;
-    const q = searchQuery.toLowerCase();
-    return matchStatus && (!q || [e.title, e.subject, e.tokenCode, e.gradeLevel].some((s) => s.toLowerCase().includes(q)));
-  });
+  const {
+    exams,
+    filtered,
+    counts,
+    toast,
+    isCreateModalOpen,
+    setIsCreateModalOpen,
+    searchQuery,
+    setSearchQuery,
+    statusFilter,
+    setStatusFilter,
+    viewMode,
+    setViewMode,
+    managingExam,
+    setManagingExam,
+    deleteCandidate,
+    setDeleteCandidate,
+    closeCandidate,
+    setCloseCandidate,
+    recapCandidate,
+    setRecapCandidate,
+    liveMonitorExam,
+    openMonitor,
+    closeMonitor,
+    notify,
+    handleCreate,
+    handleSaveQuestions,
+    handleConfirmDelete,
+    handleConfirmClose,
+    handleActionMonitor,
+  } = useExamsPage();
 
   return (
     <div className="space-y-6">
@@ -115,7 +69,36 @@ export default function ExamsPage() {
         statusFilter={statusFilter}
         onStatusFilterChange={setStatusFilter}
         onCreateNew={() => setIsCreateModalOpen(true)}
-        onJoinRoom={(code) => notify(`Membuka ruang ujian [${code}]`)}
+        onJoinRoom={(code) => {
+          const clean = code.trim().toUpperCase();
+          const found = exams.find((e) => e.tokenCode?.toUpperCase() === clean);
+          if (found) {
+            if (found.status === "CLOSED") {
+              setRecapCandidate(found);
+              notify(`Sesi ujian "${found.title}" sudah selesai. Menampilkan Rekap Nilai.`);
+            } else {
+              openMonitor(found);
+              notify(`Membuka pengawasan langsung untuk "${found.title}"`);
+            }
+          } else {
+            const tempExam: Exam = {
+              id: `EXM-${clean}`,
+              title: `Ruang Ujian [${clean}]`,
+              subject: "Pengawasan Langsung",
+              gradeLevel: "Semua Kelas",
+              durationMinutes: 60,
+              totalQuestions: 20,
+              totalParticipants: 1,
+              activeParticipants: 1,
+              status: "PUBLISHED",
+              tokenCode: clean,
+              passingScore: 75,
+              createdAt: "Hari ini",
+            };
+            openMonitor(tempExam);
+            notify(`Membuka pengawasan ruang ujian [${clean}]`);
+          }
+        }}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
         counts={counts}
@@ -141,7 +124,8 @@ export default function ExamsPage() {
       )}
       <DeleteExamModal isOpen={Boolean(deleteCandidate)} exam={deleteCandidate} onClose={() => setDeleteCandidate(null)} onConfirm={handleConfirmDelete} />
       <CloseSessionModal isOpen={Boolean(closeCandidate)} exam={closeCandidate} onClose={() => setCloseCandidate(null)} onConfirm={handleConfirmClose} />
-      <ExamRecapModal isOpen={Boolean(recapCandidate)} exam={recapCandidate} onClose={() => setRecapCandidate(null)} onReopenManage={(e) => setManagingExam(e)} />
+      <ExamRecapModal key={recapCandidate?.id || "recap"} isOpen={Boolean(recapCandidate)} exam={recapCandidate} onClose={() => setRecapCandidate(null)} onReopenManage={(e) => setManagingExam(e)} />
+      <ExamLiveMonitorModal isOpen={Boolean(liveMonitorExam)} exam={liveMonitorExam} onClose={closeMonitor} onCloseSession={setCloseCandidate} />
     </div>
   );
 }

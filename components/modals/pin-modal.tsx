@@ -1,8 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Gamepad2, GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { checkExamShareToken, checkGameRoom } from "@/services";
+import { checkGameRoom, fetchExamByToken } from "@/services";
 import { BaseModal } from "./base-modal";
 
 interface PinModalProps {
@@ -18,6 +19,7 @@ export function PinModal({
   onSwitchToLogin,
   onSwitchToRegister,
 }: PinModalProps) {
+  const router = useRouter();
   const [mode, setMode] = useState<"game" | "exam">("game");
   const [pin, setPin] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -38,8 +40,15 @@ export function PinModal({
         await checkGameRoom(cleanPin);
         setSuccessMsg(`Sesi game ${cleanPin} ditemukan! Mempersiapkan...`);
       } else {
-        await checkExamShareToken(cleanPin);
-        setSuccessMsg(`Ujian ${cleanPin} valid! Mempersiapkan...`);
+        const exam = await fetchExamByToken(cleanPin);
+        if (!exam) {
+          throw new Error(`Ujian dengan token "${cleanPin}" tidak ditemukan.`);
+        }
+        setSuccessMsg(`Ujian "${exam.title}" valid! Mengalihkan ke lembar ujian...`);
+        setTimeout(() => {
+          onClose();
+          router.push(`/exam/${encodeURIComponent(cleanPin)}`);
+        }, 700);
       }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "PIN/Kode tidak ditemukan");
