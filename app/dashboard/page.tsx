@@ -47,7 +47,7 @@ export default function DashboardOverviewPage() {
             Ruang Kerja
           </span>
           <h1 className="font-display text-2xl sm:text-4xl font-extrabold text-[#451420] mt-1 capitalize">
-            Halo, {user.name} 👋
+            Selamat datang, {user.name}
           </h1>
           <p className="text-xs sm:text-sm text-[#7A5661] mt-1">
             {user.email} • Terdaftar sebagai {isAdmin ? "Super Admin (Owner)" : "Pengguna Aktif"}

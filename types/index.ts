@@ -6,6 +6,7 @@ export * from "./role";
 export * from "./school";
 export * from "./transaction";
 export * from "./exam";
+export * from "./deck";
 
 export interface UserProfile {
   id: string;

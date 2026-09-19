@@ -1,9 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { GraduationCap, BookOpen } from "lucide-react";
+import { GraduationCap, BookOpen, Plus } from "lucide-react";
 
-export function ExamHeaderBanner() {
+interface ExamHeaderBannerProps {
+  onCreateNew?: () => void;
+  onOpenGuide: () => void;
+}
+
+export function ExamHeaderBanner({ onCreateNew, onOpenGuide }: ExamHeaderBannerProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div>
@@ -19,14 +23,27 @@ export function ExamHeaderBanner() {
         </p>
       </div>
 
-      <Link
-        href="/dashboard/guides?module=exams"
-        className="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#451420] shadow-2xs hover:bg-[#FAF7F2] hover:border-[#451420] transition self-start sm:self-center shrink-0 cursor-pointer"
-        title="Buka panduan lengkap penggunaan mode ujian"
-      >
-        <BookOpen size={15} className="text-[#C67D00]" />
-        <span>Panduan Penggunaan</span>
-      </Link>
+      <div className="flex items-center gap-2.5 self-start sm:self-center shrink-0">
+        <button
+          type="button"
+          onClick={onOpenGuide}
+          className="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#451420] shadow-2xs hover:bg-[#FAF7F2] hover:border-[#451420] transition cursor-pointer"
+          title="Buka panduan lengkap penggunaan mode ujian"
+        >
+          <BookOpen size={15} className="text-[#C67D00]" />
+          <span>Panduan Penggunaan</span>
+        </button>
+        {onCreateNew && (
+          <button
+            type="button"
+            onClick={onCreateNew}
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-[#451420] text-xs font-bold text-white hover:bg-[#5B1C2E] transition shadow-xs cursor-pointer"
+          >
+            <Plus size={16} />
+            <span>Buat Ujian Baru</span>
+          </button>
+        )}
+      </div>
     </div>
   );
 }

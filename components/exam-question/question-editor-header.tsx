@@ -11,24 +11,24 @@ interface QuestionEditorHeaderProps {
 
 export function QuestionEditorHeader({ exam, isSavedToast, onClose }: QuestionEditorHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-[#E5D7DC] bg-white px-5 py-3.5 shrink-0">
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAF0F3] border border-[#ECD0D8] text-[#7A283C] shrink-0">
+    <div className="flex items-center justify-between border-b border-[#E5D7DC] bg-white px-5 sm:px-6 py-4 shrink-0">
+      <div className="flex items-center gap-3.5 min-w-0">
+        <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#FAF0F3] border border-[#ECD0D8] text-[#7A283C] shrink-0">
           <BookOpen size={20} />
         </div>
         <div className="min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="rounded-md bg-[#FAF0F3] border border-[#ECD0D8] px-2 py-0.5 text-[11px] font-bold text-[#7A283C]">
-              {exam.subject}
-            </span>
-            <span className="rounded-md bg-[#F5EFEB] border border-[#E5D7DC] px-2 py-0.5 text-[11px] font-semibold text-[#634852]">
-              {exam.gradeLevel}
-            </span>
-            <span className="font-mono text-xs font-black text-[#7A283C] bg-[#FAF7F2] border border-[#E5D7DC] px-2 py-0.5 rounded-md">
-              TOKEN: {exam.tokenCode}
+          <h2 className="text-base sm:text-lg md:text-xl font-black text-[#451420] truncate tracking-tight">
+            {exam.title}
+          </h2>
+          <div className="flex items-center gap-2 text-xs text-[#7A5661] font-medium mt-0.5 flex-wrap">
+            <span className="font-semibold text-[#5B1C2E]">{exam.subject}</span>
+            <span className="text-[#C5A5B0]">•</span>
+            <span>{exam.gradeLevel}</span>
+            <span className="text-[#C5A5B0]">•</span>
+            <span className="font-mono font-bold text-[#451420]">
+              Token: {exam.tokenCode}
             </span>
           </div>
-          <h2 className="text-base sm:text-lg font-black text-[#451420] truncate mt-0.5">{exam.title}</h2>
         </div>
       </div>
 

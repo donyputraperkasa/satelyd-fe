@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Layers, FolderPlus, FileQuestion, PlaySquare, ArrowRight } from "lucide-react";
+import { Layers, FolderPlus, FileQuestion, Tv, ArrowRight } from "lucide-react";
 import { GuideStepCard } from "./guide-step-card";
 
 export function DeckGuideSection() {
@@ -17,7 +17,7 @@ export function DeckGuideSection() {
             Panduan Mengelola Bank Soal & Deck
           </h2>
           <p className="mt-1 text-xs sm:text-sm text-[#7A5661]">
-            Kumpulkan dan kelola pustaka pertanyaan kuis Anda ke dalam kumpulan deck tematik yang dapat digunakan berulang kali.
+            Kumpulkan dan kelola pustaka pertanyaan kuis Anda ke dalam kumpulan deck tematik untuk dimainkan di Smart TV dan Ujian Sekolah.
           </p>
         </div>
 
@@ -34,42 +34,45 @@ export function DeckGuideSection() {
         <GuideStepCard
           stepNumber={1}
           title="Membuat & Mengelompokkan Deck Baru"
-          description="Satukan soal berdasarkan materi kurikulum atau bab ajar tertentu."
+          description="Satukan soal berdasarkan mata pelajaran, topik materi kurikulum, atau bab ajar tertentu."
           icon={FolderPlus}
           details={[
             "Buka menu 'Bank Soal & Deck' di sidebar lalu klik '+ Buat Deck Baru'.",
-            "Beri judul deck yang jelas, misalnya 'Fisika Kelas 10 - Gerak Lurus Beraturan'.",
-            "Tentukan mata pelajaran, tingkat kelas, serta deskripsi ruang lingkup kompetensi dasar.",
-            "Tentukan pengaturan akses (pribadi atau publik untuk rekan guru lainnya).",
+            "Beri judul deck yang jelas, misalnya 'Operasi Aljabar & Pemfaktoran'.",
+            "Tentukan mata pelajaran dan tingkat kelas (misal: Matematika - Kelas 8 SMP).",
+            "Pilih estimasi tingkat kesulitan materi (Mudah, Sedang, Sulit, atau Campuran).",
           ]}
           tip="Kelompokkan setiap deck per topik bahasan kecil agar mudah dipilih saat pembelajaran harian."
         />
 
         <GuideStepCard
           stepNumber={2}
-          title="Menyusun Kartu Soal di Dalam Deck"
-          description="Bangun bank pertanyaan berkualitas dengan kunci jawaban dan variasi tingkat kesulitan."
+          title="Menyusun Kartu Soal (Pilihan Ganda & Essay)"
+          description="Bangun bank pertanyaan berkualitas lengkap dengan kunci jawaban, timer, dan lampiran gambar."
           icon={FileQuestion}
           details={[
-            "Klik deck yang ingin Anda isi, kemudian klik 'Tambah Soal Baru'.",
-            "Tuliskan pertanyaan, opsi pilihan ganda, dan tetapkan kunci jawaban yang benar.",
-            "Tambahkan gambar penjelas (diagram rumus, peta, atau grafik) untuk mempermudah pemahaman siswa.",
-            "Berikan tingkat kesulitan (Mudah, Sedang, Sulit) sebagai acuan saat menyusun asesmen.",
+            "Klik 'Kelola Soal' pada kartu deck yang ingin Anda atur butir pertanyaannya.",
+            "Pilih format soal: 'Pilihan Ganda' (opsi A-B-C-D dengan radio button kunci benar) atau 'Essay / Uraian' (kunci jawaban kata kunci).",
+            "Lampirkan gambar file diagram, grafik rumus, atau ilustrasi soal dengan tombol 'Upload File Gambar'.",
+            "Tuliskan pembahasan rumus yang akan otomatis terbuka saat tombol 'Lihat Jawaban' ditekan.",
+            "Gunakan simulator Pratinjau Kartu di sisi kanan untuk menguji nomor besar dan efek membalik kartu.",
           ]}
-          tip="Semakin banyak soal yang tersimpan di deck, semakin bervariasi soal yang bisa diacak saat kuis kelas."
+          tip="Sisi depan kartu kuis di Smart TV hanya menampilkan nomor soal besar agar tampak bersih dan tidak membocorkan petunjuk."
         />
 
         <GuideStepCard
           stepNumber={3}
-          title="Menggunakan Deck untuk Game TV & Ujian"
-          description="Satu bank soal untuk berbagai metode interaksi pembelajaran di kelas."
-          icon={PlaySquare}
+          title="Memulai Sesi di Smart TV via PIN Sesi & Kabel HDMI"
+          description="Hubungkan sesi game ke layar Smart TV kelas dengan aman tanpa perlu login akun guru di TV sekolah."
+          icon={Tv}
           details={[
-            "Game TV Kelas: Pilih deck langsung di menu 'Game TV' untuk memulai kuis live interaktif dengan papan skor di layar proyektor.",
-            "Mode Ujian Siswa: Muat butir soal dari deck ke dalam paket ujian resmi tanpa perlu mengetik ulang dari nol.",
-            "Perbarui isi deck kapan pun; perubahan pada deck induk tidak merusak ujian yang sudah dipublikasikan sebelumnya.",
+            "Di laptop/HP guru: Klik tombol 'Mulai Sesi TV' pada deck materi yang dipilih.",
+            "Pilih salah satu dari 3 jenis game: 🃏 Flip Card Game, 🎡 Wheels Question (Spin Wheel), atau ⚔️ Duel 2 Player.",
+            "Cara 1 (Smart TV via PIN - Rekomendasi Aman): Dapatkan 6-digit Kode PIN Sesi. Buka website Satelyd di Smart TV kelas, klik 'Masukkan PIN' > 'Game TV Kelas', ketikkan PIN tersebut. Layar Smart TV langsung memuat game tanpa login!",
+            "Cara 2 (Laptop HDMI / Proyektor): Jika laptop guru tersambung kabel HDMI/proyektor, langsung klik 'Luncurkan Game di Layar Ini'.",
+            "Mode Ujian Siswa: Anda juga dapat mengekspor butir soal deck ke paket ujian mandiri siswa berkode token anti-curang.",
           ]}
-          tip="Gunakan deck yang sama untuk pre-test (kuis cepat di TV) dan post-test (evaluasi mandiri di Mode Ujian)."
+          tip="Dengan Kode PIN Sesi, guru tidak perlu repot mengetik password akun di Smart TV kelas yang disaksikan murid."
         />
       </div>
     </section>

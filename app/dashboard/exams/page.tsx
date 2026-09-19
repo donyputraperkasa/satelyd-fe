@@ -1,10 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import type { Exam } from "@/types";
 import {
   ExamHeaderBanner,
-  ExamStats,
   ExamQuickActions,
   ExamCard,
   ExamTable,
@@ -16,9 +16,11 @@ import {
   ExamRecapModal,
   ExamLiveMonitorModal,
 } from "@/components/exams";
+import { GuideModal } from "@/components/guides";
 import { useExamsPage } from "./use-exams-page";
 
 export default function ExamsPage() {
+  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
   const {
     exams,
     filtered,
@@ -60,8 +62,10 @@ export default function ExamsPage() {
         </div>
       )}
 
-      <ExamHeaderBanner />
-      <ExamStats exams={exams} />
+      <ExamHeaderBanner
+        onCreateNew={() => setIsCreateModalOpen(true)}
+        onOpenGuide={() => setIsGuideModalOpen(true)}
+      />
 
       <ExamQuickActions
         searchQuery={searchQuery}
@@ -126,6 +130,7 @@ export default function ExamsPage() {
       <CloseSessionModal isOpen={Boolean(closeCandidate)} exam={closeCandidate} onClose={() => setCloseCandidate(null)} onConfirm={handleConfirmClose} />
       <ExamRecapModal key={recapCandidate?.id || "recap"} isOpen={Boolean(recapCandidate)} exam={recapCandidate} onClose={() => setRecapCandidate(null)} onReopenManage={(e) => setManagingExam(e)} />
       <ExamLiveMonitorModal isOpen={Boolean(liveMonitorExam)} exam={liveMonitorExam} onClose={closeMonitor} onCloseSession={setCloseCandidate} />
+      <GuideModal isOpen={isGuideModalOpen} onClose={() => setIsGuideModalOpen(false)} type="EXAMS" />
     </div>
   );
 }
