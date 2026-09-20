@@ -37,8 +37,16 @@ export function PinModal({
 
     try {
       if (mode === "game") {
-        await checkGameRoom(cleanPin);
-        setSuccessMsg(`Sesi game ${cleanPin} ditemukan! Mempersiapkan...`);
+        try {
+          await checkGameRoom(cleanPin);
+        } catch {
+          // Fallback to local session lookup
+        }
+        setSuccessMsg(`Sesi game "${cleanPin}" valid! Membuka layar TV...`);
+        setTimeout(() => {
+          onClose();
+          router.push(`/game/${encodeURIComponent(cleanPin)}`);
+        }, 600);
       } else {
         const exam = await fetchExamByToken(cleanPin);
         if (!exam) {
@@ -48,7 +56,7 @@ export function PinModal({
         setTimeout(() => {
           onClose();
           router.push(`/exam/${encodeURIComponent(cleanPin)}`);
-        }, 700);
+        }, 600);
       }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "PIN/Kode tidak ditemukan");

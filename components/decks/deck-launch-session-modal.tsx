@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   X,
@@ -11,6 +11,7 @@ import {
   MonitorPlay,
 } from "lucide-react";
 import type { Deck } from "@/types";
+import { createOrGetGameSession } from "@/services";
 
 interface DeckLaunchSessionModalProps {
   isOpen: boolean;
@@ -29,10 +30,16 @@ export function DeckLaunchSessionModal({
   const [selectedGame, setSelectedGame] = useState<GameType>("FLIP_CARD");
   const [copied, setCopied] = useState(false);
 
-  if (!isOpen || !deck) return null;
-
   // Session pin based on deck pinCode or deck id
-  const sessionPin = deck.pinCode || `TV-${deck.id.replace(/[^0-9A-Z]/gi, "").slice(-4).toUpperCase() || "8821"}`;
+  const sessionPin = deck?.pinCode || `TV-${deck?.id ? deck.id.replace(/[^0-9A-Z]/gi, "").slice(-4).toUpperCase() : "8821"}`;
+
+  useEffect(() => {
+    if (isOpen && deck) {
+      createOrGetGameSession(deck.id, selectedGame, sessionPin).catch(() => {});
+    }
+  }, [isOpen, deck, selectedGame, sessionPin]);
+
+  if (!isOpen || !deck) return null;
 
   const handleCopy = () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -42,7 +49,12 @@ export function DeckLaunchSessionModal({
     }
   };
 
-  const handlePlayDirect = () => {
+  const handlePlayDirect = async () => {
+    try {
+      await createOrGetGameSession(deck.id, selectedGame, sessionPin);
+    } catch {
+      // safe
+    }
     router.push(
       `/dashboard/game?deckId=${encodeURIComponent(deck.id)}&mode=${selectedGame}`
     );
@@ -180,14 +192,14 @@ export function DeckLaunchSessionModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-[#DFD0D5] bg-white px-4 py-2 text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F8] transition cursor-pointer"
+            className="h-10 rounded-xl border border-[#DFD0D5] bg-white px-4 text-xs font-bold text-[#451420] hover:bg-[#FAF7F8] transition cursor-pointer shadow-2xs"
           >
             Tutup
           </button>
           <button
             type="button"
             onClick={handlePlayDirect}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#451420] hover:bg-[#5B1C2E] px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:shadow-md cursor-pointer"
+            className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] hover:bg-[#5B1C2E] px-5 text-xs font-bold text-white shadow-xs transition hover:shadow-md cursor-pointer"
           >
             <Tv size={14} />
             <span>Mulai Game di Layar Ini</span>
