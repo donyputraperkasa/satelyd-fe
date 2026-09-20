@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { GameSession, DeckCard, GameTeam } from "@/types";
 import { COLOR_OPTIONS } from "./flip-card-scoreboard-constants";
-import { gameAudio } from "../game-audio";
+import { gameAudio } from "../audio";
 import { markCardOpened, updateTeamScore } from "@/services";
 
 export function useFlipCardArena(session: GameSession) {

@@ -2,7 +2,7 @@
 
 import { createPortal } from "react-dom";
 import type { GameSession } from "@/types";
-import { GameHeader } from "../game-header";
+import { GameHeader } from "../header";
 import { FlipCardScoreboard } from "./flip-card-scoreboard";
 import { FlipCardGrid } from "./flip-card-grid";
 import { FlipCardQuestionModal } from "./flip-card-question-modal";

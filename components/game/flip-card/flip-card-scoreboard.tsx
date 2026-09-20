@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { GameTeam } from "@/types";
-import { gameAudio } from "../game-audio";
+import { gameAudio } from "../audio";
 import { FlipCardTeamCard } from "./flip-card-team-card";
 import { FlipCardScoreboardHeader } from "./flip-card-scoreboard-header";
 export { COLOR_OPTIONS, TEAM_COLOR_STYLES } from "./flip-card-scoreboard-constants";

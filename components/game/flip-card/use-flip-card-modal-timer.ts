@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { DeckCard } from "@/types";
-import { gameAudio } from "../game-audio";
+import { gameAudio } from "../audio";
 
 export function useFlipCardModalTimer(card: DeckCard | null) {
   const initialSeconds = card?.timerSeconds || 30;

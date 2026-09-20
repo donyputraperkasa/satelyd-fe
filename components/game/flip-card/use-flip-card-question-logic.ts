@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { DeckCard } from "@/types";
-import { gameAudio } from "../game-audio";
+import { gameAudio } from "../audio";
 import { useFlipCardModalTimer } from "./use-flip-card-modal-timer";
 
 export function useFlipCardQuestionLogic(
