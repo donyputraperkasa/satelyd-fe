@@ -6,13 +6,13 @@ import { ChevronRight, Home } from "lucide-react";
 
 const ROUTE_LABELS: Record<string, string> = {
   dashboard: "Dashboard",
-  game: "Game TV Kelas",
-  decks: "Bank Soal & Deck",
-  exams: "Mode Ujian Siswa",
-  tokens: "Token & Saldo",
-  transactions: "Transaksi & Admit",
-  guides: "Panduan Guru",
-  users: "Kelola Pengguna",
+  game: "Game TV",
+  decks: "Bank Soal",
+  exams: "Ujian Siswa",
+  tokens: "Saldo Token",
+  transactions: "Transaksi",
+  guides: "Panduan",
+  users: "Pengguna",
 };
 
 interface BreadcrumbItem {

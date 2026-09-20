@@ -42,12 +42,12 @@ export function GameEndSessionModal({
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2.5 pt-2">
+        <div className="flex items-center justify-end gap-3 pt-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl border border-[#DFD0D5] bg-white
-              text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F2] transition cursor-pointer"
+            className="min-w-[140px] py-2.5 px-4 rounded-xl border border-[#DFD0D5] bg-white
+              text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F2] transition cursor-pointer text-center justify-center flex items-center"
           >
             Lanjutkan Bermain
           </button>
@@ -57,8 +57,8 @@ export function GameEndSessionModal({
               onClose();
               onConfirm();
             }}
-            className="px-4 py-2 rounded-xl bg-[#B3261E] hover:bg-[#8F1D17]
-              text-xs font-bold text-white transition shadow-xs cursor-pointer"
+            className="min-w-[140px] py-2.5 px-4 rounded-xl bg-[#B3261E] hover:bg-[#8F1D17]
+              text-xs font-bold text-white transition shadow-xs cursor-pointer text-center justify-center flex items-center"
           >
             Ya, Akhiri Sesi
           </button>

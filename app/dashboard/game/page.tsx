@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import {
   FlipCardArena,
+  WheelsArena,
   GameSelectDeckModal,
   GameHeaderBanner,
   GameModeCard,
@@ -55,6 +56,11 @@ function GamePageContent() {
   }
 
   if (session) {
+    if (session.gameType === "WHEELS") {
+      return (
+        <WheelsArena session={session} onEndSession={handleEndSession} />
+      );
+    }
     return (
       <FlipCardArena session={session} onEndSession={handleEndSession} />
     );

@@ -20,11 +20,11 @@ export interface NavItem {
 
 export const DASHBOARD_NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Game TV Kelas", href: "/dashboard/game", icon: Tv },
-  { label: "Bank Soal & Deck", href: "/dashboard/decks", icon: Layers },
-  { label: "Mode Ujian Siswa", href: "/dashboard/exams", icon: GraduationCap },
-  { label: "Token & Saldo", href: "/dashboard/tokens", icon: Coins },
-  { label: "Transaksi & Admit", href: "/dashboard/transactions", icon: Receipt, adminOnly: true },
-  { label: "Panduan Guru", href: "/dashboard/guides", icon: BookOpen },
-  { label: "Kelola Pengguna", href: "/dashboard/users", icon: Users, adminOnly: true },
+  { label: "Game TV", href: "/dashboard/game", icon: Tv },
+  { label: "Bank Soal", href: "/dashboard/decks", icon: Layers },
+  { label: "Ujian Siswa", href: "/dashboard/exams", icon: GraduationCap },
+  { label: "Saldo Token", href: "/dashboard/tokens", icon: Coins },
+  { label: "Transaksi", href: "/dashboard/transactions", icon: Receipt, adminOnly: true },
+  { label: "Panduan", href: "/dashboard/guides", icon: BookOpen },
+  { label: "Pengguna", href: "/dashboard/users", icon: Users, adminOnly: true },
 ];

@@ -76,3 +76,25 @@ export function playSelectOptionSynth(ctx: AudioContext) {
     // Audio safety
   }
 }
+
+export function playWheelTickSynth(ctx: AudioContext, pitchMultiplier = 1) {
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    const baseFreq = 750 * pitchMultiplier;
+    osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, ctx.currentTime + 0.025);
+
+    gain.gain.setValueAtTime(0.09, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.025);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.025);
+  } catch {
+    // Audio safety
+  }
+}
+

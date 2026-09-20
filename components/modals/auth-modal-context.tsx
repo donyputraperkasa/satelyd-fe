@@ -4,12 +4,18 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { clearAuthSession, getStoredUser } from "@/lib/auth";
+import {
+  clearAuthSession,
+  getStoredUser,
+  isSessionExpired,
+  recordUserActivity,
+} from "@/lib/auth";
 import type { User } from "@/types";
 import { LoginModal } from "./login-modal";
 import { RegisterModal } from "./register-modal";
@@ -78,6 +84,41 @@ export function AuthModalProvider({ children }: { children: ReactNode }) {
   const handleAuthSuccess = useCallback(() => {
     setLocalUser(getStoredUser());
   }, []);
+
+  // Monitor user activity and auto-logout on 1 hour of inactivity
+  useEffect(() => {
+    if (!user) return;
+
+    recordUserActivity();
+
+    let lastRecorded = Date.now();
+    const handleActivity = () => {
+      const now = Date.now();
+      // Throttle storage write to once every 30 seconds
+      if (now - lastRecorded > 30000) {
+        lastRecorded = now;
+        recordUserActivity();
+      }
+    };
+
+    const events = ["mousedown", "keydown", "touchstart", "scroll"];
+    events.forEach((ev) =>
+      window.addEventListener(ev, handleActivity, { passive: true })
+    );
+
+    // Periodically check if session has expired due to inactivity
+    const interval = setInterval(() => {
+      if (isSessionExpired()) {
+        clearAuthSession();
+        setLocalUser(null);
+      }
+    }, 60000);
+
+    return () => {
+      events.forEach((ev) => window.removeEventListener(ev, handleActivity));
+      clearInterval(interval);
+    };
+  }, [user]);
 
   const value = useMemo(
     () => ({

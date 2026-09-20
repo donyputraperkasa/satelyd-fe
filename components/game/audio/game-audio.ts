@@ -5,6 +5,7 @@ import {
   playCardFlipSynth,
   playTickSynth,
   playSelectOptionSynth,
+  playWheelTickSynth,
 } from "./game-audio-synth";
 import {
   playTimerAlarmSynth,
@@ -54,6 +55,11 @@ class SoundManager {
   public playTick() {
     const ctx = this.getContext();
     if (ctx) playTickSynth(ctx);
+  }
+
+  public playWheelTick(pitchMultiplier = 1) {
+    const ctx = this.getContext();
+    if (ctx) playWheelTickSynth(ctx, pitchMultiplier);
   }
 
   public playTimerAlarm() {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { AuthModalProvider } from "@/components/modals";
 import { FloatingContact } from "@/components/public/floating-contact";
 import "./globals.css";
@@ -35,6 +36,7 @@ export default function RootLayout({
         <AuthModalProvider>
           {children}
           <FloatingContact />
+          <Analytics />
         </AuthModalProvider>
       </body>
     </html>

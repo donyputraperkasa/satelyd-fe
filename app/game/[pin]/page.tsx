@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Loader2, AlertCircle, ArrowLeft } from "lucide-react";
 import { fetchGameSessionByPin, endGameSession } from "@/services";
 import type { GameSession } from "@/types";
-import { FlipCardArena } from "@/components/game";
+import { FlipCardArena, WheelsArena } from "@/components/game";
 
 export default function PublicGameTvPage({
   params,
@@ -88,6 +88,15 @@ export default function PublicGameTvPage({
           </div>
         </div>
       </div>
+    );
+  }
+
+  if (session.gameType === "WHEELS") {
+    return (
+      <WheelsArena
+        session={session}
+        onEndSession={handleEndSession}
+      />
     );
   }
 

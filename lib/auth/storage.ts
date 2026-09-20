@@ -3,6 +3,26 @@ import type { LoginResponse, User } from "@/types";
 export const ACCESS_TOKEN_KEY = "satelyd.access-token";
 export const USER_KEY = "satelyd.user";
 export const COOKIE_SESSION_MARKER = "cookie-session";
+export const LAST_ACTIVE_KEY = "satelyd.last-active";
+export const INACTIVITY_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour
+
+export function recordUserActivity() {
+  if (!canUseStorage()) return;
+  localStorage.setItem(LAST_ACTIVE_KEY, String(Date.now()));
+}
+
+export function isSessionExpired(): boolean {
+  if (!canUseStorage()) return false;
+  const lastActiveStr =
+    localStorage.getItem(LAST_ACTIVE_KEY) ??
+    localStorage.getItem("satelyd_last_active");
+  if (!lastActiveStr) {
+    return false;
+  }
+  const lastActive = parseInt(lastActiveStr, 10);
+  if (isNaN(lastActive)) return false;
+  return Date.now() - lastActive > INACTIVITY_TIMEOUT_MS;
+}
 
 export function saveAuthSession(session: LoginResponse) {
   if (!canUseStorage()) {
@@ -15,11 +35,17 @@ export function saveAuthSession(session: LoginResponse) {
   }
   localStorage.setItem(USER_KEY, JSON.stringify(session.user));
   localStorage.setItem("satelyd_user", JSON.stringify(session.user));
+  recordUserActivity();
   window.dispatchEvent(new Event("storage"));
 }
 
 export function getAccessToken(): string | null {
   if (!canUseStorage()) {
+    return null;
+  }
+
+  if (isSessionExpired()) {
+    clearAuthSession();
     return null;
   }
 
@@ -32,6 +58,11 @@ export function getAccessToken(): string | null {
 
 export function getStoredUser(): User | null {
   if (!canUseStorage()) {
+    return null;
+  }
+
+  if (isSessionExpired()) {
+    clearAuthSession();
     return null;
   }
 
@@ -58,6 +89,8 @@ export function clearAuthSession() {
   localStorage.removeItem(USER_KEY);
   localStorage.removeItem("satelyd_token");
   localStorage.removeItem("satelyd_user");
+  localStorage.removeItem(LAST_ACTIVE_KEY);
+  localStorage.removeItem("satelyd_last_active");
   localStorage.removeItem("database-yayasan.access-token");
   localStorage.removeItem("database-yayasan.user");
 
