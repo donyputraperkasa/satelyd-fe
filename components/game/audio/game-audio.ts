@@ -6,6 +6,7 @@ import {
   playTickSynth,
   playSelectOptionSynth,
   playWheelTickSynth,
+  playBuzzerDingSynth,
 } from "./game-audio-synth";
 import {
   playTimerAlarmSynth,
@@ -80,6 +81,11 @@ class SoundManager {
   public playCorrectFanfare() {
     const ctx = this.getContext();
     if (ctx) playCorrectFanfareSynth(ctx);
+  }
+
+  public playBuzzerDing() {
+    const ctx = this.getContext();
+    if (ctx) playBuzzerDingSynth(ctx);
   }
 }
 

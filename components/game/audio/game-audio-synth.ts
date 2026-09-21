@@ -98,3 +98,27 @@ export function playWheelTickSynth(ctx: AudioContext, pitchMultiplier = 1) {
   }
 }
 
+export function playBuzzerDingSynth(ctx: AudioContext) {
+  try {
+    const freqs = [880, 1318.51, 1760];
+    freqs.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+      const initGain = idx === 0 ? 0.15 : 0.08;
+      gain.gain.setValueAtTime(initGain, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.35);
+    });
+  } catch {
+    // Audio safety
+  }
+}
+
+

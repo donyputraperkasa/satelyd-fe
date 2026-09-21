@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import {
   FlipCardArena,
   WheelsArena,
+  BattleArena,
   GameSelectDeckModal,
   GameHeaderBanner,
   GameModeCard,
@@ -56,6 +57,11 @@ function GamePageContent() {
   }
 
   if (session) {
+    if (session.gameType === "BATTLE_2P") {
+      return (
+        <BattleArena session={session} onEndSession={handleEndSession} />
+      );
+    }
     if (session.gameType === "WHEELS") {
       return (
         <WheelsArena session={session} onEndSession={handleEndSession} />
