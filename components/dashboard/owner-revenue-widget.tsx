@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { CheckCircle2, UserCheck } from "lucide-react";
-import { INITIAL_ORDERS, type TokenOrder } from "./revenue-data";
+import type { TokenOrder } from "@/types";
+import { INITIAL_ORDERS } from "./revenue-data";
 
 export function OwnerRevenueWidget() {
   const [orders, setOrders] = useState<TokenOrder[]>(() => {

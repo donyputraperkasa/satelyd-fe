@@ -8,15 +8,7 @@ import {
   Users,
   Receipt,
 } from "lucide-react";
-import type { ComponentType } from "react";
-
-export interface NavItem {
-  label: string;
-  href: string;
-  icon: ComponentType<{ size?: number; className?: string }>;
-  badge?: string;
-  adminOnly?: boolean;
-}
+import type { NavItem } from "@/types";
 
 export const DASHBOARD_NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },

@@ -36,8 +36,8 @@ export function AuthModalProvider({ children }: { children: ReactNode }) {
   const [localUser, setLocalUser] = useState<User | null>(null);
 
   const user = useMemo<User | null>(() => {
-    if (localUser) return localUser;
     if (!storedUserRaw) return null;
+    if (localUser) return localUser;
     try {
       return JSON.parse(storedUserRaw);
     } catch {

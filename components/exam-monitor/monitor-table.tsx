@@ -1,25 +1,9 @@
 "use client";
 
 import { Unlock } from "lucide-react";
+import type { LiveStudent, MonitorTableProps } from "@/types";
 
-export interface LiveStudent {
-  id: string;
-  name: string;
-  className: string;
-  attendanceNumber?: string;
-  answeredCount: number;
-  totalQuestions: number;
-  violations: number;
-  isBlocked: boolean;
-  isSubmitted: boolean;
-  score?: number;
-  startedAt: string;
-}
-
-interface MonitorTableProps {
-  students: LiveStudent[];
-  onUnblock: (studentId: string) => void;
-}
+export type { LiveStudent };
 
 export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
   return (

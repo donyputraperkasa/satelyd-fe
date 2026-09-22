@@ -1,38 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Satellite, LogOut, X, Sparkles } from "lucide-react";
-import { clearAuthSession } from "@/lib/auth";
-import type { User } from "@/types";
+import { useAuthModal } from "@/components/modals";
+import type { DashboardSidebarProps } from "@/types";
 import { DASHBOARD_NAV_ITEMS } from "./sidebar-items";
-
-interface DashboardSidebarProps {
-  user: User;
-  isOpenMobile?: boolean;
-  onCloseMobile?: () => void;
-}
 
 export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: DashboardSidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
+  const { logout } = useAuthModal();
   const isAdmin = user.role === "ADMIN" || user.role === "admin";
-
-  const handleLogout = () => {
-    clearAuthSession();
-    router.push("/");
-  };
-
   const navList = DASHBOARD_NAV_ITEMS.filter((item) => !item.adminOnly || isAdmin);
 
   return (
     <>
       {isOpenMobile && (
-        <div
-          onClick={onCloseMobile}
-          aria-hidden="true"
-          className="fixed inset-0 z-40 bg-[#451420]/40 backdrop-blur-xs md:hidden"
-        />
+        <div onClick={onCloseMobile} aria-hidden="true" className="fixed inset-0 z-40 bg-[#451420]/40 backdrop-blur-xs md:hidden" />
       )}
 
       <aside
@@ -51,18 +35,13 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
                 <span className="font-display text-xl font-extrabold tracking-tight text-[#451420]">
                   satel<span className="text-[#C67D00]">y</span>d
                 </span>
-                <span className="text-[10px] font-bold tracking-wider uppercase text-[#7A5661]">
-                  Edu Platform
-                </span>
+                <span className="text-[10px] font-bold tracking-wider uppercase text-[#7A5661]">Edu Platform</span>
               </div>
             </Link>
 
-            <button
-              type="button"
-              onClick={onCloseMobile}
-              className="rounded-lg p-1.5 text-[#7A5661] hover:bg-[#EFE6E9] hover:text-[#451420] md:hidden cursor-pointer"
-              aria-label="Tutup menu"
-            ><X size={18} /></button>
+            <button type="button" onClick={onCloseMobile} className="rounded-lg p-1.5 text-[#7A5661] hover:bg-[#EFE6E9] hover:text-[#451420] md:hidden cursor-pointer" aria-label="Tutup menu">
+              <X size={18} />
+            </button>
           </div>
 
           <nav className="space-y-1.5 px-4 py-5">
@@ -70,34 +49,21 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
             {navList.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
-
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={onCloseMobile}
                   className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-all duration-150 ${
-                    isActive
-                      ? "bg-[#451420] text-[#FDFBF7] shadow-sm"
-                      : "text-[#613D48] hover:bg-[#F2EAE7] hover:text-[#451420]"
+                    isActive ? "bg-[#451420] text-[#FDFBF7] shadow-sm" : "text-[#613D48] hover:bg-[#F2EAE7] hover:text-[#451420]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon
-                      size={18}
-                      className={isActive ? "text-white" : "text-[#7A5661] group-hover:text-[#451420]"}
-                    />
+                    <Icon size={18} className={isActive ? "text-white" : "text-[#7A5661] group-hover:text-[#451420]"} />
                     <span>{item.label}</span>
                   </div>
-
                   {item.badge && (
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                        isActive
-                          ? "bg-[#C67D00] text-white"
-                          : "bg-[#F5EDF0] text-[#C67D00] border border-[#F2DEB0]"
-                      }`}
-                    >
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${isActive ? "bg-[#C67D00] text-white" : "bg-[#F5EDF0] text-[#C67D00] border border-[#F2DEB0]"}`}>
                       {item.badge}
                     </span>
                   )}
@@ -125,7 +91,7 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
 
           <button
             type="button"
-            onClick={handleLogout}
+            onClick={logout}
             className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#DFD0D5] bg-white px-4 text-xs sm:text-sm font-bold text-[#8A1F2D] hover:bg-[#FBEAEB] hover:border-[#F2C2C6] hover:text-[#701522] transition cursor-pointer shadow-2xs"
           >
             <LogOut size={16} />

@@ -2,16 +2,7 @@
 
 import { ArrowRight, Coins, Layers, ShieldCheck, Tv } from "lucide-react";
 import Link from "next/link";
-
-interface ActionItem {
-  title: string;
-  badge: string;
-  description: string;
-  icon: typeof Tv;
-  href: string;
-  actionText: string;
-  accentColor: string;
-}
+import type { ActionItem } from "@/types";
 
 const ACTION_ITEMS: ActionItem[] = [
   {

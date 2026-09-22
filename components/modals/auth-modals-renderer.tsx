@@ -30,26 +30,32 @@ export function AuthModalsRenderer({
   return (
     <>
       <GlobalAuthOverlay {...authOverlay} />
-      <LoginModal
-        isOpen={activeModal === "login"}
-        onClose={closeModal}
-        onSwitchToRegister={openRegister}
-        onSwitchToPin={openPin}
-        onSuccess={onLoginSuccess}
-      />
-      <RegisterModal
-        isOpen={activeModal === "register"}
-        onClose={closeModal}
-        onSwitchToLogin={openLogin}
-        onSwitchToPin={openPin}
-        onSuccess={onRegisterSuccess}
-      />
-      <PinModal
-        isOpen={activeModal === "pin"}
-        onClose={closeModal}
-        onSwitchToLogin={openLogin}
-        onSwitchToRegister={openRegister}
-      />
+      {activeModal === "login" && (
+        <LoginModal
+          isOpen={true}
+          onClose={closeModal}
+          onSwitchToRegister={openRegister}
+          onSwitchToPin={openPin}
+          onSuccess={onLoginSuccess}
+        />
+      )}
+      {activeModal === "register" && (
+        <RegisterModal
+          isOpen={true}
+          onClose={closeModal}
+          onSwitchToLogin={openLogin}
+          onSwitchToPin={openPin}
+          onSuccess={onRegisterSuccess}
+        />
+      )}
+      {activeModal === "pin" && (
+        <PinModal
+          isOpen={true}
+          onClose={closeModal}
+          onSwitchToLogin={openLogin}
+          onSwitchToRegister={openRegister}
+        />
+      )}
     </>
   );
 }

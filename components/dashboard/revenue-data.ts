@@ -1,14 +1,6 @@
-export interface TokenOrder {
-  id: string;
-  userName: string;
-  userEmail: string;
-  packageName: string;
-  tokenAmount: number;
-  price: number;
-  paymentMethod: string;
-  createdAt: string;
-  status: "PENDING" | "APPROVED";
-}
+import type { TokenOrder } from "@/types";
+
+export type { TokenOrder };
 
 export const INITIAL_ORDERS: TokenOrder[] = [
   {

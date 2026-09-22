@@ -50,7 +50,7 @@ export function LoginModal({
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
         <div>
           <label className="block text-xs font-semibold text-[#451420] mb-1.5">
             Email atau Nama
@@ -60,6 +60,7 @@ export function LoginModal({
             <input
               type="text"
               required
+              autoComplete="off"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               placeholder="nama@email.com atau nama akun"
@@ -75,6 +76,7 @@ export function LoginModal({
             <input
               type={showPassword ? "text" : "password"}
               required
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"

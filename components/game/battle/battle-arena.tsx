@@ -1,18 +1,13 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import type { GameSession } from "@/types";
+import type { BattleArenaProps } from "@/types";
 import { GameHeader } from "../header";
 import { BATTLE_TEAMS } from "./battle-constants";
 import { BattleTeamPanel } from "./battle-team-panel";
 import { BattleQuestionCard } from "./battle-question-card";
 import { BattleVictoryModal } from "./battle-victory-modal";
 import { useBattleArena } from "./use-battle-arena";
-
-interface BattleArenaProps {
-  session: GameSession;
-  onEndSession: () => void;
-}
 
 export function BattleArena({ session, onEndSession }: BattleArenaProps) {
   const {

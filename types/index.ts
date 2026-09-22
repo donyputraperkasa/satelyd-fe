@@ -8,6 +8,8 @@ export * from "./transaction";
 export * from "./exam";
 export * from "./deck";
 export * from "./game";
+export * from "./dashboard";
+export * from "./layout";
 export * from "./auth-modal";
 
 

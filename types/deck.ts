@@ -51,3 +51,35 @@ export interface CreateDeckPayload {
 export interface UpdateDeckPayload extends Partial<CreateDeckPayload> {
   cards?: DeckCard[];
 }
+
+export interface DeckStatsProps {
+  decks: Deck[];
+}
+
+export interface DeckHeaderBannerProps {
+  onOpenCreateModal: () => void;
+  isCreating: boolean;
+}
+
+export interface DeckQuickActionsProps {
+  onOpenCreateModal: () => void;
+  isCreating: boolean;
+}
+
+export interface DeleteDeckModalProps {
+  isOpen: boolean;
+  deck: Deck | null;
+  isDeleting: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+}
+
+export interface DeckFlipCardPreviewProps {
+  card: DeckCard;
+  cardNumber: number;
+  totalCards: number;
+  isRevealed: boolean;
+  onToggleReveal: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+}

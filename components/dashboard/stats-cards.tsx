@@ -1,11 +1,7 @@
 "use client";
 
 import { Crown, Gamepad2, GraduationCap, PlusCircle, Sparkles } from "lucide-react";
-import type { User } from "@/types";
-
-interface StatsCardsProps {
-  user: User;
-}
+import type { StatsCardsProps } from "@/types";
 
 export function StatsCards({ user }: StatsCardsProps) {
   const isAdmin = user.role === "ADMIN" || user.role === "admin";
@@ -38,7 +34,7 @@ export function StatsCards({ user }: StatsCardsProps) {
           Digunakan untuk unlock limit kartu game & menjalankan sesi battle TV kelas.
         </p>
         <div className="mt-4 flex items-center justify-between border-t border-[#F2EAEC] pt-3 text-xs">
-          <span className="text-[#A48E95]">Tarif: Rp 5.000 / kartu</span>
+          <span className="text-[#A48E95]">Tarif: Rp 2.500 / token</span>
           <button
             type="button"
             className="font-bold text-[#451420] hover:text-[#C67D00] inline-flex items-center gap-1 cursor-pointer transition"
@@ -57,7 +53,7 @@ export function StatsCards({ user }: StatsCardsProps) {
               <GraduationCap size={24} />
             </div>
             <div>
-              <p className="text-xs font-semibold text-[#7A5661]">Kredit Mode Ujian</p>
+              <p className="text-xs font-semibold text-[#7A5661]">Token Mode Ujian</p>
               <h3 className="font-display text-2xl font-extrabold text-[#451420]">
                 {isAdmin ? "Tak Terbatas" : examCredits.toLocaleString("id-ID")}
               </h3>
@@ -73,7 +69,7 @@ export function StatsCards({ user }: StatsCardsProps) {
           Digunakan untuk menerbitkan paket ujian online anti-curang selama 7 hari.
         </p>
         <div className="mt-4 flex items-center justify-between border-t border-[#F2EAEC] pt-3 text-xs">
-          <span className="text-[#A48E95]">Tarif: Rp 14.900 / paket</span>
+          <span className="text-[#A48E95]">Tarif: Rp 14.900 / token</span>
           <button
             type="button"
             className="font-bold text-[#451420] hover:text-[#C67D00] inline-flex items-center gap-1 cursor-pointer transition"

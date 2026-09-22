@@ -2,13 +2,8 @@
 
 import { Gamepad2, GraduationCap, Menu } from "lucide-react";
 import Link from "next/link";
-import type { User } from "@/types";
+import type { DashboardHeaderProps } from "@/types";
 import { DashboardBreadcrumbs } from "./dashboard-breadcrumbs";
-
-interface DashboardHeaderProps {
-  user: User;
-  onOpenSidebar?: () => void;
-}
 
 function formatCompactTokens(val: number): string {
   if (val >= 1_000_000) {

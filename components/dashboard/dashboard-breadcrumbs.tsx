@@ -15,11 +15,7 @@ const ROUTE_LABELS: Record<string, string> = {
   users: "Pengguna",
 };
 
-interface BreadcrumbItem {
-  label: string;
-  href: string;
-  isLast: boolean;
-}
+import type { BreadcrumbItem } from "@/types";
 
 export function DashboardBreadcrumbs() {
   const pathname = usePathname();

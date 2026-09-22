@@ -1,18 +1,13 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import type { GameSession } from "@/types";
+import type { WheelsArenaProps } from "@/types";
 import { GameHeader } from "../header";
 import { FlipCardScoreboard } from "../flip-card/flip-card-scoreboard";
 import { FlipCardQuestionModal } from "../flip-card/flip-card-question-modal";
 import { WheelsCanvas } from "./wheels-canvas";
 import { WheelsControls } from "./wheels-controls";
 import { useWheelsArena } from "./use-wheels-arena";
-
-interface WheelsArenaProps {
-  session: GameSession;
-  onEndSession: () => void;
-}
 
 export function WheelsArena({ session, onEndSession }: WheelsArenaProps) {
   const {

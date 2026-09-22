@@ -1,14 +1,7 @@
 "use client";
 
 import { Search, X } from "lucide-react";
-
-interface TokenQuickActionsProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  activeFilter: "ALL" | "GAME" | "EXAM";
-  onFilterChange: (filter: "ALL" | "GAME" | "EXAM") => void;
-  totalCount: number;
-}
+import type { TokenQuickActionsProps } from "@/types";
 
 export function TokenQuickActions({
   searchQuery,

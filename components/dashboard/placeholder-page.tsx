@@ -12,13 +12,7 @@ import {
   Users,
 } from "lucide-react";
 
-export type PlaceholderIconKey =
-  | "game"
-  | "decks"
-  | "exams"
-  | "tokens"
-  | "guides"
-  | "users";
+import type { PlaceholderPageProps } from "@/types";
 
 const ICON_MAP = {
   game: Tv,
@@ -28,13 +22,6 @@ const ICON_MAP = {
   guides: BookOpen,
   users: Users,
 };
-
-interface PlaceholderPageProps {
-  title: string;
-  description: string;
-  badge?: string;
-  iconType: PlaceholderIconKey;
-}
 
 export function PlaceholderPage({
   title,

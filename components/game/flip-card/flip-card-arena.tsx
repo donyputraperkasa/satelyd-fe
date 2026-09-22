@@ -1,18 +1,13 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import type { GameSession } from "@/types";
+import type { FlipCardArenaProps } from "@/types";
 import { GameHeader } from "../header";
 import { FlipCardScoreboard } from "./flip-card-scoreboard";
 import { FlipCardGrid } from "./flip-card-grid";
 import { FlipCardQuestionModal } from "./flip-card-question-modal";
 import { FlipCardProgressBar } from "./flip-card-progress-bar";
 import { useFlipCardArena } from "./use-flip-card-arena";
-
-interface FlipCardArenaProps {
-  session: GameSession;
-  onEndSession: () => void;
-}
 
 export function FlipCardArena({ session, onEndSession }: FlipCardArenaProps) {
   const {

@@ -1,13 +1,7 @@
 import { Gamepad2, Disc, Swords } from "lucide-react";
-import type { GameType } from "@/types";
+import type { GameCardConfig } from "@/types";
 
-export interface GameCardConfig {
-  type: GameType;
-  title: string;
-  icon: typeof Gamepad2;
-  iconBg: string;
-  image?: string;
-}
+export type { GameCardConfig };
 
 export const GAME_CARDS: GameCardConfig[] = [
   {

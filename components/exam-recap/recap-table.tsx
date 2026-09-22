@@ -1,22 +1,9 @@
 "use client";
 
 import { Printer } from "lucide-react";
+import type { RecapStudentItem, RecapTableProps } from "@/types";
 
-export interface RecapStudentItem {
-  id: string;
-  name: string;
-  score: number;
-  correct: number;
-  wrong: number;
-  passed: boolean;
-  time: string;
-  rank: number;
-}
-
-interface RecapTableProps {
-  students: RecapStudentItem[];
-  onPrintPdf: () => void;
-}
+export type { RecapStudentItem };
 
 export function RecapTable({ students, onPrintPdf }: RecapTableProps) {
   return (
