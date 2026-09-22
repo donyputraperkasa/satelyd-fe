@@ -32,3 +32,8 @@ export interface NavDropdownProps {
     onClick: () => void;
   };
 }
+
+export interface CoffeeTipModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
