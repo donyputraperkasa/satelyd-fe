@@ -15,6 +15,8 @@ import {
   Trophy,
   Disc,
   Swords,
+  Coins,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -23,7 +25,7 @@ import { GuideStepCard } from "./guide-step-card";
 interface GuideModalProps {
   isOpen: boolean;
   onClose: () => void;
-  type: "DECKS" | "EXAMS" | "GAMES";
+  type: "DECKS" | "EXAMS" | "GAMES" | "TOKENS";
   gameType?: "FLIP_CARD" | "WHEELS" | "BATTLE_2P" | null;
 }
 
@@ -42,6 +44,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
 
   const isDecks = type === "DECKS";
   const isGames = type === "GAMES";
+  const isTokens = type === "TOKENS";
 
   const getGamesHeader = () => {
     switch (gameType) {
@@ -97,6 +100,8 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
                   ? "Panduan Bank Soal & Deck"
                   : isGames
                   ? gamesHeader.title
+                  : isTokens
+                  ? "Panduan Saldo Token & Kuota Satelyd"
                   : "Panduan Mode Ujian & Asesmen"}
               </h2>
               <p className="text-xs sm:text-sm text-[#7A5661] mt-0.5">
@@ -104,6 +109,8 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
                   ? "Panduan ringkas menyusun soal dan meluncurkan game interaktif di Smart TV."
                   : isGames
                   ? gamesHeader.subtitle
+                  : isTokens
+                  ? "Penjelasan sistem pay-per-session, kuota gratis harian, serta token game & ujian."
                   : "Panduan ringkas pembuatan ujian, rilis token sesi, hingga unduh rekap nilai."}
               </p>
             </div>
@@ -121,7 +128,63 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
 
         {/* Modal Body - Scrollable Step Guides */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
-          {isGames ? (
+          {isTokens ? (
+            <>
+              <GuideStepCard
+                stepNumber={1}
+                title="Draft & Edit Soal 100% Gratis Tanpa Batas"
+                description="Guru dapat membuat, mengedit materi, dan menyimpan draft soal sebanyak mungkin tanpa biaya."
+                icon={FolderPlus}
+                details={[
+                  "Tidak ada biaya atau pemotongan token saat Anda membuat, menyunting, atau menambah butir soal ke dalam deck.",
+                  "Semua materi kuis dan bank soal tersimpan aman di akun Anda dan dapat diperbarui kapan saja.",
+                  "Token hanya digunakan saat meluncurkan sesi kelas penuh (> 8 butir soal) atau menerbitkan ujian online.",
+                ]}
+                tip="Buat sebanyak mungkin variasi soal dan persiapkan materi ajar Anda dengan tenang."
+              />
+
+              <GuideStepCard
+                stepNumber={2}
+                title="Free-Tier Harian: 4 Sesi Game Gratis Setiap Hari"
+                description="Nikmati kuota 4 kali sesi permainan Smart TV setiap hari tanpa memotong saldo token."
+                icon={Sparkles}
+                details={[
+                  "Setiap hari, akun guru otomatis mendapatkan kuota 4 sesi game Smart TV gratis.",
+                  "Berlaku untuk deck kuis berdurasi singkat (maksimal 8 butir kartu soal per sesi).",
+                  "Kuota gratis diperbarui secara otomatis setiap hari pada pukul 00:00 WIB.",
+                ]}
+                tip="Sangat cocok untuk kuis apersepsi, ice breaking, atau evaluasi materi singkat di kelas."
+              />
+
+              <GuideStepCard
+                stepNumber={3}
+                title="Token Game: Kuis Lengkap & Sesi Tambahan"
+                description="Buka sesi permainan Smart TV dengan jumlah soal tak terbatas hanya Rp 3.000 / sesi."
+                icon={Tv}
+                details={[
+                  "Digunakan saat Anda ingin memainkan deck soal lengkap dengan lebih dari 8 butir pertanyaan.",
+                  "Juga dapat digunakan saat kuota 4 sesi gratis harian Anda sudah habis terpakai.",
+                  "1 Token Game hanya memotong Rp 3.000 saat sesi permainan Smart TV resmi dimulai.",
+                  "Saldo token tersimpan permanen dan TIDAK PERNAH kedaluwarsa.",
+                ]}
+                tip="Saldo token yang Anda miliki tetap aman meski tidak langsung dipakai dalam waktu dekat."
+              />
+
+              <GuideStepCard
+                stepNumber={4}
+                title="Token Ujian & Top-Up Bank BCA / Mandiri"
+                description="Terbitkan paket asesmen online anti-curang dan proses top-up saldo yang cepat."
+                icon={Coins}
+                details={[
+                  "1 Token Ujian (Rp 14.900) berlaku untuk 1 paket ujian online penuh untuk seluruh siswa satu kelas.",
+                  "Tersedia paket hemat semester dan tahunan untuk kebutuhan asesmen berkala sekolah.",
+                  "Transfer mudah ke rekening resmi: BCA (0374555339) atau Mandiri (137-00-1694852-9) an. Albertus Magnus Dony Putra Perkasa.",
+                  "Saldo token otomatis aktif di akun Anda setelah konfirmasi diverifikasi oleh admin.",
+                ]}
+                tip="Simpan bukti transfer untuk memudahkan verifikasi dan pencatatan riwayat transaksi."
+              />
+            </>
+          ) : isGames ? (
             gameType === "FLIP_CARD" ? (
               <>
                 <GuideStepCard
@@ -403,7 +466,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
         {/* Modal Footer */}
         <div className="flex items-center justify-between px-5 sm:px-7 py-3.5 border-t border-[#E5D7DC] bg-[#FAF7F2] shrink-0">
           <Link
-            href={`/dashboard/guides?tab=${type === "GAMES" ? "games" : type.toLowerCase()}`}
+            href={`/dashboard/guides?tab=${type === "GAMES" ? "games" : type === "TOKENS" ? "faq" : type.toLowerCase()}`}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7A283C] hover:text-[#451420] hover:underline"
           >
             <span>Buka Halaman Panduan Lengkap & FAQ</span>

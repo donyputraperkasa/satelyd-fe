@@ -61,3 +61,9 @@ export interface StudentExamSession {
   submittedAt?: string;
 }
 
+export interface JoinStudentExamPayload {
+  name: string;
+  className: string;
+  attendanceNumber?: string;
+  pin?: string;
+}

@@ -86,6 +86,32 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
             <ShieldCheck size={16} className="text-[#C67D00] shrink-0 mt-0.5" />
             <span>Bukti transfer tervalidasi sesuai dengan nominal pesanan paket kuota {order.tokenAmount} token.</span>
           </div>
+
+          {/* Uploaded Receipt Image Preview */}
+          {order.proofImageUrl && (
+            <div className="space-y-1.5 pt-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#7A5661] block font-sans">
+                Foto / Screenshot Struk Bukti Transfer:
+              </span>
+              <div className="overflow-hidden rounded-xl border border-[#DFD0D5] bg-[#FAF7F2] p-2 flex flex-col items-center justify-center">
+                <img
+                  src={order.proofImageUrl}
+                  alt="Struk Bukti Transfer"
+                  className="max-h-60 w-auto rounded-lg object-contain shadow-xs hover:opacity-95 transition cursor-pointer"
+                  onClick={() => {
+                    const win = window.open();
+                    if (win) {
+                      win.document.write(`<img src="${order.proofImageUrl}" style="max-width: 100%; height: auto; margin: 20px auto; display: block;" />`);
+                    }
+                  }}
+                  title="Klik untuk memperbesar gambar"
+                />
+                <span className="text-[10px] text-[#7A5661] mt-1.5">
+                  Klik gambar untuk melihat resolusi penuh
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Action Controls */}

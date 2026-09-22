@@ -8,6 +8,7 @@ import {
   WheelsArena,
   BattleArena,
   GameSelectDeckModal,
+  GameTokenModal,
   GameHeaderBanner,
   GameModeCard,
   GAME_CARDS,
@@ -29,7 +30,14 @@ function GamePageContent() {
     setSelectedGameForGuide,
     selectedGameForModal,
     setSelectedGameForModal,
+    isTokenModalOpen,
+    setIsTokenModalOpen,
+    pendingDeck,
+    pendingGameType,
+    tokenValidation,
+    gameTokenBalance,
     handleStartGameFromModal,
+    handleConfirmUseToken,
     handleEndSession,
   } = useGamePage();
 
@@ -101,6 +109,19 @@ function GamePageContent() {
           onClose={() => setSelectedGameForModal(null)}
           gameType={selectedGameForModal}
           onStartGame={handleStartGameFromModal}
+        />
+      )}
+
+      {isTokenModalOpen && (
+        <GameTokenModal
+          isOpen={isTokenModalOpen}
+          onClose={() => setIsTokenModalOpen(false)}
+          deck={pendingDeck}
+          gameType={pendingGameType}
+          reason={tokenValidation?.reason}
+          tokenCost={tokenValidation?.tokenCost || 1}
+          currentBalance={gameTokenBalance}
+          onConfirmUseToken={handleConfirmUseToken}
         />
       )}
 

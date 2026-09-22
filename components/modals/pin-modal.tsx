@@ -4,14 +4,8 @@ import { useRouter } from "next/navigation";
 import { Gamepad2, GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { checkGameRoom, fetchExamByToken } from "@/services";
+import type { PinModalProps } from "@/types";
 import { BaseModal } from "./base-modal";
-
-interface PinModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSwitchToLogin: () => void;
-  onSwitchToRegister: () => void;
-}
 
 export function PinModal({
   isOpen,
@@ -37,26 +31,14 @@ export function PinModal({
 
     try {
       if (mode === "game") {
-        try {
-          await checkGameRoom(cleanPin);
-        } catch {
-          // Fallback to local session lookup
-        }
+        try { await checkGameRoom(cleanPin); } catch { /* local lookup */ }
         setSuccessMsg(`Sesi game "${cleanPin}" valid! Membuka layar TV...`);
-        setTimeout(() => {
-          onClose();
-          router.push(`/game/${encodeURIComponent(cleanPin)}`);
-        }, 600);
+        setTimeout(() => { onClose(); router.push(`/game/${encodeURIComponent(cleanPin)}`); }, 600);
       } else {
         const exam = await fetchExamByToken(cleanPin);
-        if (!exam) {
-          throw new Error(`Ujian dengan token "${cleanPin}" tidak ditemukan.`);
-        }
+        if (!exam) throw new Error(`Ujian dengan token "${cleanPin}" tidak ditemukan.`);
         setSuccessMsg(`Ujian "${exam.title}" valid! Mengalihkan ke lembar ujian...`);
-        setTimeout(() => {
-          onClose();
-          router.push(`/exam/${encodeURIComponent(cleanPin)}`);
-        }, 600);
+        setTimeout(() => { onClose(); router.push(`/exam/${encodeURIComponent(cleanPin)}`); }, 600);
       }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "PIN/Kode tidak ditemukan");
@@ -100,15 +82,10 @@ export function PinModal({
       </div>
 
       {errorMsg && (
-        <div className="mb-4 rounded-lg bg-[#FBEAEB] border border-[#F2C2C6] p-2.5 text-xs text-[#8A1F2D] text-center">
-          {errorMsg}
-        </div>
+        <div className="mb-4 rounded-lg bg-[#FBEAEB] border border-[#F2C2C6] p-2.5 text-xs text-[#8A1F2D] text-center">{errorMsg}</div>
       )}
-
       {successMsg && (
-        <div className="mb-4 rounded-lg bg-[#EBF7EE] border border-[#B9E5C2] p-2.5 text-xs text-[#1D6C31] text-center font-medium">
-          {successMsg}
-        </div>
+        <div className="mb-4 rounded-lg bg-[#EBF7EE] border border-[#B9E5C2] p-2.5 text-xs text-[#1D6C31] text-center font-medium">{successMsg}</div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -127,22 +104,14 @@ export function PinModal({
           disabled={isLoading || !pin.trim()}
           className="flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] hover:bg-[#300C15] py-3 text-sm font-semibold text-[#FDFBF7] shadow-md shadow-[#451420]/20 transition disabled:opacity-50 cursor-pointer"
         >
-          {isLoading ? (
-            <><Loader2 size={16} className="animate-spin" /> Memeriksa PIN...</>
-          ) : (
-            "Gabung Sekarang"
-          )}
+          {isLoading ? <><Loader2 size={16} className="animate-spin" /> Memeriksa PIN...</> : "Gabung Sekarang"}
         </button>
       </form>
 
       <div className="mt-6 flex flex-wrap justify-center gap-3 border-t border-[#E5D7DC] pt-4 text-xs text-[#7A5661]">
-        <button type="button" onClick={onSwitchToLogin} className="text-[#451420] font-semibold hover:underline cursor-pointer">
-          Login Akun
-        </button>
+        <button type="button" onClick={onSwitchToLogin} className="text-[#451420] font-semibold hover:underline cursor-pointer">Login Akun</button>
         <span>•</span>
-        <button type="button" onClick={onSwitchToRegister} className="text-[#451420] font-semibold hover:underline cursor-pointer">
-          Daftar Akun Baru
-        </button>
+        <button type="button" onClick={onSwitchToRegister} className="text-[#451420] font-semibold hover:underline cursor-pointer">Daftar Akun Baru</button>
       </div>
     </BaseModal>
   );

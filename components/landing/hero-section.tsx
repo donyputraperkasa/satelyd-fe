@@ -30,7 +30,7 @@ export function HeroSection() {
 
       {/* Engaging Subtitle */}
       <p className="mt-6 text-sm sm:text-base md:text-lg text-[#613D48] font-normal tracking-normal max-w-md sm:max-w-2xl leading-relaxed sm:leading-relaxed">
-        Ubah suasana kelas jadi petualangan yang seru. Mainkan battle tarik tambang & kartu pintar di layar TV kelas, serta selenggarakan ujian online anti-curang dengan mudah. Gratis untuk siapa saja.
+        Ubah suasana kelas jadi petualangan yang seru. Mainkan battle, wheels question & flip card di layar TV kelas, serta selenggarakan ujian online anti-curang dengan mudah. Gratis untuk siapa saja.
       </p>
 
       {/* Action Buttons */}

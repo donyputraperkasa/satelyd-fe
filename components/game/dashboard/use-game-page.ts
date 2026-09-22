@@ -6,6 +6,10 @@ import {
   createOrGetGameSession,
   fetchGameSessionByPin,
   endGameSession,
+  validateGameSessionStart,
+  deductGameToken,
+  recordGameSessionUsage,
+  getUserTokenBalances,
 } from "@/services";
 import type { GameSession, Deck, GameType } from "@/types";
 
@@ -27,6 +31,17 @@ export function useGamePage() {
     useState<GameType | null>(null);
   const [selectedGameForModal, setSelectedGameForModal] =
     useState<GameType | null>(null);
+
+  // Token & quota validation state
+  const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
+  const [pendingDeck, setPendingDeck] = useState<Deck | null>(null);
+  const [pendingGameType, setPendingGameType] = useState<GameType | null>(null);
+  const [tokenValidation, setTokenValidation] = useState<{
+    allowed: boolean;
+    requiresToken: boolean;
+    reason?: "DAILY_LIMIT_EXCEEDED" | "NEEDS_TOKEN_FOR_DECK";
+    tokenCost: number;
+  } | null>(null);
 
   useEffect(() => {
     async function initGameSession() {
@@ -59,7 +74,7 @@ export function useGamePage() {
     initGameSession();
   }, [deckId, modeParam, pinParam]);
 
-  const handleStartGameFromModal = async (deck: Deck, gameType: GameType) => {
+  const executeStartSession = async (deck: Deck, gameType: GameType) => {
     setIsLoading(true);
     try {
       const newSession = await createOrGetGameSession(deck.id, gameType);
@@ -76,6 +91,38 @@ export function useGamePage() {
     }
   };
 
+  const handleStartGameFromModal = async (deck: Deck, gameType: GameType) => {
+    const cardCount = deck.cards?.length || deck.cardCount || 0;
+    const validation = validateGameSessionStart(cardCount);
+
+    if (validation.requiresToken) {
+      setPendingDeck(deck);
+      setPendingGameType(gameType);
+      setTokenValidation(validation);
+      setSelectedGameForModal(null);
+      setIsTokenModalOpen(true);
+      return;
+    }
+
+    // Free within daily quota (Deck <= 8 and remaining > 0)
+    recordGameSessionUsage();
+    await executeStartSession(deck, gameType);
+  };
+
+  const handleConfirmUseToken = async () => {
+    if (!pendingDeck || !pendingGameType) return;
+    const deducted = deductGameToken();
+    if (!deducted) {
+      setErrorMsg("Saldo Token Game tidak mencukupi.");
+      setIsTokenModalOpen(false);
+      return;
+    }
+
+    recordGameSessionUsage();
+    setIsTokenModalOpen(false);
+    await executeStartSession(pendingDeck, pendingGameType);
+  };
+
   const handleEndSession = async () => {
     if (session) {
       await endGameSession(session.id);
@@ -83,6 +130,8 @@ export function useGamePage() {
     setSession(null);
     router.push("/dashboard/game");
   };
+
+  const { gameTokenBalance } = getUserTokenBalances();
 
   return {
     session,
@@ -95,7 +144,14 @@ export function useGamePage() {
     setSelectedGameForGuide,
     selectedGameForModal,
     setSelectedGameForModal,
+    isTokenModalOpen,
+    setIsTokenModalOpen,
+    pendingDeck,
+    pendingGameType,
+    tokenValidation,
+    gameTokenBalance,
     handleStartGameFromModal,
+    handleConfirmUseToken,
     handleEndSession,
   };
 }

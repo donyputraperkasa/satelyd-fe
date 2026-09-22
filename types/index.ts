@@ -8,6 +8,8 @@ export * from "./transaction";
 export * from "./exam";
 export * from "./deck";
 export * from "./game";
+export * from "./auth-modal";
+
 
 export interface UserProfile {
   id: string;

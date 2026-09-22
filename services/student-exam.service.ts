@@ -1,12 +1,8 @@
 import { apiClient } from "@/lib/api/client";
-import type { Exam, StudentParticipant, StudentExamSession } from "@/types";
+import type { Exam, StudentParticipant, StudentExamSession, JoinStudentExamPayload } from "@/types";
 
-export interface JoinStudentExamPayload {
-  name: string;
-  className: string;
-  attendanceNumber?: string;
-  pin?: string;
-}
+export type { JoinStudentExamPayload };
+
 
 export async function fetchExamByToken(token: string): Promise<Exam | null> {
   const cleanToken = token.trim().toUpperCase();

@@ -239,7 +239,7 @@ export function DeckCardEditorModal({
         <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
           {/* ----- COLUMN 1: QUESTION NAV SIDEBAR (PERSIS MODE UJIAN) ----- */}
           <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#E5D7DC] bg-[#FAF7F2] p-4 flex flex-col shrink-0 overflow-y-auto max-h-48 md:max-h-full">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-extrabold uppercase tracking-wider text-[#7A5661]">
                 Daftar Soal ({cards.length})
               </span>
@@ -247,6 +247,16 @@ export function DeckCardEditorModal({
                 Total {totalPoints} Poin
               </span>
             </div>
+
+            {cards.length > 8 ? (
+              <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-[#FFF8E6] border border-[#F2DEB0] text-[10px] text-[#9A6200] leading-tight font-medium">
+                ✨ <strong>Mode Lengkap (&gt; 8 soal):</strong> Memulai sesi game untuk deck ini membutuhkan 1 Token Game (Rp 3.000).
+              </div>
+            ) : (
+              <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-800 leading-tight font-medium">
+                🎉 <strong>Gratis:</strong> Deck ini (&le; 8 soal) bisa dimainkan gratis (kuota 4 sesi per hari).
+              </div>
+            )}
 
             <div className="grid grid-cols-5 md:grid-cols-4 gap-2 flex-1 auto-rows-max">
               {cards.map((c, idx) => {

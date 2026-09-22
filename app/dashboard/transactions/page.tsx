@@ -34,6 +34,7 @@ export default function TransactionsPage() {
       );
       if (typeof window !== "undefined") {
         localStorage.setItem("satelyd.token_transactions", JSON.stringify(updated));
+        window.dispatchEvent(new Event("storage"));
       }
       return updated;
     });
@@ -50,6 +51,7 @@ export default function TransactionsPage() {
       );
       if (typeof window !== "undefined") {
         localStorage.setItem("satelyd.token_transactions", JSON.stringify(updated));
+        window.dispatchEvent(new Event("storage"));
       }
       return updated;
     });

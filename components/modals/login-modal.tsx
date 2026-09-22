@@ -1,19 +1,11 @@
 "use client";
 
 import { Eye, EyeOff, Loader2, Lock, User as UserIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { saveAuthSession } from "@/lib/auth";
 import { loginUser } from "@/services";
+import type { User, LoginModalProps } from "@/types";
 import { BaseModal } from "./base-modal";
-
-interface LoginModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSwitchToRegister: () => void;
-  onSwitchToPin: () => void;
-  onSuccess?: () => void;
-}
 
 export function LoginModal({
   isOpen,
@@ -22,7 +14,6 @@ export function LoginModal({
   onSwitchToPin,
   onSuccess,
 }: LoginModalProps) {
-  const router = useRouter();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -36,10 +27,7 @@ export function LoginModal({
     try {
       const data = await loginUser({ email: identifier.trim(), password });
       saveAuthSession(data);
-      router.push("/dashboard");
-      router.refresh();
-      onSuccess?.();
-      onClose();
+      onSuccess?.(data.user);
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "Gagal masuk ke akun");
     } finally {
@@ -108,11 +96,7 @@ export function LoginModal({
           disabled={isLoading}
           className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] hover:bg-[#300C15] py-3 text-sm font-semibold text-[#FDFBF7] shadow-md shadow-[#451420]/20 transition disabled:opacity-60 cursor-pointer"
         >
-          {isLoading ? (
-            <><Loader2 size={16} className="animate-spin" /> Memproses...</>
-          ) : (
-            "Masuk Sekarang"
-          )}
+          {isLoading ? <><Loader2 size={16} className="animate-spin" /> Memproses...</> : "Masuk Sekarang"}
         </button>
       </form>
 
