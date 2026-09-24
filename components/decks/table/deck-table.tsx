@@ -1,16 +1,7 @@
 "use client";
 
-import type { Deck } from "@/types";
+import type { DeckTableProps } from "@/types";
 import { DeckTableRow } from "./deck-table-row";
-
-interface DeckTableProps {
-  decks: Deck[];
-  onManageCards: (deck: Deck) => void;
-  onEditDeck: (deck: Deck) => void;
-  onDeleteDeck: (deck: Deck) => void;
-  onPlayOnTv: (deck: Deck) => void;
-  onExportToExam: (deck: Deck) => void;
-}
 
 export function DeckTable({
   decks,

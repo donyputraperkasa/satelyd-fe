@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import { AlertTriangle, Trash2, X } from "lucide-react";
-import type { Deck } from "@/types";
-
-interface DeleteDeckModalProps {
-  isOpen: boolean;
-  deck: Deck | null;
-  onClose: () => void;
-  onConfirm: (deckId: string) => Promise<void>;
-}
+import type { DeleteDeckModalProps } from "@/types";
 
 export function DeleteDeckModal({
   isOpen,

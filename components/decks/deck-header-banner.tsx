@@ -1,11 +1,7 @@
 "use client";
 
 import { Layers, BookOpen, Plus } from "lucide-react";
-
-interface DeckHeaderBannerProps {
-  onCreateNew: () => void;
-  onOpenGuide: () => void;
-}
+import type { DeckHeaderBannerProps } from "@/types";
 
 export function DeckHeaderBanner({ onCreateNew, onOpenGuide }: DeckHeaderBannerProps) {
   return (

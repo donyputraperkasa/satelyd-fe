@@ -1,115 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { CheckCircle2, Receipt, Trash2 } from "lucide-react";
+import { Receipt, Trash2 } from "lucide-react";
 import {
   ProofModal,
   TransactionStats,
   TransactionTable,
 } from "@/components/transactions";
-import type { TransactionOrder } from "@/types";
-
-const DUMMY_ORDER_IDS = new Set([
-  "TRX-8821",
-  "TRX-8822",
-  "TRX-8819",
-  "TRX-8815",
-  "ORD-100",
-  "ORD-101",
-  "ORD-102",
-]);
-
-function isDummyOrder(o: TransactionOrder): boolean {
-  if (DUMMY_ORDER_IDS.has(o.id)) return true;
-  const name = o.userName?.toLowerCase() || "";
-  const email = o.userEmail?.toLowerCase() || "";
-  if (
-    name.includes("bambang wijaya") ||
-    name.includes("nurul hidayat") ||
-    name.includes("ahmad fauzi") ||
-    name.includes("dewi lestari")
-  ) {
-    return true;
-  }
-  if (
-    email.includes("smpn1jogja") ||
-    email.includes("sman3semarang") ||
-    email.includes("bopkri") ||
-    email.includes("smpitinsan")
-  ) {
-    return true;
-  }
-  return false;
-}
+import { useTransactionsPage } from "./use-transactions-page";
 
 export default function TransactionsPage() {
-  const [orders, setOrders] = useState<TransactionOrder[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.removeItem("satelyd.token_orders");
-        const saved = localStorage.getItem("satelyd.token_transactions");
-        if (saved) {
-          const parsed: TransactionOrder[] = JSON.parse(saved);
-          const clean = parsed.filter((o) => !isDummyOrder(o));
-          if (clean.length !== parsed.length) {
-            localStorage.setItem("satelyd.token_transactions", JSON.stringify(clean));
-          }
-          return clean;
-        }
-      } catch {
-        // fallback
-      }
-    }
-    return [];
-  });
-
-  const [selectedProofOrder, setSelectedProofOrder] = useState<TransactionOrder | null>(null);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const handleClearAll = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("satelyd.token_transactions");
-      localStorage.removeItem("satelyd.token_orders");
-      localStorage.removeItem("satelyd.credited_order_ids");
-      window.dispatchEvent(new Event("storage"));
-    }
-    setOrders([]);
-    setToastMessage("Semua data transaksi berhasil dikosongkan.");
-    setTimeout(() => setToastMessage(null), 3000);
-  };
-
-  const handleAdmit = (orderId: string) => {
-    setOrders((prev) => {
-      const updated = prev.map((ord) =>
-        ord.id === orderId ? { ...ord, status: "APPROVED" as const } : ord
-      );
-      if (typeof window !== "undefined") {
-        localStorage.setItem("satelyd.token_transactions", JSON.stringify(updated));
-        window.dispatchEvent(new Event("storage"));
-      }
-      return updated;
-    });
-
-    const ord = orders.find((o) => o.id === orderId);
-    setToastMessage(`✅ Transaksi ${orderId} (${ord?.userName}) berhasil di-admit! Kuota token telah aktif.`);
-    setTimeout(() => setToastMessage(null), 4500);
-  };
-
-  const handleReject = (orderId: string) => {
-    setOrders((prev) => {
-      const updated = prev.map((ord) =>
-        ord.id === orderId ? { ...ord, status: "REJECTED" as const } : ord
-      );
-      if (typeof window !== "undefined") {
-        localStorage.setItem("satelyd.token_transactions", JSON.stringify(updated));
-        window.dispatchEvent(new Event("storage"));
-      }
-      return updated;
-    });
-
-    setToastMessage(`Transaksi ${orderId} telah ditolak.`);
-    setTimeout(() => setToastMessage(null), 4000);
-  };
+  const {
+    orders,
+    selectedProofOrder,
+    setSelectedProofOrder,
+    handleClearAll,
+    handleAdmit,
+    handleReject,
+  } = useTransactionsPage();
 
   return (
     <div className="space-y-8">
@@ -143,14 +50,6 @@ export default function TransactionsPage() {
           </button>
         )}
       </div>
-
-      {/* Toast Feedback */}
-      {toastMessage && (
-        <div className="flex items-center gap-2.5 rounded-xl bg-[#EDF7ED] border border-[#C8E6C9] p-3.5 text-xs font-bold text-[#1E4620] shadow-sm animate-in fade-in slide-in-from-top-2">
-          <CheckCircle2 size={16} className="text-[#2E7D32]" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
 
       {/* Financial Overview Stats */}
       <TransactionStats orders={orders} />

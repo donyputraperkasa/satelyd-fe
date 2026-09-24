@@ -1,11 +1,7 @@
 "use client";
 
 import { Layers, HelpCircle, BookCheck, Tv } from "lucide-react";
-import type { Deck } from "@/types";
-
-interface DeckStatsProps {
-  decks: Deck[];
-}
+import type { DeckStatsProps } from "@/types";
 
 export function DeckStats({ decks }: DeckStatsProps) {
   const totalDecks = decks.length;

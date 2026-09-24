@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Coins, Sparkles, Filter, CheckCircle2, BookOpen } from "lucide-react";
+import { Coins, CheckCircle2, BookOpen } from "lucide-react";
 import {
   TokenBalanceCards,
   TokenPackageCard,
@@ -11,73 +10,29 @@ import {
   TokenQuickActions,
 } from "@/components/tokens";
 import { GuideModal } from "@/components/guides";
-import {
-  getUserTokenBalances,
-  getDailyGameSessionUsage,
-  getUserTokenOrders,
-  TOKEN_PACKAGES,
-  type TokenPackage,
-} from "@/services/token.service";
-import type { TransactionOrder } from "@/types";
+import { useTokensPage } from "./use-tokens-page";
 
 export default function TokensPage() {
-  const [filterType, setFilterType] = useState<"ALL" | "GAME" | "EXAM">("ALL");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedPkg, setSelectedPkg] = useState<TokenPackage | null>(null);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  // Balances state
-  const [balances, setBalances] = useState(() => getUserTokenBalances());
-  const [dailyUsage, setDailyUsage] = useState(() => getDailyGameSessionUsage());
-  const [userOrders, setUserOrders] = useState<TransactionOrder[]>(() => getUserTokenOrders());
-
-  const refreshData = () => {
-    setBalances(getUserTokenBalances());
-    setDailyUsage(getDailyGameSessionUsage());
-    setUserOrders(getUserTokenOrders());
-  };
-
-  useEffect(() => {
-    refreshData();
-    const handleStorageChange = () => refreshData();
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
-  const filteredPackages = TOKEN_PACKAGES.filter((p) => {
-    if (filterType !== "ALL" && p.itemType !== filterType) {
-      return false;
-    }
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
-      const matchName = p.name.toLowerCase().includes(q);
-      const matchDesc = p.description.toLowerCase().includes(q);
-      const matchAmount = `${p.tokenAmount}`.includes(q);
-      const matchPrice = `${p.price}`.includes(q);
-      return matchName || matchDesc || matchAmount || matchPrice;
-    }
-    return true;
-  });
-
-  const isSearchMatchingEceran =
-    !searchQuery.trim() ||
-    "eceran satuan game kustom 2500".includes(searchQuery.toLowerCase().trim());
-  const showEceranCard =
-    (filterType === "ALL" || filterType === "GAME") && isSearchMatchingEceran;
-  const totalItemCount = filteredPackages.length + (showEceranCard ? 1 : 0);
-
-  const handleSelectPackage = (pkg: TokenPackage) => {
-    setSelectedPkg(pkg);
-    setIsCheckoutOpen(true);
-  };
-
-  const handleOrderSuccess = () => {
-    refreshData();
-    setToastMessage("Pesanan token berhasil dikirim! Silakan tunggu konfirmasi admit dari admin.");
-    setTimeout(() => setToastMessage(null), 5000);
-  };
+  const {
+    filterType,
+    setFilterType,
+    searchQuery,
+    setSearchQuery,
+    selectedPkg,
+    isCheckoutOpen,
+    setIsCheckoutOpen,
+    isGuideModalOpen,
+    setIsGuideModalOpen,
+    toastMessage,
+    balances,
+    dailyUsage,
+    userOrders,
+    filteredPackages,
+    showEceranCard,
+    totalItemCount,
+    handleSelectPackage,
+    handleOrderSuccess,
+  } = useTokensPage();
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto py-2">
@@ -141,7 +96,6 @@ export default function TokensPage() {
 
       {/* Token Packages Catalog Section */}
       <div id="catalog-section" className="space-y-5">
-        {/* Search & Filter Bar (Persis Bank Soal & Ujian Siswa) */}
         <TokenQuickActions
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -150,7 +104,6 @@ export default function TokensPage() {
           totalCount={totalItemCount}
         />
 
-        {/* Packages Grid or Empty State */}
         {totalItemCount > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {showEceranCard && (
@@ -175,7 +128,7 @@ export default function TokensPage() {
                 setSearchQuery("");
                 setFilterType("ALL");
               }}
-              className="text-xs font-bold text-[#7A283C] underline hover:text-[#451420] cursor-pointer"
+              className="text-xs font-bold text-[#7A5661] underline hover:text-[#451420] cursor-pointer"
             >
               Reset filter dan tampilkan semua paket
             </button>
@@ -185,15 +138,13 @@ export default function TokensPage() {
 
       {/* User Transaction History Section */}
       <div className="space-y-4 pt-6 border-t border-[#E5D7DC]">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="font-display text-lg font-black text-[#451420]">
-              Riwayat Pembelian Token Anda
-            </h3>
-            <p className="text-xs text-[#7A5661]">
-              Daftar transaksi top-up token yang pernah Anda ajukan.
-            </p>
-          </div>
+        <div>
+          <h3 className="font-display text-lg font-black text-[#451420]">
+            Riwayat Pembelian Token Anda
+          </h3>
+          <p className="text-xs text-[#7A5661]">
+            Daftar transaksi top-up token yang pernah Anda ajukan.
+          </p>
         </div>
 
         <TokenUserHistory orders={userOrders} />

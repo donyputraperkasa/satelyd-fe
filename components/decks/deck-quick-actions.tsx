@@ -1,14 +1,7 @@
 "use client";
 
 import { Search, X, LayoutGrid, List } from "lucide-react";
-
-interface DeckQuickActionsProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  viewMode: "card" | "table";
-  onViewModeChange: (mode: "card" | "table") => void;
-  totalCount: number;
-}
+import type { DeckQuickActionsProps } from "@/types";
 
 export function DeckQuickActions({
   searchQuery,
