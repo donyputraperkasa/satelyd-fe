@@ -52,7 +52,7 @@ export function CoffeeTipModal({ isOpen, onClose }: CoffeeTipModalProps) {
             <Coffee size={24} className="stroke-[2.5]" />
           </div>
           <h3 className="font-display text-xl font-bold text-gray-900 flex items-center justify-center gap-1.5">
-            Beliin masdon caramel matchiato <Heart size={16} className="text-rose-500 fill-rose-500" />
+            Buy me caramel matchiato <Heart size={16} className="text-rose-500 fill-rose-500" />
           </h3>
           <p className="mt-1 text-xs text-gray-500 leading-relaxed">
             Bantu developer dengan memberi support dan dukungan melalui tip dan apresiasi untuk biaya server dan pengembangan berkelanjutan.

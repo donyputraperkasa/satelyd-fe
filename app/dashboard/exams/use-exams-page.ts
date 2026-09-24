@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import type { Exam, ExamStatus } from "@/types";
+import { useToast } from "@/components/ui";
+
 export function useExamsPage() {
+  const { toast } = useToast();
   const [exams, setExams] = useState<Exam[]>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("satelyd.exams");
@@ -23,11 +26,9 @@ export function useExamsPage() {
   const [closeCandidate, setCloseCandidate] = useState<Exam | null>(null);
   const [recapCandidate, setRecapCandidate] = useState<Exam | null>(null);
   const [liveMonitorExam, setLiveMonitorExam] = useState<Exam | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
 
   const notify = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 4000);
+    toast.info(msg);
   };
 
   const openMonitor = (exam: Exam) => {
@@ -91,7 +92,7 @@ export function useExamsPage() {
 
   const handleConfirmDelete = (exam: Exam) => {
     persistExams(exams.filter((e) => e.id !== exam.id));
-    notify(`Paket ujian "${exam.title}" berhasil dihapus.`);
+    toast.delete(`Paket ujian "${exam.title}" berhasil dihapus.`);
   };
 
   const handleConfirmClose = (exam: Exam) => {

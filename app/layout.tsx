@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AuthModalProvider } from "@/components/modals";
+import { ToastProvider } from "@/components/ui";
 import { FloatingContact } from "@/components/public/floating-contact";
 import "./globals.css";
 
@@ -33,11 +34,13 @@ export default function RootLayout({
       className={`${outfit.variable} ${jakarta.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#FDFBF7] text-[#451420]">
-        <AuthModalProvider>
-          {children}
-          <FloatingContact />
-          <Analytics />
-        </AuthModalProvider>
+        <ToastProvider>
+          <AuthModalProvider>
+            {children}
+            <FloatingContact />
+            <Analytics />
+          </AuthModalProvider>
+        </ToastProvider>
       </body>
     </html>
   );

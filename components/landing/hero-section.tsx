@@ -10,8 +10,7 @@ export function HeroSection() {
     <section className="relative flex flex-col items-center justify-center text-center px-8 sm:px-12 pt-10 sm:pt-20 pb-8 max-w-5xl mx-auto">
       {/* Platform Badge */}
       <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#F5EDF0] border border-[#E2D5D9] text-[#5C323E] text-xs font-semibold mb-6">
-        <Sparkles size={13} className="text-[#451420]" />
-        <span>Platform Belajar & Game Edukasi Interaktif</span>
+        <span>Satelyd Education Platform</span>
       </div>
 
       {/* Classic Editorial Headline */}

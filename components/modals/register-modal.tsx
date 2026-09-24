@@ -41,7 +41,6 @@ export function RegisterModal({
     <BaseModal isOpen={isOpen} onClose={onClose}>
       <div className="mb-6 text-center">
         <h2 className="font-display text-2xl font-bold text-[#451420]">Buat Akun Baru</h2>
-        <p className="mt-1 text-xs sm:text-sm text-[#7A5661]">Gratis untuk guru, siswa, dan sekolah di seluruh Indonesia</p>
       </div>
 
       {errorMsg && (

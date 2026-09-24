@@ -9,8 +9,8 @@ export function TransactionStats({ orders }: TransactionStatsProps) {
   const approvedOrders = orders.filter((o) => o.status === "APPROVED");
   const pendingOrders = orders.filter((o) => o.status === "PENDING");
 
-  const totalMonthlyIncome = approvedOrders.reduce((acc, curr) => acc + curr.price, 2450000);
-  const totalTokensDistributed = approvedOrders.reduce((acc, curr) => acc + curr.tokenAmount, 650);
+  const totalMonthlyIncome = approvedOrders.reduce((acc, curr) => acc + curr.price, 0);
+  const totalTokensDistributed = approvedOrders.reduce((acc, curr) => acc + curr.tokenAmount, 0);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -27,9 +27,15 @@ export function TransactionStats({ orders }: TransactionStatsProps) {
         <p className="font-display text-2xl font-extrabold text-[#451420]">
           Rp {totalMonthlyIncome.toLocaleString("id-ID")}
         </p>
-        <p className="text-[11px] font-semibold text-[#2E7D32] flex items-center gap-1">
-          <ArrowUpRight size={13} />
-          <span>+24.5% dari bulan lalu</span>
+        <p className="text-[11px] font-semibold text-[#7A5661] flex items-center gap-1">
+          {approvedOrders.length > 0 ? (
+            <>
+              <ArrowUpRight size={13} className="text-[#2E7D32]" />
+              <span className="text-[#2E7D32]">{approvedOrders.length} transaksi selesai</span>
+            </>
+          ) : (
+            <span>Belum ada transaksi</span>
+          )}
         </p>
       </div>
 
@@ -47,7 +53,7 @@ export function TransactionStats({ orders }: TransactionStatsProps) {
           {pendingOrders.length} Transaksi
         </p>
         <p className="text-[11px] text-[#9A6200]">
-          Perlu verifikasi bukti transfer
+          {pendingOrders.length > 0 ? "Perlu verifikasi bukti transfer" : "Tidak ada antrean verifikasi"}
         </p>
       </div>
 
@@ -65,7 +71,7 @@ export function TransactionStats({ orders }: TransactionStatsProps) {
           {approvedOrders.length} Selesai
         </p>
         <p className="text-[11px] text-[#7A5661]">
-          Semua kuota telah terkirim
+          {approvedOrders.length > 0 ? "Semua kuota telah terkirim" : "Belum ada transaksi selesai"}
         </p>
       </div>
 
@@ -83,7 +89,7 @@ export function TransactionStats({ orders }: TransactionStatsProps) {
           {totalTokensDistributed.toLocaleString("id-ID")}
         </p>
         <p className="text-[11px] text-[#7A5661]">
-          Game token & kredit ujian
+          {totalTokensDistributed > 0 ? "Game token & kredit ujian" : "Belum ada token terjual"}
         </p>
       </div>
     </div>

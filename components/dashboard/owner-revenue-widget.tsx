@@ -11,7 +11,18 @@ export function OwnerRevenueWidget() {
       const saved = localStorage.getItem("satelyd.token_orders");
       if (saved) {
         try {
-          return JSON.parse(saved);
+          const parsed: TokenOrder[] = JSON.parse(saved);
+          const clean = parsed.filter(
+            (o) =>
+              !o.id.startsWith("ORD-10") &&
+              !o.userName.includes("Bambang") &&
+              !o.userName.includes("Nurul") &&
+              !o.userName.includes("Ahmad")
+          );
+          if (clean.length !== parsed.length) {
+            localStorage.setItem("satelyd.token_orders", JSON.stringify(clean));
+          }
+          return clean;
         } catch {
           // fallback
         }
@@ -40,7 +51,7 @@ export function OwnerRevenueWidget() {
 
   const totalRevenue = orders
     .filter((o) => o.status === "APPROVED")
-    .reduce((sum, o) => sum + o.price, 1250000);
+    .reduce((sum, o) => sum + o.price, 0);
   const pendingCount = orders.filter((o) => o.status === "PENDING").length;
 
   return (
@@ -83,48 +94,54 @@ export function OwnerRevenueWidget() {
         </p>
 
         <div className="space-y-2.5">
-          {orders.map((order) => {
-            const isPending = order.status === "PENDING";
-            return (
-              <div
-                key={order.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl bg-white p-4 border border-[#E5D7DC] shadow-2xs hover:border-[#DFD0D5] transition"
-              >
-                <div className="space-y-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm text-[#451420]">{order.userName}</span>
-                    <span className="text-[11px] text-[#7A5661]">({order.userEmail})</span>
+          {orders.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-[#DFD0D5] bg-white/60 p-6 text-center text-xs text-[#7A5661]">
+              Belum ada antrean pembelian token yang masuk.
+            </div>
+          ) : (
+            orders.map((order) => {
+              const isPending = order.status === "PENDING";
+              return (
+                <div
+                  key={order.id}
+                  className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl bg-white p-4 border border-[#E5D7DC] shadow-2xs hover:border-[#DFD0D5] transition"
+                >
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-sm text-[#451420]">{order.userName}</span>
+                      <span className="text-[11px] text-[#7A5661]">({order.userEmail})</span>
+                    </div>
+                    <p className="text-xs text-[#613D48]">
+                      <span className="font-semibold text-[#C67D00]">{order.packageName}</span> • {order.paymentMethod} •{" "}
+                      <span className="text-[#A48E95]">{order.createdAt}</span>
+                    </p>
                   </div>
-                  <p className="text-xs text-[#613D48]">
-                    <span className="font-semibold text-[#C67D00]">{order.packageName}</span> • {order.paymentMethod} •{" "}
-                    <span className="text-[#A48E95]">{order.createdAt}</span>
-                  </p>
-                </div>
 
-                <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
-                  <span className="text-sm font-extrabold text-[#451420]">
-                    Rp {order.price.toLocaleString("id-ID")}
-                  </span>
-
-                  {isPending ? (
-                    <button
-                      type="button"
-                      onClick={() => handleAdmit(order.id)}
-                      className="flex items-center gap-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] px-4 py-1.5 text-xs font-bold text-[#FDFBF7] shadow-sm transition cursor-pointer"
-                    >
-                      <UserCheck size={14} className="text-[#C67D00]" />
-                      <span>Admit / Setujui</span>
-                    </button>
-                  ) : (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#EDF7ED] border border-[#C8E6C9] px-3 py-1 text-xs font-bold text-[#2E7D32]">
-                      <CheckCircle2 size={13} />
-                      <span>Sudah Diadmit</span>
+                  <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+                    <span className="text-sm font-extrabold text-[#451420]">
+                      Rp {order.price.toLocaleString("id-ID")}
                     </span>
-                  )}
+
+                    {isPending ? (
+                      <button
+                        type="button"
+                        onClick={() => handleAdmit(order.id)}
+                        className="flex items-center gap-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] px-4 py-1.5 text-xs font-bold text-[#FDFBF7] shadow-sm transition cursor-pointer"
+                      >
+                        <UserCheck size={14} className="text-[#C67D00]" />
+                        <span>Admit / Setujui</span>
+                      </button>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#EDF7ED] border border-[#C8E6C9] px-3 py-1 text-xs font-bold text-[#2E7D32]">
+                        <CheckCircle2 size={13} />
+                        <span>Sudah Diadmit</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>

@@ -3,11 +3,13 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { clearAuthSession } from "@/lib/auth";
+import { useToast } from "@/components/ui";
 import type { AuthTransitionOptions } from "@/types";
 import type { GlobalAuthOverlayProps } from "./global-auth-overlay";
 
 export function useAuthTransition(onLogoutSession: () => void) {
   const router = useRouter();
+  const { toast } = useToast();
   const [authOverlay, setAuthOverlay] = useState<GlobalAuthOverlayProps>({
     isOpen: false,
     title: "",
@@ -36,10 +38,11 @@ export function useAuthTransition(onLogoutSession: () => void) {
     await new Promise((res) => setTimeout(res, 850));
     clearAuthSession();
     onLogoutSession();
+    toast.info("Anda telah berhasil keluar dari akun.");
     router.push("/");
     router.refresh();
     setTimeout(() => setAuthOverlay((prev) => ({ ...prev, isOpen: false })), 350);
-  }, [router, onLogoutSession]);
+  }, [router, onLogoutSession, toast]);
 
   return { authOverlay, showAuthTransition, logout };
 }

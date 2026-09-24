@@ -50,10 +50,6 @@ export function PinModal({
   return (
     <BaseModal isOpen={isOpen} onClose={onClose}>
       <div className="mb-6 text-center">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5EDF0] border border-[#E2D5D9] text-[#5C323E] text-xs font-semibold mb-3">
-          <Sparkles size={12} className="text-[#451420]" />
-          <span>Gabung Langsung Tanpa Akun</span>
-        </div>
         <h2 className="font-display text-2xl font-bold text-[#451420]">Masukkan PIN Sesi</h2>
         <p className="mt-1 text-xs sm:text-sm text-[#7A5661]">
           {mode === "game" ? "Ketik 6 karakter kode di TV kelas" : "Masukkan token ujian dari guru"}

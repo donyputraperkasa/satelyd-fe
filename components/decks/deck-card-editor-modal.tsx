@@ -14,6 +14,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import type { Deck, DeckCard, DeckCardOption } from "@/types";
+import { useToast } from "@/components/ui";
 
 interface DeckCardEditorModalProps {
   isOpen: boolean;
@@ -22,11 +23,14 @@ interface DeckCardEditorModalProps {
   onSaveCards: (deckId: string, cards: DeckCard[]) => Promise<void>;
 }
 
+export const ALL_DECK_OPTION_KEYS = ["A", "B", "C", "D", "E"] as const;
+
 export const DEFAULT_DECK_OPTIONS: DeckCardOption[] = [
   { key: "A", text: "" },
   { key: "B", text: "" },
   { key: "C", text: "" },
   { key: "D", text: "" },
+  { key: "E", text: "" },
 ];
 
 export function DeckCardEditorModal({
@@ -35,6 +39,7 @@ export function DeckCardEditorModal({
   deck,
   onSaveCards,
 }: DeckCardEditorModalProps) {
+  const { toast } = useToast();
   const [cards, setCards] = useState<DeckCard[]>([]);
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
   const [isSaving, setIsSaving] = useState(false);
@@ -79,9 +84,9 @@ export function DeckCardEditorModal({
     `TV-${deck.id.replace(/[^0-9A-Z]/gi, "").slice(-4).toUpperCase() || "8821"}`;
 
   const options: DeckCardOption[] =
-    currentCard?.options && currentCard.options.length >= 4
+    currentCard?.options && currentCard.options.length >= 3
       ? currentCard.options
-      : DEFAULT_DECK_OPTIONS.map(
+      : DEFAULT_DECK_OPTIONS.slice(0, 4).map(
           (def) => currentCard?.options?.find((o) => o.key === def.key) || def
         );
 
@@ -93,18 +98,18 @@ export function DeckCardEditorModal({
 
   const handleAddCard = () => {
     const newNumber = cards.length + 1;
+    const currentCount = Math.max(3, Math.min(5, options.length || 4));
+    const newOptions = ALL_DECK_OPTION_KEYS.slice(0, currentCount).map((key) => ({
+      key,
+      text: "",
+    }));
     const newCard: DeckCard = {
       id: `CRD-${Date.now()}-${newNumber}`,
       deckId: deck.id,
       orderIndex: newNumber,
       frontQuestion: "",
       questionType: "MULTIPLE_CHOICE",
-      options: [
-        { key: "A", text: "" },
-        { key: "B", text: "" },
-        { key: "C", text: "" },
-        { key: "D", text: "" },
-      ],
+      options: newOptions,
       backAnswer: "A. ",
       explanation: "",
       points: 10,
@@ -114,8 +119,53 @@ export function DeckCardEditorModal({
     setActiveCardIndex(cards.length);
   };
 
+  const handleSetOptionCount = (count: number) => {
+    if (count < 3 || count > 5) return;
+    let newOptions = [...options];
+    if (newOptions.length > count) {
+      newOptions = newOptions.slice(0, count);
+    } else if (newOptions.length < count) {
+      for (let i = newOptions.length; i < count; i++) {
+        newOptions.push({ key: ALL_DECK_OPTION_KEYS[i], text: "" });
+      }
+    }
+    const hasCurrentCorrect = newOptions.some((o) => o.key === correctKey);
+    let newBackAnswer = currentCard?.backAnswer || "";
+    if (!hasCurrentCorrect && newOptions[0]) {
+      const firstOpt = newOptions[0];
+      newBackAnswer = `${firstOpt.key}. ${firstOpt.text || `Pilihan ${firstOpt.key}`}`;
+    }
+    updateCurrentCard({ options: newOptions, backAnswer: newBackAnswer });
+  };
+
+  const handleAddOption = () => {
+    if (options.length >= 5) return;
+    const nextKey = ALL_DECK_OPTION_KEYS[options.length];
+    const newOptions = [...options, { key: nextKey, text: "" }];
+    updateCurrentCard({ options: newOptions });
+  };
+
+  const handleRemoveOption = (optKey: string) => {
+    if (options.length <= 3) return;
+    const filtered = options.filter((o) => o.key !== optKey);
+    const reKeyed = filtered.map((o, idx) => ({
+      key: ALL_DECK_OPTION_KEYS[idx],
+      text: o.text,
+    }));
+    const hasCurrentCorrect = reKeyed.some((o) => o.key === correctKey);
+    let newBackAnswer = currentCard?.backAnswer || "";
+    if (!hasCurrentCorrect && reKeyed[0]) {
+      const firstOpt = reKeyed[0];
+      newBackAnswer = `${firstOpt.key}. ${firstOpt.text || `Pilihan ${firstOpt.key}`}`;
+    }
+    updateCurrentCard({ options: reKeyed, backAnswer: newBackAnswer });
+  };
+
   const handleDeleteCard = (index: number) => {
-    if (cards.length <= 1) return;
+    if (cards.length <= 1) {
+      toast.error("Deck materi harus memiliki minimal 1 kartu soal.");
+      return;
+    }
     const filtered = cards
       .filter((_, idx) => idx !== index)
       .map((c, idx) => ({ ...c, orderIndex: idx + 1 }));
@@ -123,6 +173,7 @@ export function DeckCardEditorModal({
     if (activeCardIndex >= filtered.length) {
       setActiveCardIndex(Math.max(0, filtered.length - 1));
     }
+    toast.delete(`Kartu soal nomor ${index + 1} berhasil dihapus.`);
   };
 
   const updateCurrentCard = (updates: Partial<DeckCard>) => {
@@ -476,16 +527,58 @@ export function DeckCardEditorModal({
                   )}
                 </div>
 
-                {/* Pilihan Jawaban (A-D) */}
+                {/* Pilihan Jawaban (ABC / ABCD / ABCDE) */}
                 {!isEssay ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661]">
-                        Pilihan Jawaban (A–D) – Isi yang diperlukan
-                      </label>
-                      <span className="text-[11px] font-bold text-[#2E7D32] bg-[#EDF7ED] border border-[#C8E6C9] px-2 py-0.5 rounded-md">
-                        Kunci: {correctKey}
-                      </span>
+                  <div className="space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661]">
+                          Pilihan Jawaban (A–{options[options.length - 1]?.key || "D"})
+                        </label>
+                        <span className="text-[11px] font-bold text-[#2E7D32] bg-[#EDF7ED] border border-[#C8E6C9] px-2 py-0.5 rounded-md">
+                          Kunci: {correctKey}
+                        </span>
+                      </div>
+
+                      {/* Segmented Selector Opsi: ABC, ABCD, ABCDE */}
+                      <div className="inline-flex items-center gap-1 rounded-xl border border-[#E5D7DC] bg-[#FAF7F2] p-1 self-start sm:self-auto">
+                        <button
+                          type="button"
+                          onClick={() => handleSetOptionCount(3)}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                            options.length === 3
+                              ? "bg-[#451420] text-white shadow-2xs"
+                              : "text-[#7A5661] hover:text-[#451420]"
+                          }`}
+                          title="3 Pilihan Jawaban (A-C)"
+                        >
+                          A–C (3)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSetOptionCount(4)}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                            options.length === 4
+                              ? "bg-[#451420] text-white shadow-2xs"
+                              : "text-[#7A5661] hover:text-[#451420]"
+                          }`}
+                          title="4 Pilihan Jawaban (A-D)"
+                        >
+                          A–D (4)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSetOptionCount(5)}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                            options.length === 5
+                              ? "bg-[#451420] text-white shadow-2xs"
+                              : "text-[#7A5661] hover:text-[#451420]"
+                          }`}
+                          title="5 Pilihan Jawaban (A-E)"
+                        >
+                          A–E (5)
+                        </button>
+                      </div>
                     </div>
 
                     <div className="space-y-2">
@@ -526,10 +619,32 @@ export function DeckCardEditorModal({
                                 <CheckCircle2 size={14} /> Kunci Jawaban
                               </span>
                             )}
+
+                            {options.length > 3 && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveOption(opt.key)}
+                                className="p-1.5 rounded-lg text-[#A48E95] hover:text-[#B3261E] hover:bg-[#FBEAEB] transition cursor-pointer shrink-0"
+                                title={`Hapus Pilihan ${opt.key}`}
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            )}
                           </div>
                         );
                       })}
                     </div>
+
+                    {options.length < 5 && (
+                      <button
+                        type="button"
+                        onClick={handleAddOption}
+                        className="w-full py-2 px-3 border border-dashed border-[#DFD0D5] hover:border-[#451420] rounded-xl text-xs font-bold text-[#7A5661] hover:text-[#451420] bg-white/70 hover:bg-white flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs"
+                      >
+                        <Plus size={14} />
+                        <span>Tambah Pilihan ({ALL_DECK_OPTION_KEYS[options.length]})</span>
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-2">

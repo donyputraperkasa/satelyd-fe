@@ -63,12 +63,13 @@ export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: E
   const handleAddQuestion = () => {
     if (isLive) return;
     const newNumber = questions.length + 1;
+    const currentOptionCount = Math.max(3, Math.min(5, currentQ?.options?.length || 4));
     const newQ: ExamQuestion = {
       id: `q-${Date.now()}-${newNumber}`,
       number: newNumber,
       questionText: "",
       questionType: "MULTIPLE_CHOICE",
-      options: DEFAULT_OPTIONS_A_TO_E.map((opt) => ({ ...opt })),
+      options: DEFAULT_OPTIONS_A_TO_E.slice(0, currentOptionCount).map((opt) => ({ ...opt })),
       correctAnswer: "A",
       points: 4,
     };

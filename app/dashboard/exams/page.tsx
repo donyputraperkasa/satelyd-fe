@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2 } from "lucide-react";
 import type { Exam } from "@/types";
 import {
   ExamHeaderBanner,
@@ -25,7 +24,6 @@ export default function ExamsPage() {
     exams,
     filtered,
     counts,
-    toast,
     isCreateModalOpen,
     setIsCreateModalOpen,
     searchQuery,
@@ -55,12 +53,6 @@ export default function ExamsPage() {
 
   return (
     <div className="space-y-6">
-      {toast && (
-        <div className="fixed top-20 right-4 z-50 flex items-center gap-2.5 rounded-2xl border border-[#C8E6C9] bg-white/95 px-4 py-3 text-xs sm:text-sm font-bold text-[#1B4D20] shadow-xl backdrop-blur-md">
-          <CheckCircle2 size={18} className="text-[#2E7D32] shrink-0" />
-          <span>{toast}</span>
-        </div>
-      )}
 
       <ExamHeaderBanner
         onCreateNew={() => setIsCreateModalOpen(true)}

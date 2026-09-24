@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Trash2 } from "lucide-react";
 
 interface QuestionOptionItemProps {
   optKey: string;
@@ -8,6 +8,8 @@ interface QuestionOptionItemProps {
   isCorrect: boolean;
   onSelectCorrect: () => void;
   onUpdateText: (val: string) => void;
+  canRemove?: boolean;
+  onRemove?: () => void;
 }
 
 export function QuestionOptionItem({
@@ -16,6 +18,8 @@ export function QuestionOptionItem({
   isCorrect,
   onSelectCorrect,
   onUpdateText,
+  canRemove,
+  onRemove,
 }: QuestionOptionItemProps) {
   return (
     <div
@@ -51,6 +55,17 @@ export function QuestionOptionItem({
           <CheckCircle2 size={14} />
           <span>Kunci Jawaban</span>
         </span>
+      )}
+
+      {canRemove && onRemove && (
+        <button
+          type="button"
+          onClick={onRemove}
+          className="p-1.5 rounded-lg text-[#A48E95] hover:text-[#B3261E] hover:bg-[#FBEAEB] transition cursor-pointer shrink-0"
+          title={`Hapus Pilihan ${optKey}`}
+        >
+          <Trash2 size={15} />
+        </button>
       )}
     </div>
   );

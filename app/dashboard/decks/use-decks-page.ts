@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import type { Deck, DeckCard, CreateDeckPayload } from "@/types";
+import { useToast } from "@/components/ui";
 import {
   fetchDecks,
   createDeck,
@@ -13,11 +14,11 @@ import {
 
 export function useDecksPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [decks, setDecks] = useState<Deck[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [viewMode, setViewMode] = useState<"card" | "table">("card");
-  const [toast, setToast] = useState<string | null>(null);
 
   // Modals state
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -27,10 +28,7 @@ export function useDecksPage() {
   const [sessionDeck, setSessionDeck] = useState<Deck | null>(null);
 
   const notify = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => {
-      setToast(null);
-    }, 4000);
+    toast.info(msg);
   };
 
   const loadData = async () => {
@@ -67,11 +65,11 @@ export function useDecksPage() {
         prev.map((d) => (d.id === updated.id ? updated : d))
       );
       setEditingDeck(null);
-      notify(`Deck "${updated.title}" berhasil diperbarui.`);
+      toast.success(`Deck "${updated.title}" berhasil diperbarui.`);
     } else {
       const created = await createDeck(payload);
       setDecks((prev) => [created, ...prev]);
-      notify(`Deck "${created.title}" berhasil dibuat! Tambahkan kartu soal pertama Anda.`);
+      toast.success(`Deck "${created.title}" berhasil dibuat!`);
       // Auto open card editor for the newly created deck
       setManagingDeck(created);
     }
@@ -85,7 +83,7 @@ export function useDecksPage() {
     if (managingDeck?.id === deckId) {
       setManagingDeck(updated);
     }
-    notify(`Tersimpan ${cards.length} kartu soal untuk deck "${updated.title}".`);
+    toast.success(`Tersimpan ${cards.length} kartu soal untuk deck "${updated.title}".`);
   };
 
   const handleConfirmDelete = async (deckId: string) => {
@@ -93,7 +91,7 @@ export function useDecksPage() {
     await deleteDeck(deckId);
     setDecks((prev) => prev.filter((d) => d.id !== deckId));
     setDeleteCandidate(null);
-    notify(`Deck "${target?.title || deckId}" telah berhasil dihapus.`);
+    toast.delete(`Deck materi "${target?.title || deckId}" berhasil dihapus.`);
   };
 
   const handlePlayOnTv = (deck: Deck) => {
@@ -101,7 +99,7 @@ export function useDecksPage() {
   };
 
   const handleExportToExam = (deck: Deck) => {
-    notify(`Mengimpor butir soal dari "${deck.title}" ke paket Ujian Sekolah...`);
+    toast.info(`Mengimpor butir soal dari "${deck.title}" ke paket Ujian Sekolah...`);
     router.push(`/dashboard/exams?importDeckId=${encodeURIComponent(deck.id)}`);
   };
 

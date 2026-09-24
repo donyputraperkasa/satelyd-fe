@@ -47,8 +47,14 @@ export function NavDropdown({
           <div className="space-y-1">
             {items.map((it) => {
               const Icon = it.icon;
+              const hasAction = Boolean(it.href || it.onClick);
+
               const content = (
-                <div className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[#F5EDF0] transition group text-left cursor-pointer">
+                <div
+                  className={`flex items-start gap-3 p-2.5 rounded-xl hover:bg-[#F5EDF0] transition group text-left ${
+                    hasAction ? "cursor-pointer" : "cursor-default select-none"
+                  }`}
+                >
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FAF0F3] text-[#451420] border border-[#ECD0D8] group-hover:bg-[#451420] group-hover:text-white transition">
                     <Icon size={18} />
                   </div>
@@ -67,24 +73,48 @@ export function NavDropdown({
               );
 
               if (it.href) {
+                const isExternal = it.href.startsWith("http");
+                if (isExternal) {
+                  return (
+                    <a
+                      key={it.title}
+                      href={it.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={onClose}
+                      className="block"
+                    >
+                      {content}
+                    </a>
+                  );
+                }
                 return (
                   <Link key={it.title} href={it.href} onClick={onClose} className="block">
                     {content}
                   </Link>
                 );
               }
+
+              if (it.onClick) {
+                return (
+                  <button
+                    key={it.title}
+                    type="button"
+                    onClick={() => {
+                      it.onClick?.();
+                      onClose();
+                    }}
+                    className="w-full text-left"
+                  >
+                    {content}
+                  </button>
+                );
+              }
+
               return (
-                <button
-                  key={it.title}
-                  type="button"
-                  onClick={() => {
-                    it.onClick?.();
-                    onClose();
-                  }}
-                  className="w-full"
-                >
+                <div key={it.title} className="w-full">
                   {content}
-                </button>
+                </div>
               );
             })}
           </div>

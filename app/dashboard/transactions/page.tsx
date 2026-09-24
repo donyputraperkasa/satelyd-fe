@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Receipt } from "lucide-react";
+import { CheckCircle2, Receipt, Trash2 } from "lucide-react";
 import {
   ProofModal,
   TransactionStats,
@@ -9,16 +9,55 @@ import {
 } from "@/components/transactions";
 import type { TransactionOrder } from "@/types";
 
+const DUMMY_ORDER_IDS = new Set([
+  "TRX-8821",
+  "TRX-8822",
+  "TRX-8819",
+  "TRX-8815",
+  "ORD-100",
+  "ORD-101",
+  "ORD-102",
+]);
+
+function isDummyOrder(o: TransactionOrder): boolean {
+  if (DUMMY_ORDER_IDS.has(o.id)) return true;
+  const name = o.userName?.toLowerCase() || "";
+  const email = o.userEmail?.toLowerCase() || "";
+  if (
+    name.includes("bambang wijaya") ||
+    name.includes("nurul hidayat") ||
+    name.includes("ahmad fauzi") ||
+    name.includes("dewi lestari")
+  ) {
+    return true;
+  }
+  if (
+    email.includes("smpn1jogja") ||
+    email.includes("sman3semarang") ||
+    email.includes("bopkri") ||
+    email.includes("smpitinsan")
+  ) {
+    return true;
+  }
+  return false;
+}
+
 export default function TransactionsPage() {
   const [orders, setOrders] = useState<TransactionOrder[]>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("satelyd.token_transactions");
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch {
-          // fallback
+      try {
+        localStorage.removeItem("satelyd.token_orders");
+        const saved = localStorage.getItem("satelyd.token_transactions");
+        if (saved) {
+          const parsed: TransactionOrder[] = JSON.parse(saved);
+          const clean = parsed.filter((o) => !isDummyOrder(o));
+          if (clean.length !== parsed.length) {
+            localStorage.setItem("satelyd.token_transactions", JSON.stringify(clean));
+          }
+          return clean;
         }
+      } catch {
+        // fallback
       }
     }
     return [];
@@ -26,6 +65,18 @@ export default function TransactionsPage() {
 
   const [selectedProofOrder, setSelectedProofOrder] = useState<TransactionOrder | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const handleClearAll = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("satelyd.token_transactions");
+      localStorage.removeItem("satelyd.token_orders");
+      localStorage.removeItem("satelyd.credited_order_ids");
+      window.dispatchEvent(new Event("storage"));
+    }
+    setOrders([]);
+    setToastMessage("Semua data transaksi berhasil dikosongkan.");
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   const handleAdmit = (orderId: string) => {
     setOrders((prev) => {
@@ -79,6 +130,18 @@ export default function TransactionsPage() {
             Pantau arus kas masuk, cek bukti transfer, dan admit pembelian token guru secara instan.
           </p>
         </div>
+
+        {orders.length > 0 && (
+          <button
+            type="button"
+            onClick={handleClearAll}
+            className="self-start sm:self-auto flex items-center gap-1.5 rounded-xl border border-[#DFD0D5] bg-white hover:bg-[#FAF0F3] px-3.5 py-2 text-xs font-bold text-[#A43E50] hover:border-[#EAA8B5] transition shadow-2xs cursor-pointer"
+            title="Kosongkan seluruh data transaksi di browser"
+          >
+            <Trash2 size={14} />
+            <span>Kosongkan Riwayat</span>
+          </button>
+        )}
       </div>
 
       {/* Toast Feedback */}

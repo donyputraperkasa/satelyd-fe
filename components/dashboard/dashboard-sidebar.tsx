@@ -81,7 +81,7 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-bold text-[#451420] capitalize">{user.name}</p>
               <div className="flex items-center gap-1 mt-0.5">
-                {isAdmin && <Sparkles size={10} className="text-[#C67D00]" />}
+                {isAdmin}
                 <span className="text-[10px] font-semibold text-[#7A5661]">
                   {isAdmin ? "CEO" : "Pengguna"}
                 </span>

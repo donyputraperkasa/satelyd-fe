@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Layers, Plus } from "lucide-react";
+import { Layers, Plus } from "lucide-react";
 import {
   DeckHeaderBanner,
   DeckQuickActions,
@@ -25,7 +25,6 @@ export default function DecksPage() {
     setSearchQuery,
     viewMode,
     setViewMode,
-    toast,
     isCreateModalOpen,
     setIsCreateModalOpen,
     editingDeck,
@@ -45,13 +44,6 @@ export default function DecksPage() {
 
   return (
     <div className="space-y-6">
-      {/* Floating Toast Feedback */}
-      {toast && (
-        <div className="fixed top-20 right-4 z-50 flex items-center gap-2.5 rounded-2xl border border-[#C8E6C9] bg-white/95 px-4 py-3 text-xs sm:text-sm font-bold text-[#1B4D20] shadow-xl backdrop-blur-md animate-in slide-in-from-top-2 duration-200">
-          <CheckCircle2 size={18} className="text-[#2E7D32] shrink-0" />
-          <span>{toast}</span>
-        </div>
-      )}
 
       {/* Header Banner */}
       <DeckHeaderBanner

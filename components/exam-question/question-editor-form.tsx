@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2, Award } from "lucide-react";
+import { Trash2, Award, Plus } from "lucide-react";
 import type { ExamQuestion } from "@/types";
 import { QuestionOptionItem } from "./question-option-item";
 import { QuestionImageAttachment } from "./question-image-attachment";
@@ -15,7 +15,8 @@ interface QuestionEditorFormProps {
   isReadOnly?: boolean;
 }
 
-export const DEFAULT_OPTIONS_A_TO_E = ["A", "B", "C", "D", "E"].map((key) => ({ key, text: "" }));
+export const ALL_OPTION_KEYS = ["A", "B", "C", "D", "E"] as const;
+export const DEFAULT_OPTIONS_A_TO_E = ALL_OPTION_KEYS.map((key) => ({ key, text: "" }));
 
 export function QuestionEditorForm({
   currentQ,
@@ -25,9 +26,50 @@ export function QuestionEditorForm({
   onRemoveQuestion,
   isReadOnly = false,
 }: QuestionEditorFormProps) {
-  const options = currentQ.options && currentQ.options.length >= 5
-    ? currentQ.options
-    : DEFAULT_OPTIONS_A_TO_E.map((def) => currentQ.options?.find((o) => o.key === def.key) || def);
+  const options =
+    currentQ.options && currentQ.options.length >= 3
+      ? currentQ.options
+      : DEFAULT_OPTIONS_A_TO_E.slice(0, 4).map(
+          (def) => currentQ.options?.find((o) => o.key === def.key) || def
+        );
+
+  const handleSetOptionCount = (count: number) => {
+    if (isReadOnly || count < 3 || count > 5) return;
+    let newOptions = [...options];
+    if (newOptions.length > count) {
+      newOptions = newOptions.slice(0, count);
+    } else if (newOptions.length < count) {
+      for (let i = newOptions.length; i < count; i++) {
+        newOptions.push({ key: ALL_OPTION_KEYS[i], text: "" });
+      }
+    }
+    const hasCurrentCorrect = newOptions.some((o) => o.key === currentQ.correctAnswer);
+    onUpdateQuestion({
+      options: newOptions,
+      correctAnswer: hasCurrentCorrect ? currentQ.correctAnswer : newOptions[0].key,
+    });
+  };
+
+  const handleAddOption = () => {
+    if (isReadOnly || options.length >= 5) return;
+    const nextKey = ALL_OPTION_KEYS[options.length];
+    const newOptions = [...options, { key: nextKey, text: "" }];
+    onUpdateQuestion({ options: newOptions });
+  };
+
+  const handleRemoveOption = (optKey: string) => {
+    if (isReadOnly || options.length <= 3) return;
+    const filtered = options.filter((o) => o.key !== optKey);
+    const reKeyed = filtered.map((o, idx) => ({
+      key: ALL_OPTION_KEYS[idx],
+      text: o.text,
+    }));
+    const hasCurrentCorrect = reKeyed.some((o) => o.key === currentQ.correctAnswer);
+    onUpdateQuestion({
+      options: reKeyed,
+      correctAnswer: hasCurrentCorrect ? currentQ.correctAnswer : reKeyed[0].key,
+    });
+  };
 
   return (
     <div className="max-w-3xl mx-auto space-y-4">
@@ -79,7 +121,7 @@ export function QuestionEditorForm({
               currentQ.questionType === "MULTIPLE_CHOICE" ? "bg-[#451420] text-white shadow-2xs" : "text-[#7A5661]"
             }`}
           >
-            Pilihan Ganda (A-E)
+            Pilihan Ganda
           </button>
           <button
             type="button"
@@ -109,24 +151,85 @@ export function QuestionEditorForm({
       <QuestionImageAttachment imageUrl={currentQ.imageUrl} onUpdateImage={(url) => onUpdateQuestion({ imageUrl: url })} disabled={isReadOnly} />
 
       {currentQ.questionType === "MULTIPLE_CHOICE" ? (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661]">Pilihan Jawaban (A-E) - Isi yang diperlukan</label>
-            <span className="text-[11px] font-bold text-[#2E7D32] bg-[#EDF7ED] border border-[#C8E6C9] px-2 py-0.5 rounded-md">
-              Kunci: {currentQ.correctAnswer || "Belum dipilih"}
-            </span>
+        <div className="space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661]">
+                Pilihan Jawaban (A–{options[options.length - 1]?.key || "D"})
+              </label>
+              <span className="text-[11px] font-bold text-[#2E7D32] bg-[#EDF7ED] border border-[#C8E6C9] px-2 py-0.5 rounded-md">
+                Kunci: {currentQ.correctAnswer || "Belum dipilih"}
+              </span>
+            </div>
+
+            {/* Segmented Selector Opsi: ABC, ABCD, ABCDE */}
+            {!isReadOnly && (
+              <div className="inline-flex items-center gap-1 rounded-xl border border-[#E5D7DC] bg-[#FAF7F2] p-1 self-start sm:self-auto">
+                <button
+                  type="button"
+                  onClick={() => handleSetOptionCount(3)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    options.length === 3
+                      ? "bg-[#451420] text-white shadow-2xs"
+                      : "text-[#7A5661] hover:text-[#451420]"
+                  }`}
+                  title="3 Pilihan Jawaban (A-C)"
+                >
+                  A–C (3)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSetOptionCount(4)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    options.length === 4
+                      ? "bg-[#451420] text-white shadow-2xs"
+                      : "text-[#7A5661] hover:text-[#451420]"
+                  }`}
+                  title="4 Pilihan Jawaban (A-D)"
+                >
+                  A–D (4)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSetOptionCount(5)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    options.length === 5
+                      ? "bg-[#451420] text-white shadow-2xs"
+                      : "text-[#7A5661] hover:text-[#451420]"
+                  }`}
+                  title="5 Pilihan Jawaban (A-E)"
+                >
+                  A–E (5)
+                </button>
+              </div>
+            )}
           </div>
 
-          {options.map((opt) => (
-            <QuestionOptionItem
-              key={opt.key}
-              optKey={opt.key}
-              optText={opt.text}
-              isCorrect={currentQ.correctAnswer === opt.key}
-              onSelectCorrect={() => !isReadOnly && onUpdateQuestion({ correctAnswer: opt.key })}
-              onUpdateText={(val) => !isReadOnly && onUpdateOption(opt.key, val)}
-            />
-          ))}
+          <div className="space-y-2">
+            {options.map((opt) => (
+              <QuestionOptionItem
+                key={opt.key}
+                optKey={opt.key}
+                optText={opt.text}
+                isCorrect={currentQ.correctAnswer === opt.key}
+                onSelectCorrect={() => !isReadOnly && onUpdateQuestion({ correctAnswer: opt.key })}
+                onUpdateText={(val) => !isReadOnly && onUpdateOption(opt.key, val)}
+                canRemove={!isReadOnly && options.length > 3}
+                onRemove={() => handleRemoveOption(opt.key)}
+              />
+            ))}
+          </div>
+
+          {!isReadOnly && options.length < 5 && (
+            <button
+              type="button"
+              onClick={handleAddOption}
+              className="w-full py-2 px-3 border border-dashed border-[#DFD0D5] hover:border-[#451420] rounded-xl text-xs font-bold text-[#7A5661] hover:text-[#451420] bg-white/70 hover:bg-white flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs"
+            >
+              <Plus size={14} />
+              <span>Tambah Pilihan ({ALL_OPTION_KEYS[options.length]})</span>
+            </button>
+          )}
         </div>
       ) : (
         <div className="p-4 rounded-xl border border-dashed border-[#DFD0D5] bg-[#FAF7F2] text-xs text-[#7A5661]">

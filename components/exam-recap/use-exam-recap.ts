@@ -108,28 +108,7 @@ export function useExamRecap(isOpen: boolean, exam: Exam | null) {
         .map((s, idx) => ({ ...s, rank: idx + 1 }));
     }
 
-    const mockRatios = [
-      { name: "Ahmad Fauzi", ratio: 0.95, time: "42 Menit" },
-      { name: "Siti Rahmawati", ratio: 0.88, time: "48 Menit" },
-      { name: "Budi Santoso", ratio: 0.84, time: "50 Menit" },
-      { name: "Dewi Lestari", ratio: 0.76, time: "55 Menit" },
-      { name: "Rian Hidayat", ratio: 0.64, time: "58 Menit" },
-    ];
-
-    return mockRatios.map((m, idx) => {
-      const correct = Math.min(qCount, Math.max(1, Math.round(m.ratio * qCount)));
-      const score = Math.round((correct / qCount) * 100);
-      return {
-        id: `mock-${idx}`,
-        name: m.name,
-        score,
-        correct,
-        wrong: Math.max(0, qCount - correct),
-        passed: score >= passingScore,
-        time: m.time,
-        rank: idx + 1,
-      };
-    });
+    return [];
   })();
 
   const totalScores = studentList.reduce((acc, cur) => acc + cur.score, 0);

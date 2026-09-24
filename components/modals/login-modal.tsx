@@ -39,9 +39,6 @@ export function LoginModal({
     <BaseModal isOpen={isOpen} onClose={onClose}>
       <div className="mb-6 text-center">
         <h2 className="font-display text-2xl font-bold text-[#451420]">Masuk ke Akun</h2>
-        <p className="mt-1 text-xs sm:text-sm text-[#7A5661]">
-          Kelola kuis kelas, deck kartu, dan pantau ujian siswa
-        </p>
       </div>
 
       {errorMsg && (
@@ -63,7 +60,7 @@ export function LoginModal({
               autoComplete="off"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              placeholder="nama@email.com atau nama akun"
+              placeholder="masukan username"
               className="w-full rounded-xl border border-[#DFD0D5] bg-white py-2.5 pl-10 pr-4 text-sm text-[#451420] placeholder-[#A48E95] transition focus:border-[#451420] focus:outline-none focus:ring-1 focus:ring-[#451420]"
             />
           </div>
@@ -79,7 +76,7 @@ export function LoginModal({
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="masukkan kata sandi"
               className="w-full rounded-xl border border-[#DFD0D5] bg-white py-2.5 pl-10 pr-10 text-sm text-[#451420] placeholder-[#A48E95] transition focus:border-[#451420] focus:outline-none focus:ring-1 focus:ring-[#451420]"
             />
             <button
