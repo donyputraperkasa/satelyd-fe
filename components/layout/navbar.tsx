@@ -29,9 +29,32 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium text-[#6B4651]">
-          <NavDropdown label="Game Edukasi" isOpen={activeDropdown === "game"} onToggle={() => toggleDropdown("game")} onClose={() => setActiveDropdown(null)} items={GAME_DROPDOWN_ITEMS} footerAction={{ label: "Punya PIN Game? Masuk Cepat", onClick: openPin }} />
-          <NavDropdown label="Mode Ujian" isOpen={activeDropdown === "exam"} onToggle={() => toggleDropdown("exam")} onClose={() => setActiveDropdown(null)} items={EXAM_DROPDOWN_ITEMS} footerAction={{ label: "Punya PIN Ujian Siswa? Masuk Cepat", onClick: openPin }} />
-          <NavDropdown label="Less Matematika" isOpen={activeDropdown === "math"} onToggle={() => toggleDropdown("math")} onClose={() => setActiveDropdown(null)} items={MATH_DROPDOWN_ITEMS} />
+          <NavDropdown 
+            label="Game Edukasi" 
+            isOpen={activeDropdown === "game"} 
+            onToggle={() => toggleDropdown("game")} 
+            onClose={() => setActiveDropdown(null)} 
+            items={GAME_DROPDOWN_ITEMS} 
+            footerAction={{ label: "Punya PIN Game? Masuk Cepat", onClick: openPin }} 
+          />
+
+          <NavDropdown 
+            label="Mode Ujian" 
+            isOpen={activeDropdown === "exam"} 
+            onToggle={() => toggleDropdown("exam")} 
+            onClose={() => setActiveDropdown(null)} 
+            items={EXAM_DROPDOWN_ITEMS} 
+            footerAction={{ label: "Punya PIN Ujian Siswa? Masuk Cepat", onClick: openPin }} 
+          />
+
+          <NavDropdown 
+            label="Jasa" 
+            isOpen={activeDropdown === "math"} 
+            onToggle={() => toggleDropdown("math")} 
+            onClose={() => setActiveDropdown(null)} 
+            items={MATH_DROPDOWN_ITEMS} 
+          />
+        
           <button type="button" onClick={() => setIsGuideOpen(true)} className="hover:text-[#451420] transition cursor-pointer font-medium">
             Panduan
           </button>
@@ -55,14 +78,25 @@ export function Navbar() {
 
           {user ? (
             <div className="flex items-center gap-2">
-              <Link href="/dashboard" className="px-3.5 py-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] text-xs font-bold shadow-xs transition hover:-translate-y-0.5">
+              <Link 
+                href="/dashboard" 
+                className="px-3.5 py-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] text-xs font-bold shadow-xs transition hover:-translate-y-0.5">
                 Dashboard
               </Link>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5EDF0] border border-[#E2D5D9] text-xs font-semibold text-[#451420]">
+              
+              <span 
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5EDF0] border border-[#E2D5D9] text-xs font-semibold text-[#451420]">
                 <UserIcon size={13} />
                 {user.name.split(" ")[0]}
               </span>
-              <button type="button" onClick={logout} className="p-1.5 rounded-full text-[#7A5661] hover:text-[#451420] hover:bg-[#F5EDF0] transition cursor-pointer" title="Keluar">
+
+              <button 
+                type="button" 
+                onClick={logout} 
+                className="p-1.5 rounded-full text-[#7A5661] hover:text-[#451420] hover:bg-[#F5EDF0] transition cursor-pointer" 
+                title="Keluar"
+              >
+                
                 <LogOut size={15} />
               </button>
             </div>
@@ -79,7 +113,11 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center md:hidden">
-          <button type="button" onClick={() => setIsMobileMenuOpen((prev) => !prev)} className="p-2 rounded-lg text-[#451420] hover:bg-[#F5EDF0] transition" aria-label="Menu">
+          <button 
+            type="button" 
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)} 
+            className="p-2 rounded-lg text-[#451420] hover:bg-[#F5EDF0] transition" 
+            aria-label="Menu">
             {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>

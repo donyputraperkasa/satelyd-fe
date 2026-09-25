@@ -5,8 +5,13 @@ import {
   ShieldCheck,
   Activity,
   FileSpreadsheet,
-  MessageCircle,
+  BookOpen,
+  Code2,
 } from "lucide-react";
+import {
+  webDevWhatsappUrl,
+  mathTutoringWhatsappUrl,
+} from "@/lib/constants/contact";
 import type { NavDropdownItem } from "@/types";
 
 export const GAME_DROPDOWN_ITEMS: NavDropdownItem[] = [
@@ -49,10 +54,20 @@ export const EXAM_DROPDOWN_ITEMS: NavDropdownItem[] = [
 
 export const MATH_DROPDOWN_ITEMS: NavDropdownItem[] = [
   {
-    title: "Less Matematika",
-    desc: "Tanya jawab materi atau jadwal bimbingan via WhatsApp.",
-    icon: MessageCircle,
-    href: "https://wa.me/6282236343404?text=Halo%20Satelyd%2C%20saya%20ingin%20tanya%20program%20bimbel%20matematika",
-    badge: "Chat",
+    title: "Jasa Les Matematika",
+    desc: "Bimbingan belajar matematika intensif untuk jenjang SD, SMP, hingga SMA.",
+    icon: BookOpen,
+    href: mathTutoringWhatsappUrl,
+    badge: "Bimbel",
+  },
+  {
+    title: "Jasa Buat Website & App",
+    desc: "Pembuatan website profesional, landing page sekolah, dan aplikasi custom.",
+    icon: Code2,
+    href: webDevWhatsappUrl,
+    badge: "Order",
   },
 ];
+
+/** Alias semantik untuk menu dropdown 'Jasa' di navbar */
+export const SERVICES_DROPDOWN_ITEMS = MATH_DROPDOWN_ITEMS;

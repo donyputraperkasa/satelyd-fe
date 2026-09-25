@@ -21,7 +21,7 @@ export function MobileNav({
       <div className="fixed inset-0 top-[72px] z-30 bg-[#451420]/25 backdrop-blur-xs md:hidden" onClick={onClose} aria-hidden="true" />
       <div className="fixed top-[72px] left-0 right-0 z-40 bg-[#FDFBF7] border-b border-[#E5D7DC] p-6 shadow-xl md:hidden transition-all animate-in slide-in-from-top-2 duration-200">
         <nav className="flex flex-col space-y-2 text-sm font-semibold text-[#6B4651]">
-          {["Game Edukasi", "Mode Ujian", "Less Matematika", "Panduan"].map((item) => (
+          {["Game Edukasi", "Mode Ujian", "Jasa", "Panduan"].map((item) => (
             <button key={item} type="button" onClick={onClose} className="flex items-center justify-between py-2 text-left hover:text-[#451420] transition">
               <span>{item}</span>
               <ChevronRight size={16} className="text-[#A48E95]" />
