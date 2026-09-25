@@ -78,7 +78,7 @@ export function QuestionNavSidebar({
             className="w-full h-10 inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#451420] hover:bg-[#F5EDF0] transition cursor-pointer shadow-2xs"
           >
             <Plus size={14} />
-            <span>+ Tambah Nomor Soal</span>
+            <span>Tambah Nomor Soal</span>
           </button>
         </div>
       )}

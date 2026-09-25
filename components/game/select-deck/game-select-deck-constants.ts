@@ -11,13 +11,13 @@ export const GAME_METADATA: Record<
     icon: Gamepad2,
     badge: "Mode Flip Card",
   },
-  WHEELS: {
+  SPIN_WHEEL: {
     title: "Roda Acak (Spin Wheel)",
     subtitle: "Pilih draft soal materi untuk diundi di roda putar Smart TV",
     icon: Disc,
     badge: "Mode Wheels",
   },
-  BATTLE_2P: {
+  MATH_BATTLE_2P: {
     title: "Duel 2 Tim (Battle Arena)",
     subtitle: "Pilih draft soal materi untuk adu cepat 2 kubu di Smart TV",
     icon: Swords,

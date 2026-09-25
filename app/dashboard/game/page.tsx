@@ -65,12 +65,12 @@ function GamePageContent() {
   }
 
   if (session) {
-    if (session.gameType === "BATTLE_2P") {
+    if (session.gameType === "MATH_BATTLE_2P" || (session.gameType as string) === "BATTLE_2P") {
       return (
         <BattleArena session={session} onEndSession={handleEndSession} />
       );
     }
-    if (session.gameType === "WHEELS") {
+    if (session.gameType === "SPIN_WHEEL" || (session.gameType as string) === "WHEELS") {
       return (
         <WheelsArena session={session} onEndSession={handleEndSession} />
       );

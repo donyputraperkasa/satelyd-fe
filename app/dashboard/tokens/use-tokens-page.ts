@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   getUserTokenBalances,
+  fetchUserTokenBalancesFromApi,
   getDailyGameSessionUsage,
   getUserTokenOrders,
+  fetchUserTokenOrdersFromApi,
   TOKEN_PACKAGES,
   type TokenPackage,
 } from "@/services/token.service";
@@ -23,18 +25,29 @@ export function useTokensPage() {
   const [dailyUsage, setDailyUsage] = useState(() => getDailyGameSessionUsage());
   const [userOrders, setUserOrders] = useState<TransactionOrder[]>(() => getUserTokenOrders());
 
-  const refreshData = () => {
+  const refreshData = useCallback(async () => {
     setBalances(getUserTokenBalances());
     setDailyUsage(getDailyGameSessionUsage());
     setUserOrders(getUserTokenOrders());
-  };
+
+    try {
+      const [freshBalances, freshOrders] = await Promise.all([
+        fetchUserTokenBalancesFromApi(),
+        fetchUserTokenOrdersFromApi(),
+      ]);
+      setBalances(freshBalances);
+      setUserOrders(freshOrders);
+    } catch {
+      // Fallback already rendered
+    }
+  }, []);
 
   useEffect(() => {
     refreshData();
     const handleStorageChange = () => refreshData();
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  }, [refreshData]);
 
   const filteredPackages = TOKEN_PACKAGES.filter((p) => {
     if (filterType !== "ALL" && p.itemType !== filterType) {

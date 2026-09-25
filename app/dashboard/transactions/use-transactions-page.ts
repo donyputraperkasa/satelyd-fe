@@ -1,65 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { TransactionOrder } from "@/types";
 import { useToast } from "@/components/ui";
-
-const DUMMY_ORDER_IDS = new Set([
-  "TRX-8821",
-  "TRX-8822",
-  "TRX-8819",
-  "TRX-8815",
-  "ORD-100",
-  "ORD-101",
-  "ORD-102",
-]);
-
-function isDummyOrder(o: TransactionOrder): boolean {
-  if (DUMMY_ORDER_IDS.has(o.id)) return true;
-  const name = o.userName?.toLowerCase() || "";
-  const email = o.userEmail?.toLowerCase() || "";
-  if (
-    name.includes("bambang wijaya") ||
-    name.includes("nurul hidayat") ||
-    name.includes("ahmad fauzi") ||
-    name.includes("dewi lestari")
-  ) {
-    return true;
-  }
-  if (
-    email.includes("smpn1jogja") ||
-    email.includes("sman3semarang") ||
-    email.includes("bopkri") ||
-    email.includes("smpitinsan")
-  ) {
-    return true;
-  }
-  return false;
-}
+import {
+  fetchAdminOrdersFromApi,
+  approveOrderApi,
+  rejectOrderApi,
+} from "@/services/token.service";
 
 export function useTransactionsPage() {
   const { toast } = useToast();
-  const [orders, setOrders] = useState<TransactionOrder[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.removeItem("satelyd.token_orders");
-        const saved = localStorage.getItem("satelyd.token_transactions");
-        if (saved) {
-          const parsed: TransactionOrder[] = JSON.parse(saved);
-          const clean = parsed.filter((o) => !isDummyOrder(o));
-          if (clean.length !== parsed.length) {
-            localStorage.setItem("satelyd.token_transactions", JSON.stringify(clean));
-          }
-          return clean;
-        }
-      } catch {
-        // fallback
-      }
-    }
-    return [];
-  });
-
+  const [orders, setOrders] = useState<TransactionOrder[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedProofOrder, setSelectedProofOrder] = useState<TransactionOrder | null>(null);
+
+  const loadOrders = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const data = await fetchAdminOrdersFromApi();
+      setOrders(data);
+    } catch {
+      toast.error("Gagal memuat daftar transaksi");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
 
   const handleClearAll = () => {
     if (typeof window !== "undefined") {
@@ -69,42 +39,40 @@ export function useTransactionsPage() {
       window.dispatchEvent(new Event("storage"));
     }
     setOrders([]);
-    toast.delete("Semua data riwayat transaksi berhasil dikosongkan.");
+    toast.delete("Data riwayat lokal berhasil dibersihkan.");
   };
 
-  const handleAdmit = (orderId: string) => {
-    setOrders((prev) => {
-      const updated = prev.map((ord) =>
-        ord.id === orderId ? { ...ord, status: "APPROVED" as const } : ord
+  const handleAdmit = async (orderId: string) => {
+    try {
+      await approveOrderApi(orderId);
+      setOrders((prev) =>
+        prev.map((ord) =>
+          ord.id === orderId ? { ...ord, status: "PAID" as const } : ord
+        )
       );
-      if (typeof window !== "undefined") {
-        localStorage.setItem("satelyd.token_transactions", JSON.stringify(updated));
-        window.dispatchEvent(new Event("storage"));
-      }
-      return updated;
-    });
-
-    const ord = orders.find((o) => o.id === orderId);
-    toast.success(`Transaksi ${orderId} (${ord?.userName || "User"}) berhasil di-admit!`);
+      toast.success(`Transaksi ${orderId} berhasil di-admit & saldo akun telah bertambah!`);
+    } catch (err: any) {
+      toast.error(err.message || "Gagal menyetujui transaksi");
+    }
   };
 
-  const handleReject = (orderId: string) => {
-    setOrders((prev) => {
-      const updated = prev.map((ord) =>
-        ord.id === orderId ? { ...ord, status: "REJECTED" as const } : ord
+  const handleReject = async (orderId: string) => {
+    try {
+      await rejectOrderApi(orderId);
+      setOrders((prev) =>
+        prev.map((ord) =>
+          ord.id === orderId ? { ...ord, status: "REJECTED" as const } : ord
+        )
       );
-      if (typeof window !== "undefined") {
-        localStorage.setItem("satelyd.token_transactions", JSON.stringify(updated));
-        window.dispatchEvent(new Event("storage"));
-      }
-      return updated;
-    });
-
-    toast.info(`Transaksi ${orderId} telah ditandai ditolak.`);
+      toast.info(`Transaksi ${orderId} telah ditolak.`);
+    } catch (err: any) {
+      toast.error(err.message || "Gagal menolak transaksi");
+    }
   };
 
   return {
     orders,
+    isLoading,
     selectedProofOrder,
     setSelectedProofOrder,
     handleClearAll,

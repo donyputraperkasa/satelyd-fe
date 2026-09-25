@@ -8,6 +8,8 @@ import {
   getActiveExamSession,
   saveActiveExamSession,
   submitStudentExam,
+  recordStudentAnswer,
+  recordAntiCheatEvent,
   type JoinStudentExamPayload,
 } from "@/services/student-exam.service";
 
@@ -162,6 +164,9 @@ export function useStudentExam(token: string) {
       saveActiveExamSession(token, updated);
       return updated;
     });
+    if (session?.participant?.participantToken && currentQuestion?.id) {
+      recordStudentAnswer(session.participant.participantToken, currentQuestion.id);
+    }
   };
 
   const handleToggleDoubtful = () => {

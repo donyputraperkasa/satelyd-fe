@@ -33,11 +33,13 @@ export function GameHeader({
   };
 
   const getGameLabel = () => {
-    switch (session.gameType) {
+    switch (session.gameType as string) {
       case "FLIP_CARD":
         return "🃏 Flip Card Game";
+      case "SPIN_WHEEL":
       case "WHEELS":
         return "🎡 Wheels Question";
+      case "MATH_BATTLE_2P":
       case "BATTLE_2P":
         return "⚔️ Duel 2 Player";
       default:

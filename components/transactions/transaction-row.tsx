@@ -17,7 +17,7 @@ export function TransactionRow({
   onReject,
 }: TransactionRowProps) {
   const isPending = order.status === "PENDING";
-  const isApproved = order.status === "APPROVED";
+  const isApproved = order.status === "APPROVED" || order.status === "PAID";
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 rounded-xl bg-white p-4 sm:p-5 border border-[#E5D7DC] shadow-2xs hover:border-[#DFD0D5] transition">

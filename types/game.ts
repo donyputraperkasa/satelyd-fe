@@ -1,7 +1,8 @@
 import type { ComponentType } from "react";
 import type { Deck, DeckCard } from "./deck";
 
-export type GameType = "FLIP_CARD" | "WHEELS" | "BATTLE_2P";
+export type GameType = "FLIP_CARD" | "SPIN_WHEEL" | "MATH_BATTLE_2P";
+export type AnyGameType = GameType | "WHEELS" | "BATTLE_2P";
 
 export interface GameTeam {
   id: string;

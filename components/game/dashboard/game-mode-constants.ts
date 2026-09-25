@@ -9,20 +9,20 @@ export const GAME_CARDS: GameCardConfig[] = [
     title: "Flip Card Interaktif",
     icon: Gamepad2,
     iconBg: "bg-[#FAF0F3] text-[#7A283C] border-[#ECD0D8]",
-    image: "", // Path gambar kustom, misal: "/images/games/flip-card.png"
+    image: "",
   },
   {
-    type: "WHEELS",
+    type: "SPIN_WHEEL",
     title: "Roda Acak (Spin Wheel)",
     icon: Disc,
     iconBg: "bg-[#FFF8E6] text-[#9A6200] border-[#F2DEB0]",
-    image: "", // Path gambar kustom, misal: "/images/games/wheels.png"
+    image: "",
   },
   {
-    type: "BATTLE_2P",
+    type: "MATH_BATTLE_2P",
     title: "Duel 2 Tim (Battle Arena)",
     icon: Swords,
     iconBg: "bg-[#F3E8FF] text-[#6B21A8] border-[#E9D5FF]",
-    image: "", // Path gambar kustom, misal: "/images/games/battle.png"
+    image: "",
   },
 ];

@@ -26,7 +26,7 @@ interface GuideModalProps {
   isOpen: boolean;
   onClose: () => void;
   type: "DECKS" | "EXAMS" | "GAMES" | "TOKENS";
-  gameType?: "FLIP_CARD" | "WHEELS" | "BATTLE_2P" | null;
+  gameType?: "FLIP_CARD" | "SPIN_WHEEL" | "MATH_BATTLE_2P" | "WHEELS" | "BATTLE_2P" | null;
 }
 
 export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps) {
@@ -54,12 +54,14 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
           subtitle:
             "Panduan cara bermain kuis kartu nomor 3D, giliran murid/regu, timer, dan pemberian poin di Smart TV.",
         };
+      case "SPIN_WHEEL":
       case "WHEELS":
         return {
           title: "Petunjuk: Roda Acak (Spin Wheel)",
           subtitle:
             "Panduan cara mengoperasikan undian roda keberuntungan interaktif untuk giliran soal atau murid di Smart TV.",
         };
+      case "MATH_BATTLE_2P":
       case "BATTLE_2P":
         return {
           title: "Petunjuk: Duel 2 Tim (Battle Arena)",
@@ -227,7 +229,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
                   tip="Skor tersimpan otomatis dan nama tim otomatis mengikuti warna yang dipilih."
                 />
               </>
-            ) : gameType === "WHEELS" ? (
+            ) : (gameType === "SPIN_WHEEL" || gameType === "WHEELS") ? (
               <>
                 <GuideStepCard
                   stepNumber={1}
@@ -268,7 +270,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
                   tip="Dapat dikombinasikan dengan sistem poin regu di papan skor."
                 />
               </>
-            ) : gameType === "BATTLE_2P" ? (
+            ) : (gameType === "MATH_BATTLE_2P" || gameType === "BATTLE_2P") ? (
               <>
                 <GuideStepCard
                   stepNumber={1}

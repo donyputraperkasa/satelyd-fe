@@ -1,11 +1,13 @@
 "use client";
 
-export type GameType = "FLIP_CARD" | "WHEELS" | "BATTLE_2P";
+import type { GameType } from "@/types";
+
+export type { GameType };
 
 const GAME_OPTIONS: { id: GameType; label: string }[] = [
   { id: "FLIP_CARD", label: "Flip Card Game" },
-  { id: "WHEELS", label: "Wheels Question" },
-  { id: "BATTLE_2P", label: "Duel 2 Player" },
+  { id: "SPIN_WHEEL", label: "Roda Acak (Wheel)" },
+  { id: "MATH_BATTLE_2P", label: "Duel 2 Player" },
 ];
 
 interface DeckLaunchModeSelectorProps {

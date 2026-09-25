@@ -1,16 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Exam, StudentExamSession } from "@/types";
 import type { LiveStudent } from "../exam-monitor/monitor-table";
+import { fetchLiveParticipants, unblockParticipantApi } from "@/services";
 
 export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
   const [copied, setCopied] = useState(false);
   const [filterTab, setFilterTab] = useState<"ALL" | "WORKING" | "BLOCKED" | "DONE">("ALL");
   const [students, setStudents] = useState<LiveStudent[]>([]);
 
-  useEffect(() => {
+  const loadParticipants = useCallback(async () => {
     if (!isOpen || !exam) return;
+
+    try {
+      const live = await fetchLiveParticipants(exam.id);
+      if (live && live.length > 0) {
+        setStudents(live);
+        return;
+      }
+    } catch {}
 
     const baseList: LiveStudent[] = [
       {
@@ -78,6 +87,13 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
     setStudents(baseList);
   }, [isOpen, exam]);
 
+  useEffect(() => {
+    loadParticipants();
+    if (!isOpen || !exam) return;
+    const interval = setInterval(loadParticipants, 3000);
+    return () => clearInterval(interval);
+  }, [isOpen, exam, loadParticipants]);
+
   const handleCopyLink = () => {
     if (typeof window !== "undefined" && exam) {
       navigator.clipboard.writeText(`${window.location.origin}/exam/${exam.tokenCode}`);
@@ -86,7 +102,13 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
     }
   };
 
-  const handleUnblock = (studentId: string) => {
+  const handleUnblock = async (studentId: string) => {
+    if (exam?.id) {
+      try {
+        await unblockParticipantApi(exam.id, studentId);
+      } catch {}
+    }
+
     setStudents((prev) =>
       prev.map((s) => (s.id === studentId ? { ...s, isBlocked: false, violations: 0 } : s))
     );

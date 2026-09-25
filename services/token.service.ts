@@ -1,4 +1,5 @@
 import { getStoredUser, USER_KEY } from "@/lib/auth/storage";
+import { apiClient } from "@/lib/api/client";
 import type { User, TransactionOrder, TokenPackage } from "@/types";
 
 export type { TokenPackage };
@@ -12,9 +13,8 @@ export const GAME_TOKEN_PRICE =
 export const EXAM_TOKEN_PRICE =
   Number(process.env.NEXT_PUBLIC_EXAM_TOKEN_PRICE) || 14900;
 
-
 export const TOKEN_PACKAGES: TokenPackage[] = [
-  // Paket Game Tokens (Pilihan 2 & 3, Pilihan 1 adalah Eceran)
+  // Paket Game Tokens
   {
     id: "PKG-GAME-5",
     name: "5 Sesi Game (Reguler)",
@@ -99,7 +99,7 @@ function updateStoredUser(updater: (user: User) => User): User | null {
 }
 
 /**
- * Get current balances for the active user
+ * Get current balances for the active user (synchronous from cache)
  */
 export function getUserTokenBalances(): {
   gameTokenBalance: number;
@@ -113,6 +113,36 @@ export function getUserTokenBalances(): {
     examCreditBalance: user?.examCreditBalance ?? 0,
     isUnlimited: Boolean(user?.isUnlimited || user?.role === "ADMIN"),
   };
+}
+
+/**
+ * Fetch latest user token balance from backend API and update stored cache
+ */
+export async function fetchUserTokenBalancesFromApi(): Promise<{
+  gameTokenBalance: number;
+  examCreditBalance: number;
+  isUnlimited: boolean;
+}> {
+  try {
+    const user = await apiClient<User>("/users/me");
+    if (user) {
+      updateStoredUser((curr) => ({
+        ...curr,
+        gameTokenBalance: user.gameTokenBalance ?? 0,
+        examCreditBalance: user.examCreditBalance ?? 0,
+        role: user.role ?? curr.role,
+        isUnlimited: user.isUnlimited ?? (user.role === "ADMIN"),
+      }));
+      return {
+        gameTokenBalance: user.gameTokenBalance ?? 0,
+        examCreditBalance: user.examCreditBalance ?? 0,
+        isUnlimited: Boolean(user.isUnlimited || user.role === "ADMIN"),
+      };
+    }
+  } catch (err) {
+    console.warn("fetchUserTokenBalancesFromApi failed, fallback to local:", err);
+  }
+  return getUserTokenBalances();
 }
 
 /**
@@ -137,7 +167,6 @@ export function getDailyGameSessionUsage(): {
     }
     const parsed = JSON.parse(raw);
     if (parsed.date !== today) {
-      // Reset for a new day
       localStorage.setItem(key, JSON.stringify({ date: today, count: 0 }));
       return { usedToday: 0, maxLimit: DAILY_FREE_GAME_LIMIT, remaining: DAILY_FREE_GAME_LIMIT };
     }
@@ -181,7 +210,6 @@ export function validateGameSessionStart(deckCardCount: number): {
   const isLargeDeck = deckCardCount > MAX_FREE_DECK_QUESTIONS;
 
   if (isLargeDeck) {
-    // Deck > 8 questions requires 1 Game Token
     if (gameTokenBalance >= 1) {
       return { allowed: true, requiresToken: true, tokenCost: 1 };
     }
@@ -193,13 +221,11 @@ export function validateGameSessionStart(deckCardCount: number): {
     };
   }
 
-  // Deck <= 8 questions: Check daily free limit
   const { remaining } = getDailyGameSessionUsage();
   if (remaining > 0) {
     return { allowed: true, requiresToken: false, tokenCost: 0 };
   }
 
-  // Daily free limit exhausted: Can play if has token
   if (gameTokenBalance >= 1) {
     return { allowed: true, requiresToken: true, tokenCost: 1 };
   }
@@ -284,7 +310,8 @@ export function syncApprovedOrdersToUser(): void {
 
     for (const order of orders) {
       const isThisUser = order.userEmail === user.email || order.userName === user.name;
-      if (isThisUser && order.status === "APPROVED" && !processedIds.includes(order.id)) {
+      const isApproved = order.status === "APPROVED" || order.status === "PAID";
+      if (isThisUser && isApproved && !processedIds.includes(order.id)) {
         if (order.itemType === "GAME") {
           additionalGame += order.tokenAmount;
         } else if (order.itemType === "EXAM") {
@@ -311,25 +338,48 @@ export function syncApprovedOrdersToUser(): void {
 }
 
 /**
- * Submit a token purchase order
+ * Submit a token purchase order (Stores in DB and syncs cache)
  */
-export function submitTokenOrder(payload: {
+export async function submitTokenOrder(payload: {
   pkg: TokenPackage;
   senderAccount: string;
   referenceNumber?: string;
   paymentMethod: string;
   proofImageUrl?: string;
-}): TransactionOrder {
+}): Promise<TransactionOrder> {
   const user = getStoredUser();
-  const orderId = `TRX-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
+  const prodType = payload.pkg.itemType === "GAME" ? "GAME_TOKEN" : "EXAM_CREDIT";
+  let createdOrderId = `TRX-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
+
+  try {
+    const res = await apiClient<{ order: { id: string } }>("/tokens/buy", {
+      method: "POST",
+      body: JSON.stringify({
+        productType: prodType,
+        quantity: payload.pkg.tokenAmount,
+        price: payload.pkg.price,
+        paymentMethod: payload.paymentMethod || "Transfer Bank / QRIS",
+        proofImageUrl: payload.proofImageUrl || "",
+        packageName: payload.pkg.name,
+        senderAccount: payload.senderAccount.trim(),
+        referenceNumber: payload.referenceNumber?.trim() || `REF-${Date.now().toString(36).toUpperCase()}`,
+      }),
+    });
+    if (res?.order?.id) {
+      createdOrderId = res.order.id;
+    }
+  } catch (err) {
+    console.warn("Backend buy order failed, saved locally:", err);
+  }
 
   const newOrder: TransactionOrder = {
-    id: orderId,
+    id: createdOrderId,
     userName: user?.name || "Guru Satelyd",
     userEmail: user?.email || "guru@satelyd.id",
     schoolName: "Sekolah Pengajar",
     packageName: payload.pkg.name,
     itemType: payload.pkg.itemType,
+    productType: prodType,
     tokenAmount: payload.pkg.tokenAmount,
     price: payload.pkg.price,
     paymentMethod: payload.paymentMethod || "Transfer Bank / QRIS",
@@ -350,7 +400,7 @@ export function submitTokenOrder(payload: {
     try {
       const raw = localStorage.getItem(TRANSACTIONS_KEY);
       const existing: TransactionOrder[] = raw ? JSON.parse(raw) : [];
-      const updated = [newOrder, ...existing];
+      const updated = [newOrder, ...existing.filter((o) => o.id !== createdOrderId)];
       localStorage.setItem(TRANSACTIONS_KEY, JSON.stringify(updated));
       window.dispatchEvent(new Event("storage"));
     } catch (err) {
@@ -362,7 +412,7 @@ export function submitTokenOrder(payload: {
 }
 
 /**
- * Get token orders for current user
+ * Get token orders for current user (cached)
  */
 export function getUserTokenOrders(): TransactionOrder[] {
   if (typeof window === "undefined") return [];
@@ -376,4 +426,157 @@ export function getUserTokenOrders(): TransactionOrder[] {
   } catch {
     return [];
   }
+}
+
+/**
+ * Fetch token orders for current user from API
+ */
+export async function fetchUserTokenOrdersFromApi(): Promise<TransactionOrder[]> {
+  try {
+    const apiOrders = await apiClient<Array<{
+      id: string;
+      userId: string;
+      productType: string;
+      quantity: number;
+      price: number;
+      status: string;
+      paymentMethod: string;
+      proofImageUrl?: string;
+      adminNote?: string;
+      paidAt?: string;
+      createdAt: string;
+      user?: { name: string; email: string };
+    }>>("/tokens/orders");
+
+    if (Array.isArray(apiOrders)) {
+      const mapped: TransactionOrder[] = apiOrders.map((o) => ({
+        id: o.id,
+        userId: o.userId,
+        userName: o.user?.name || getStoredUser()?.name || "Guru",
+        userEmail: o.user?.email || getStoredUser()?.email || "",
+        schoolName: "Sekolah Pengajar",
+        packageName:
+          o.adminNote?.replace(/^Paket:\s*/, "") ||
+          (o.productType === "GAME_TOKEN"
+            ? `${o.quantity} Token Game`
+            : `${o.quantity} Kredit Ujian`),
+        itemType: o.productType === "GAME_TOKEN" ? "GAME" : "EXAM",
+        productType: o.productType as any,
+        tokenAmount: o.quantity,
+        quantity: o.quantity,
+        price: o.price,
+        paymentMethod: o.paymentMethod || "Transfer Bank / QRIS",
+        senderAccount: "-",
+        referenceNumber: o.id,
+        proofImageUrl: o.proofImageUrl || "",
+        adminNote: o.adminNote,
+        paidAt: o.paidAt,
+        createdAt: new Intl.DateTimeFormat("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }).format(new Date(o.createdAt)),
+        status: (o.status === "PAID" ? "PAID" : o.status) as any,
+      }));
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem(TRANSACTIONS_KEY, JSON.stringify(mapped));
+        window.dispatchEvent(new Event("storage"));
+      }
+      return mapped;
+    }
+  } catch (err) {
+    console.warn("fetchUserTokenOrdersFromApi failed, fallback to local:", err);
+  }
+  return getUserTokenOrders();
+}
+
+/**
+ * Admin: Fetch all purchase orders across all users
+ */
+export async function fetchAdminOrdersFromApi(): Promise<TransactionOrder[]> {
+  try {
+    const apiOrders = await apiClient<Array<{
+      id: string;
+      userId: string;
+      productType: string;
+      quantity: number;
+      price: number;
+      status: string;
+      paymentMethod: string;
+      proofImageUrl?: string;
+      adminNote?: string;
+      paidAt?: string;
+      createdAt: string;
+      user?: { name: string; email: string };
+    }>>("/tokens/admin/orders");
+
+    if (Array.isArray(apiOrders)) {
+      return apiOrders.map((o) => ({
+        id: o.id,
+        userId: o.userId,
+        userName: o.user?.name || "Pengguna",
+        userEmail: o.user?.email || "-",
+        schoolName: "Sekolah Pengajar",
+        packageName:
+          o.adminNote?.replace(/^Paket:\s*/, "") ||
+          (o.productType === "GAME_TOKEN"
+            ? `${o.quantity} Token Game`
+            : `${o.quantity} Kredit Ujian`),
+        itemType: o.productType === "GAME_TOKEN" ? "GAME" : "EXAM",
+        productType: o.productType as any,
+        tokenAmount: o.quantity,
+        quantity: o.quantity,
+        price: o.price,
+        paymentMethod: o.paymentMethod || "Transfer Bank / QRIS",
+        senderAccount: "-",
+        referenceNumber: o.id,
+        proofImageUrl: o.proofImageUrl || "",
+        adminNote: o.adminNote,
+        paidAt: o.paidAt,
+        createdAt: new Intl.DateTimeFormat("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }).format(new Date(o.createdAt)),
+        status: (o.status === "PAID" ? "PAID" : o.status) as any,
+      }));
+    }
+  } catch (err) {
+    console.warn("fetchAdminOrdersFromApi failed:", err);
+  }
+
+  // Fallback to local
+  if (typeof window !== "undefined") {
+    try {
+      const raw = localStorage.getItem(TRANSACTIONS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+/**
+ * Admin: Approve a payment order
+ */
+export async function approveOrderApi(orderId: string): Promise<void> {
+  await apiClient(`/tokens/orders/${encodeURIComponent(orderId)}/approve`, {
+    method: "PATCH",
+  });
+}
+
+/**
+ * Admin: Reject a payment order
+ */
+export async function rejectOrderApi(orderId: string, adminNote?: string): Promise<void> {
+  await apiClient(`/tokens/orders/${encodeURIComponent(orderId)}/reject`, {
+    method: "PATCH",
+    body: JSON.stringify({ adminNote }),
+  });
 }

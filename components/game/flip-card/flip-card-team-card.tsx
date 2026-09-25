@@ -39,8 +39,8 @@ export function FlipCardTeamCard({
           <button
             type="button"
             onClick={() => onToggleColorPicker(team.id)}
-            className={`h-4 w-4 rounded-full ${style.badge} shrink-0
-              shadow-2xs hover:scale-125 transition cursor-pointer border border-white`}
+            className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full ${style.badge} shrink-0
+              shadow-xs hover:scale-115 active:scale-95 transition-all cursor-pointer border-2 border-white ring-1 ring-[#DFD0D5] hover:ring-[#451420]/40`}
             title="Klik untuk ganti warna tim"
           />
           <span className={`text-xs sm:text-sm font-black truncate ${style.text}`}>
@@ -52,6 +52,7 @@ export function FlipCardTeamCard({
           <FlipCardColorPicker
             team={team}
             visibleTeams={visibleTeams}
+            idx={idx}
             onClose={() => onToggleColorPicker(team.id)}
             onChangeTeamColor={onChangeTeamColor}
           />

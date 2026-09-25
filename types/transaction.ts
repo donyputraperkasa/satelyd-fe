@@ -1,6 +1,11 @@
 import type { User } from "./user";
 
-export type TransactionStatus = "PENDING" | "APPROVED" | "REJECTED";
+export type TransactionStatus =
+  | "PENDING"
+  | "PAID"
+  | "APPROVED"
+  | "REJECTED"
+  | "CANCELLED";
 
 export interface TokenPackage {
   id: string;
@@ -16,17 +21,22 @@ export interface TokenPackage {
 
 export interface TransactionOrder {
   id: string;
+  userId?: string;
   userName: string;
   userEmail: string;
   schoolName: string;
   packageName: string;
   itemType: "GAME" | "EXAM" | "COMBO";
+  productType?: "GAME_TOKEN" | "EXAM_CREDIT";
   tokenAmount: number;
+  quantity?: number;
   price: number;
   paymentMethod: string;
   senderAccount: string;
   referenceNumber: string;
   proofImageUrl?: string;
+  adminNote?: string;
+  paidAt?: string;
   createdAt: string;
   status: TransactionStatus;
 }

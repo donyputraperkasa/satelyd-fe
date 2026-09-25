@@ -80,6 +80,7 @@ export async function createOrGetGameSession(
         pinCode: newSession.pinCode,
         deckId: newSession.deckId,
         gameType: newSession.gameType,
+        selectedMode: newSession.gameType,
       }),
     });
   } catch {
@@ -101,19 +102,21 @@ export async function fetchGameSessionByPin(pinCode: string): Promise<GameSessio
   try {
     const apiSession = await apiClient<{
       id: string;
-      pinCode: string;
+      roomCode?: string;
+      pinCode?: string;
       deckId: string;
-      gameType: GameType;
+      selectedMode?: GameType;
+      gameType?: GameType;
       deck?: Deck;
     }>(`/games/tv-sessions/${encodeURIComponent(cleanPin)}`);
 
     if (apiSession && apiSession.deck) {
       return {
         id: apiSession.id,
-        pinCode: apiSession.pinCode,
+        pinCode: apiSession.roomCode || apiSession.pinCode || cleanPin,
         deckId: apiSession.deckId,
         deck: apiSession.deck,
-        gameType: apiSession.gameType || "FLIP_CARD",
+        gameType: apiSession.selectedMode || apiSession.gameType || "FLIP_CARD",
         status: "ACTIVE",
         createdAt: new Date().toISOString(),
         teams: JSON.parse(JSON.stringify(DEFAULT_TEAMS)),

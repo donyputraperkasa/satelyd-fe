@@ -36,7 +36,7 @@ export function TokenCheckoutModal({
 
   const currentBank = BANK_ACCOUNTS[selectedBank];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     if (!senderAccount.trim()) {
@@ -45,7 +45,7 @@ export function TokenCheckoutModal({
     }
 
     try {
-      const order = submitTokenOrder({
+      const order = await submitTokenOrder({
         pkg,
         senderAccount: senderAccount.trim(),
         referenceNumber: referenceNumber.trim(),

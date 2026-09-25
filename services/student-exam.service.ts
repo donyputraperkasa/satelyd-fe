@@ -254,3 +254,45 @@ export async function submitStudentExam(
 
   return finishedSession;
 }
+
+export async function recordStudentAnswer(
+  participantToken: string,
+  questionId: string,
+  selectedOptionId?: string
+): Promise<void> {
+  try {
+    await apiClient(
+      `/teacher-exams/participants/${encodeURIComponent(participantToken)}/answers`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          questionId,
+          selectedOptionId,
+        }),
+      }
+    );
+  } catch (err) {
+    console.warn("recordStudentAnswer API notice:", err);
+  }
+}
+
+export async function recordAntiCheatEvent(
+  participantToken: string,
+  type: "TAB_HIDDEN" | "WINDOW_BLUR" | "FULLSCREEN_EXIT" | "COPY_ATTEMPT" | "PASTE_ATTEMPT" | "RIGHT_CLICK" | "MANUAL_BLOCK",
+  detail?: string
+): Promise<void> {
+  try {
+    await apiClient(
+      `/teacher-exams/participants/${encodeURIComponent(participantToken)}/events`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          type,
+          detail,
+        }),
+      }
+    );
+  } catch (err) {
+    console.warn("recordAntiCheatEvent API notice:", err);
+  }
+}
