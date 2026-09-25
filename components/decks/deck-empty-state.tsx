@@ -33,13 +33,13 @@ export function DeckEmptyState({
             onCreateNew();
           }
         }}
-        className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-[#451420] px-4 py-2 text-xs font-bold text-white hover:bg-[#5B1C2E] transition shadow-xs cursor-pointer"
+        className="mt-4 inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-[#451420] text-xs font-bold text-white hover:bg-[#5B1C2E] transition shadow-xs cursor-pointer"
       >
         {searchQuery ? (
           <span>Reset Pencarian</span>
         ) : (
           <>
-            <Plus size={15} />
+            <Plus size={16} />
             <span>Buat Deck Sekarang</span>
           </>
         )}
