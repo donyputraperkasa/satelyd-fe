@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Outfit, DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AuthModalProvider } from "@/components/modals";
 import { ToastProvider } from "@/components/ui";
@@ -12,10 +12,10 @@ const outfit = Outfit({
   weight: ["500", "600", "700", "800", "900"],
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${outfit.variable} ${jakarta.variable} h-full antialiased`}
+      className={`${outfit.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#FDFBF7] text-[#451420]">
         <ToastProvider>

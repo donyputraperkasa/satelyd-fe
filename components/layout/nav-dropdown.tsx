@@ -43,7 +43,7 @@ export function NavDropdown({
       </button>
 
       {isOpen && (
-        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-80 sm:w-96 rounded-2xl border border-[#E5D7DC] bg-[#FDFBF7] p-3 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-80 sm:w-96 rounded-2xl border border-[#E5D7DC] bg-white p-3 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="space-y-1">
             {items.map((it) => {
               const Icon = it.icon;

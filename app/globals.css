@@ -14,7 +14,7 @@
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --font-display: var(--font-outfit);
-  --font-sans: var(--font-jakarta);
+  --font-sans: var(--font-dm-sans);
 }
 
 body {
