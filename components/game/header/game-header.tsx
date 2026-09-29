@@ -32,21 +32,6 @@ export function GameHeader({
     }
   };
 
-  const getGameLabel = () => {
-    switch (session.gameType as string) {
-      case "FLIP_CARD":
-        return "🃏 Flip Card Game";
-      case "SPIN_WHEEL":
-      case "WHEELS":
-        return "🎡 Wheels Question";
-      case "MATH_BATTLE_2P":
-      case "BATTLE_2P":
-        return "⚔️ Duel 2 Player";
-      default:
-        return "Game TV Kelas";
-    }
-  };
-
   return (
     <>
       <header
@@ -62,16 +47,6 @@ export function GameHeader({
             >
               satel<span className="text-[#C67D00]">y</span>d
             </span>
-
-            <span className="h-4 w-[1px] bg-[#DFD0D5] hidden sm:inline" />
-
-            <div
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full
-                bg-[#451420] text-[#FDFBF7] text-xs font-bold shrink-0 shadow-2xs"
-            >
-              <Sparkles size={12} className="text-[#F2DEB0]" />
-              <span>{getGameLabel()}</span>
-            </div>
           </div>
 
           {/* Center: Deck Title & Sub-info */}

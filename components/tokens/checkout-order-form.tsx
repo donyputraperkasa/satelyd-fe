@@ -33,7 +33,7 @@ export function CheckoutOrderForm({
   return (
     <form onSubmit={onSubmit} className="space-y-3 pt-1">
       <div className="space-y-1">
-        <label className="text-xs font-bold text-[#451420]">
+        <label className="text-xs font-bold text-[#451420] dark:text-[#F8FAFC]">
           Nama / Nomor Rekening Pengirim <span className="text-red-500">*</span>
         </label>
         <input
@@ -42,12 +42,12 @@ export function CheckoutOrderForm({
           placeholder="Contoh: Budi Santoso / 08123456789"
           value={senderAccount}
           onChange={(e) => setSenderAccount(e.target.value)}
-          className="w-full h-11 px-3.5 text-xs rounded-xl border border-[#DFD0D5] bg-[#FAF7F2] text-[#451420] focus:outline-none focus:ring-2 focus:ring-[#451420]"
+          className="w-full h-11 px-3.5 text-xs rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#451420] dark:focus:ring-[#C67D00]"
         />
       </div>
 
       <div className="space-y-1">
-        <label className="text-xs font-bold text-[#451420]">
+        <label className="text-xs font-bold text-[#451420] dark:text-[#F8FAFC]">
           Nomor Referensi Transaksi (Opsional)
         </label>
         <input
@@ -55,7 +55,7 @@ export function CheckoutOrderForm({
           placeholder="Contoh: REF-88123 atau 12 Digit Ref Bank"
           value={referenceNumber}
           onChange={(e) => setReferenceNumber(e.target.value)}
-          className="w-full h-11 px-3.5 text-xs rounded-xl border border-[#DFD0D5] bg-[#FAF7F2] text-[#451420] focus:outline-none focus:ring-2 focus:ring-[#451420]"
+          className="w-full h-11 px-3.5 text-xs rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#451420] dark:focus:ring-[#C67D00]"
         />
       </div>
 
@@ -68,14 +68,14 @@ export function CheckoutOrderForm({
       />
 
       {errorMsg && (
-        <p className="text-xs font-bold text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-200">
+        <p className="text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 p-2.5 rounded-xl border border-red-200 dark:border-red-900/60">
           {errorMsg}
         </p>
       )}
 
       <button
         type="submit"
-        className="w-full h-11 px-4 rounded-xl bg-[#451420] text-white hover:bg-[#320E17] font-bold text-xs shadow-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98 mt-2"
+        className="w-full h-11 px-4 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] hover:bg-[#320E17] dark:hover:bg-[#B37000] font-bold text-xs shadow-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98 mt-2"
       >
         <ShieldCheck size={16} />
         <span>Kirim Konfirmasi Pembayaran</span>

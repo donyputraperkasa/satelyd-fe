@@ -26,7 +26,6 @@ const ICON_MAP = {
 export function PlaceholderPage({
   title,
   description,
-  badge = "Halaman Uji Aktif",
   iconType,
 }: PlaceholderPageProps) {
   const Icon = ICON_MAP[iconType] ?? Sparkles;
@@ -35,14 +34,14 @@ export function PlaceholderPage({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5D7DC] pb-6">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-[#C67D00]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#C67D00] dark:text-white">
             Modul Pembelajaran
           </span>
           <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[#451420] mt-1 flex items-center gap-2">
-            <Icon size={26} className="text-[#C67D00]" />
-            <span>{title}</span>
+            <Icon size={26} className="text-[#C67D00] dark:text-white" />
+            <span className="dark:text-white">{title}</span>
           </h1>
-          <p className="text-xs sm:text-sm text-[#7A5661] mt-1">{description}</p>
+          <p className="text-xs sm:text-sm text-[#7A5661] mt-1 dark:text-white">{description}</p>
         </div>
 
         <Link
@@ -59,10 +58,6 @@ export function PlaceholderPage({
           <Icon size={28} />
         </div>
         <div className="max-w-md mx-auto space-y-2">
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF8E6] border border-[#F2DEB0] px-3 py-0.5 text-xs font-bold text-[#9A6200]">
-            <Sparkles size={12} />
-            <span>{badge}</span>
-          </span>
           <h3 className="font-display text-lg font-bold text-[#451420]">Halaman {title}</h3>
           <p className="text-xs sm:text-sm text-[#7A5661]">
             Halaman ini disiapkan sementara untuk pengujian navigasi sidebar aktif. Fitur lengkap modul ini akan dikembangkan pada tahap selanjutnya.

@@ -73,18 +73,18 @@ export function QuestionEditorForm({
 
   return (
     <div className="max-w-3xl mx-auto space-y-4">
-      <div className="flex items-center justify-between pb-3 border-b border-[#E5D7DC]">
+      <div className="flex items-center justify-between pb-3 border-b border-[#E5D7DC] dark:border-[#282E3E]">
         <div className="flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#451420] text-white font-black text-xs">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] font-black text-xs">
             #{currentQ.number}
           </span>
-          <h3 className="text-sm font-black text-[#451420]">Butir Soal Nomor {currentQ.number}</h3>
+          <h3 className="text-sm font-black text-[#451420] dark:text-[#F8FAFC]">Butir Soal Nomor {currentQ.number}</h3>
         </div>
 
         <div className="flex items-center gap-2.5">
-          <div className="h-8 flex items-center gap-1.5 bg-white border border-[#E5D7DC] rounded-xl px-2.5 shadow-2xs">
-            <Award size={14} className="text-amber-700 shrink-0" />
-            <span className="text-[11px] font-bold text-[#7A5661]">Poin:</span>
+          <div className="h-8 flex items-center gap-1.5 bg-white dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] rounded-xl px-2.5 shadow-2xs">
+            <Award size={14} className="text-amber-700 dark:text-[#FBBF24] shrink-0" />
+            <span className="text-[11px] font-bold text-[#7A5661] dark:text-[#94A3B8]">Poin:</span>
             <input
               type="number"
               min={1}
@@ -92,7 +92,7 @@ export function QuestionEditorForm({
               disabled={isReadOnly}
               value={currentQ.points}
               onChange={(e) => onUpdateQuestion({ points: Number(e.target.value) || 1 })}
-              className="w-10 text-center text-xs font-mono font-black text-[#451420] focus:outline-none"
+              className="w-10 text-center text-xs font-mono font-black text-[#451420] dark:text-[#F8FAFC] bg-transparent focus:outline-none"
             />
           </div>
 
@@ -100,7 +100,7 @@ export function QuestionEditorForm({
             <button
               type="button"
               onClick={onRemoveQuestion}
-              className="h-8 px-2.5 rounded-xl border border-red-200 bg-red-50/70 hover:bg-red-100 text-red-700 text-[11px] font-bold inline-flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+              className="h-8 px-2.5 rounded-xl border border-red-200 dark:border-rose-900/60 bg-red-50/70 dark:bg-rose-950/40 hover:bg-red-100 dark:hover:bg-rose-900/50 text-red-700 dark:text-rose-300 text-[11px] font-bold inline-flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
               title="Hapus Nomor Soal Ini"
             >
               <Trash2 size={13} />
@@ -111,14 +111,16 @@ export function QuestionEditorForm({
       </div>
 
       <div className="flex items-center gap-2">
-        <span className="text-xs font-bold text-[#7A5661]">Tipe:</span>
-        <div className="inline-flex rounded-xl border border-[#E5D7DC] bg-white p-1">
+        <span className="text-xs font-bold text-[#7A5661] dark:text-[#94A3B8]">Tipe:</span>
+        <div className="inline-flex rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#141720] p-1">
           <button
             type="button"
             disabled={isReadOnly}
             onClick={() => onUpdateQuestion({ questionType: "MULTIPLE_CHOICE" })}
             className={`px-3 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
-              currentQ.questionType === "MULTIPLE_CHOICE" ? "bg-[#451420] text-white shadow-2xs" : "text-[#7A5661]"
+              currentQ.questionType === "MULTIPLE_CHOICE"
+                ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                : "text-[#7A5661] dark:text-[#94A3B8]"
             }`}
           >
             Pilihan Ganda
@@ -128,7 +130,9 @@ export function QuestionEditorForm({
             disabled={isReadOnly}
             onClick={() => onUpdateQuestion({ questionType: "ESSAY" })}
             className={`px-3 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
-              currentQ.questionType === "ESSAY" ? "bg-[#451420] text-white shadow-2xs" : "text-[#7A5661]"
+              currentQ.questionType === "ESSAY"
+                ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                : "text-[#7A5661] dark:text-[#94A3B8]"
             }`}
           >
             Uraian / Essay
@@ -137,14 +141,14 @@ export function QuestionEditorForm({
       </div>
 
       <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">Pertanyaan Soal *</label>
+        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">Pertanyaan Soal *</label>
         <textarea
           rows={3}
           disabled={isReadOnly}
           value={currentQ.questionText}
           onChange={(e) => onUpdateQuestion({ questionText: e.target.value })}
           placeholder="Ketikkan teks pertanyaan soal di sini..."
-          className="w-full rounded-xl border border-[#E5D7DC] bg-white p-3 text-sm font-medium text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:border-[#451420] focus:outline-none transition shadow-2xs disabled:bg-gray-50"
+          className="w-full rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 text-sm font-medium text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:border-[#C67D00] focus:outline-none transition shadow-2xs disabled:bg-gray-50 dark:disabled:bg-[#141720]"
         />
       </div>
 
@@ -154,24 +158,24 @@ export function QuestionEditorForm({
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661]">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8]">
                 Pilihan Jawaban (A–{options[options.length - 1]?.key || "D"})
               </label>
-              <span className="text-[11px] font-bold text-[#2E7D32] bg-[#EDF7ED] border border-[#C8E6C9] px-2 py-0.5 rounded-md">
+              <span className="text-[11px] font-bold text-[#2E7D32] dark:text-emerald-300 bg-[#EDF7ED] dark:bg-emerald-950/60 border border-[#C8E6C9] dark:border-emerald-800/60 px-2 py-0.5 rounded-md">
                 Kunci: {currentQ.correctAnswer || "Belum dipilih"}
               </span>
             </div>
 
             {/* Segmented Selector Opsi: ABC, ABCD, ABCDE */}
             {!isReadOnly && (
-              <div className="inline-flex items-center gap-1 rounded-xl border border-[#E5D7DC] bg-[#FAF7F2] p-1 self-start sm:self-auto">
+              <div className="inline-flex items-center gap-1 rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-1 self-start sm:self-auto">
                 <button
                   type="button"
                   onClick={() => handleSetOptionCount(3)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     options.length === 3
-                      ? "bg-[#451420] text-white shadow-2xs"
-                      : "text-[#7A5661] hover:text-[#451420]"
+                      ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                      : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                   }`}
                   title="3 Pilihan Jawaban (A-C)"
                 >
@@ -182,8 +186,8 @@ export function QuestionEditorForm({
                   onClick={() => handleSetOptionCount(4)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     options.length === 4
-                      ? "bg-[#451420] text-white shadow-2xs"
-                      : "text-[#7A5661] hover:text-[#451420]"
+                      ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                      : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                   }`}
                   title="4 Pilihan Jawaban (A-D)"
                 >
@@ -194,8 +198,8 @@ export function QuestionEditorForm({
                   onClick={() => handleSetOptionCount(5)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     options.length === 5
-                      ? "bg-[#451420] text-white shadow-2xs"
-                      : "text-[#7A5661] hover:text-[#451420]"
+                      ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                      : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                   }`}
                   title="5 Pilihan Jawaban (A-E)"
                 >
@@ -224,7 +228,7 @@ export function QuestionEditorForm({
             <button
               type="button"
               onClick={handleAddOption}
-              className="w-full py-2 px-3 border border-dashed border-[#DFD0D5] hover:border-[#451420] rounded-xl text-xs font-bold text-[#7A5661] hover:text-[#451420] bg-white/70 hover:bg-white flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs"
+              className="w-full py-2 px-3 border border-dashed border-[#DFD0D5] dark:border-[#282E3E] hover:border-[#451420] dark:hover:border-[#C67D00] rounded-xl text-xs font-bold text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] bg-white/70 dark:bg-[#1C202C]/70 hover:bg-white dark:hover:bg-[#1C202C] flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs"
             >
               <Plus size={14} />
               <span>Tambah Pilihan ({ALL_OPTION_KEYS[options.length]})</span>
@@ -232,8 +236,8 @@ export function QuestionEditorForm({
           )}
         </div>
       ) : (
-        <div className="p-4 rounded-xl border border-dashed border-[#DFD0D5] bg-[#FAF7F2] text-xs text-[#7A5661]">
-          <p className="font-bold text-[#451420] mb-1">Soal Bertipe Uraian / Essay</p>
+        <div className="p-4 rounded-xl border border-dashed border-[#DFD0D5] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] text-xs text-[#7A5661] dark:text-[#94A3B8]">
+          <p className="font-bold text-[#451420] dark:text-[#F8FAFC] mb-1">Soal Bertipe Uraian / Essay</p>
           <p>Siswa akan menjawab dalam bentuk teks esai bebas.</p>
         </div>
       )}

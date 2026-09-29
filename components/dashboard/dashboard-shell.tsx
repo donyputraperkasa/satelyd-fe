@@ -67,9 +67,9 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
   if (isLoading && !user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#FDFBF7] text-[#451420]">
-        <Loader2 size={32} className="animate-spin text-[#451420] mb-3" />
-        <p className="text-sm font-semibold text-[#7A5661]">Memuat Dashboard...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#FDFBF7] dark:bg-[#141720] text-[#451420] dark:text-[#F8FAFC] transition-colors">
+        <Loader2 size={32} className="animate-spin text-[#451420] dark:text-[#C67D00] mb-3" />
+        <p className="text-sm font-semibold text-[#7A5661] dark:text-[#94A3B8]">Memuat Dashboard...</p>
       </div>
     );
   }
@@ -77,7 +77,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen flex bg-[#FDFBF7] text-[#451420]">
+    <div className="min-h-screen flex bg-[#FDFBF7] dark:bg-[#141720] text-[#451420] dark:text-[#F8FAFC] transition-colors">
       <DashboardSidebar
         user={user}
         isOpenMobile={isMobileSidebarOpen}

@@ -16,84 +16,84 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div onClick={onClose} className="fixed inset-0 bg-[#451420]/50 backdrop-blur-xs" />
+      <div onClick={onClose} className="fixed inset-0 bg-black/60 backdrop-blur-xs" />
 
-      <div className="relative w-full max-w-lg rounded-2xl border border-[#DFD0D5] bg-[#FDFBF7] p-6 shadow-2xl space-y-5 z-10 animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-[#E5D7DC] pb-4">
+      <div className="relative w-full max-w-lg rounded-2xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] p-6 shadow-2xl space-y-5 z-10 animate-in fade-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#451420] text-[#FDFBF7]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#451420] dark:bg-[#C67D00] text-[#FDFBF7] dark:text-[#141720]">
               <FileText size={18} />
             </div>
             <div>
-              <h3 className="font-display text-base font-bold text-[#451420]">Bukti Transfer Pembayaran</h3>
-              <p className="text-xs text-[#7A5661]">ID: {order.id} • {order.createdAt}</p>
+              <h3 className="font-display text-base font-bold text-[#451420] dark:text-[#F8FAFC]">Bukti Transfer Pembayaran</h3>
+              <p className="text-xs text-[#7A5661] dark:text-[#94A3B8]">ID: {order.id} • {order.createdAt}</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-[#7A5661] hover:bg-[#F5EDF0] hover:text-[#451420] transition cursor-pointer"
+            className="rounded-lg p-1.5 text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#F5EDF0] dark:hover:bg-[#282E3E] hover:text-[#451420] dark:hover:text-[#F8FAFC] transition cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Payment Slip Mockup */}
-        <div className="rounded-xl border border-[#E5D7DC] bg-white p-5 space-y-4 shadow-2xs font-mono text-xs">
-          <div className="flex items-center justify-between border-b border-dashed border-[#DFD0D5] pb-3 font-sans">
+        <div className="rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#141720] p-5 space-y-4 shadow-2xs font-mono text-xs">
+          <div className="flex items-center justify-between border-b border-dashed border-[#DFD0D5] dark:border-[#282E3E] pb-3 font-sans">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#A48E95]">Metode Bayar</span>
-              <p className="text-sm font-bold text-[#451420]">{order.paymentMethod}</p>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#A48E95] dark:text-[#64748B]">Metode Bayar</span>
+              <p className="text-sm font-bold text-[#451420] dark:text-[#F8FAFC]">{order.paymentMethod}</p>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#A48E95]">Nominal Transfer</span>
-              <p className="text-base font-extrabold text-[#2E7D32]">Rp {order.price.toLocaleString("id-ID")}</p>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#A48E95] dark:text-[#64748B]">Nominal Transfer</span>
+              <p className="text-base font-extrabold text-[#2E7D32] dark:text-emerald-400">Rp {order.price.toLocaleString("id-ID")}</p>
             </div>
           </div>
 
-          <div className="space-y-2 text-[#613D48]">
+          <div className="space-y-2 text-[#613D48] dark:text-[#94A3B8]">
             <div className="flex justify-between">
-              <span className="text-[#A48E95]">Status Verifikasi:</span>
+              <span className="text-[#A48E95] dark:text-[#64748B]">Status Verifikasi:</span>
               <span className={`font-sans font-bold px-2 py-0.5 rounded text-[10px] ${
-                isPending ? "bg-[#FFF8E6] text-[#C67D00]" : "bg-[#EDF7ED] text-[#2E7D32]"
+                isPending ? "bg-[#FFF8E6] dark:bg-amber-950/40 text-[#C67D00] dark:text-amber-300" : "bg-[#EDF7ED] dark:bg-emerald-950/40 text-[#2E7D32] dark:text-emerald-400"
               }`}>
                 {isPending ? "Menunggu Konfirmasi Owner" : "Telah Dikonfirmasi / Sah"}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#A48E95]">No. Referensi Bank:</span>
-              <span className="font-bold text-[#451420]">{order.referenceNumber}</span>
+              <span className="text-[#A48E95] dark:text-[#64748B]">No. Referensi Bank:</span>
+              <span className="font-bold text-[#451420] dark:text-[#F8FAFC]">{order.referenceNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#A48E95]">Rekening Pengirim:</span>
-              <span className="font-bold text-[#451420]">{order.senderAccount}</span>
+              <span className="text-[#A48E95] dark:text-[#64748B]">Rekening Pengirim:</span>
+              <span className="font-bold text-[#451420] dark:text-[#F8FAFC]">{order.senderAccount}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#A48E95]">Nama Akun Satelyd:</span>
-              <span className="font-bold text-[#451420]">{order.userName}</span>
+              <span className="text-[#A48E95] dark:text-[#64748B]">Nama Akun Satelyd:</span>
+              <span className="font-bold text-[#451420] dark:text-[#F8FAFC]">{order.userName}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#A48E95]">Sekolah / Institusi:</span>
-              <span className="text-[#451420]">{order.schoolName}</span>
+              <span className="text-[#A48E95] dark:text-[#64748B]">Sekolah / Institusi:</span>
+              <span className="text-[#451420] dark:text-[#F8FAFC]">{order.schoolName}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#A48E95]">Item Dipesan:</span>
-              <span className="font-bold text-[#C67D00]">{order.packageName}</span>
+              <span className="text-[#A48E95] dark:text-[#64748B]">Item Dipesan:</span>
+              <span className="font-bold text-[#C67D00] dark:text-[#FBBF24]">{order.packageName}</span>
             </div>
           </div>
 
-          <div className="rounded-lg bg-[#FAF7F2] p-3 border border-[#E5D7DC] text-[11px] font-sans flex items-start gap-2 text-[#7A5661]">
-            <ShieldCheck size={16} className="text-[#C67D00] shrink-0 mt-0.5" />
+          <div className="rounded-lg bg-[#FAF7F2] dark:bg-[#1C202C] p-3 border border-[#E5D7DC] dark:border-[#282E3E] text-[11px] font-sans flex items-start gap-2 text-[#7A5661] dark:text-[#94A3B8]">
+            <ShieldCheck size={16} className="text-[#C67D00] dark:text-[#FBBF24] shrink-0 mt-0.5" />
             <span>Bukti transfer tervalidasi sesuai dengan nominal pesanan paket kuota {order.tokenAmount} token.</span>
           </div>
 
           {/* Uploaded Receipt Image Preview */}
           {order.proofImageUrl && (
             <div className="space-y-1.5 pt-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#7A5661] block font-sans">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] block font-sans">
                 Foto / Screenshot Struk Bukti Transfer:
               </span>
-              <div className="overflow-hidden rounded-xl border border-[#DFD0D5] bg-[#FAF7F2] p-2 flex flex-col items-center justify-center">
+              <div className="overflow-hidden rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#1C202C] p-2 flex flex-col items-center justify-center">
                 <img
                   src={order.proofImageUrl}
                   alt="Struk Bukti Transfer"
@@ -106,7 +106,7 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
                   }}
                   title="Klik untuk memperbesar gambar"
                 />
-                <span className="text-[10px] text-[#7A5661] mt-1.5">
+                <span className="text-[10px] text-[#7A5661] dark:text-[#94A3B8] mt-1.5">
                   Klik gambar untuk melihat resolusi penuh
                 </span>
               </div>
@@ -119,7 +119,7 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#DFD0D5] bg-white px-5 py-2 text-xs font-semibold text-[#7A5661] hover:bg-[#F5EDF0] transition cursor-pointer"
+            className="rounded-full border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] px-5 py-2 text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#F5EDF0] dark:hover:bg-[#282E3E] transition cursor-pointer"
           >
             Tutup
           </button>
@@ -131,9 +131,9 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
                 onAdmit(order.id);
                 onClose();
               }}
-              className="flex items-center gap-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] px-6 py-2 text-xs font-bold text-[#FDFBF7] shadow-md transition cursor-pointer"
+              className="flex items-center gap-1.5 rounded-full bg-[#451420] dark:bg-[#C67D00] hover:bg-[#300C15] dark:hover:bg-[#B37000] px-6 py-2 text-xs font-bold text-[#FDFBF7] dark:text-[#141720] shadow-md transition cursor-pointer"
             >
-              <UserCheck size={14} className="text-[#C67D00]" />
+              <UserCheck size={14} className="text-[#C67D00] dark:text-[#141720]" />
               <span>Admit / Setujui Sekarang</span>
             </button>
           )}

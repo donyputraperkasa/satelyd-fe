@@ -121,25 +121,25 @@ export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: E
   const totalPoints = questions.reduce((sum, q) => sum + (q.points || 0), 0);
 
   return (
-    <div aria-modal="true" role="dialog" className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-[#451420]/60 backdrop-blur-xs">
-      <div className="w-full max-w-5xl h-[92vh] max-h-[92vh] flex flex-col rounded-2xl border border-[#E5D7DC] bg-[#FDFBF7] text-[#451420] shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+    <div aria-modal="true" role="dialog" className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs">
+      <div className="w-full max-w-5xl h-[92vh] max-h-[92vh] flex flex-col rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] text-[#451420] dark:text-[#F8FAFC] shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
         <QuestionEditorHeader exam={exam} isSavedToast={isSavedToast} onClose={onClose} />
         {isLive && (
-          <div className="bg-[#FAF0F3] border-b border-[#ECD0D8] px-4 py-2 flex items-center justify-center gap-2 text-xs font-bold text-[#7A283C]">
+          <div className="bg-[#FAF0F3] dark:bg-[#141720] border-b border-[#ECD0D8] dark:border-[#282E3E] px-4 py-2 flex items-center justify-center gap-2 text-xs font-bold text-[#7A283C] dark:text-[#FBBF24]">
             <Lock size={13} /> Ujian sedang berlangsung (Live). Butir soal dan kunci jawaban dikunci agar integritas pengerjaan terjaga.
           </div>
         )}
         <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
           <QuestionNavSidebar questions={questions} activeQuestionIndex={activeIdx} onSelectQuestion={setActiveIdx} onAddQuestion={handleAddQuestion} totalPoints={totalPoints} isReadOnly={isLive} />
-          <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-[#FDFBF7]">
+          <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-[#FDFBF7] dark:bg-[#1C202C]">
             {currentQ ? (
               <QuestionEditorForm currentQ={currentQ} totalQuestions={questions.length} onUpdateQuestion={updateCurrentQuestion} onUpdateOption={updateOptionText} onRemoveQuestion={() => handleRemoveQuestion(activeIdx)} isReadOnly={isLive} />
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center text-[#7A5661]">
-                <FileQuestion size={36} className="mb-2 text-[#9C737F]" />
+              <div className="flex flex-col items-center justify-center h-full text-center text-[#7A5661] dark:text-[#94A3B8]">
+                <FileQuestion size={36} className="mb-2 text-[#9C737F] dark:text-[#64748B]" />
                 <p className="font-bold">Belum ada butir soal.</p>
                 {!isLive && (
-                  <button type="button" onClick={handleAddQuestion} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#451420] text-xs font-bold text-white shadow-xs">
+                  <button type="button" onClick={handleAddQuestion} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] shadow-xs">
                     <Plus size={14} /> Tambah Soal Pertama
                   </button>
                 )}

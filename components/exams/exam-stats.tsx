@@ -17,38 +17,38 @@ export function ExamStats({ exams }: ExamStatsProps) {
       value: totalExams.toString(),
       subtext: `${totalDraft} draft tersimpan`,
       icon: BookOpen,
-      iconColor: "text-[#451420]",
-      bgColor: "bg-[#F5EFEB]",
-      borderColor: "border-[#E5D7DC]",
+      iconColor: "text-[#451420] dark:text-[#FBBF24]",
+      bgColor: "bg-[#F5EFEB] dark:bg-[#C67D00]/15",
+      borderColor: "border-[#E5D7DC] dark:border-[#C67D00]/30",
     },
     {
       label: "Ujian Aktif (Live)",
       value: activeExams.toString(),
       subtext: "Sedang dapat dikerjakan siswa",
       icon: Radio,
-      iconColor: "text-[#2E7D32]",
-      bgColor: "bg-[#EDF7ED]",
-      borderColor: "border-[#C8E6C9]",
+      iconColor: "text-[#2E7D32] dark:text-emerald-400",
+      bgColor: "bg-[#EDF7ED] dark:bg-emerald-950/40",
+      borderColor: "border-[#C8E6C9] dark:border-emerald-800",
       badge: "LIVE NOW",
-      badgeColor: "bg-[#EDF7ED] text-[#2E7D32] border-[#C8E6C9]",
+      badgeColor: "bg-[#EDF7ED] dark:bg-emerald-950/40 text-[#2E7D32] dark:text-emerald-400 border-[#C8E6C9] dark:border-emerald-800",
     },
     {
       label: "Partisipasi Siswa",
       value: totalParticipants.toLocaleString("id-ID"),
       subtext: "Siswa telah mengikuti ujian",
       icon: Users,
-      iconColor: "text-[#7A283C]",
-      bgColor: "bg-[#FAF2F4]",
-      borderColor: "border-[#ECDDE2]",
+      iconColor: "text-[#7A283C] dark:text-rose-400",
+      bgColor: "bg-[#FAF2F4] dark:bg-rose-950/30",
+      borderColor: "border-[#ECDDE2] dark:border-rose-900/40",
     },
     {
       label: "Rata-rata Kelulusan",
       value: "82.4%",
       subtext: "Berdasarkan target KKM 75",
       icon: Award,
-      iconColor: "text-amber-700",
-      bgColor: "bg-amber-50/70",
-      borderColor: "border-amber-200/70",
+      iconColor: "text-amber-700 dark:text-amber-400",
+      bgColor: "bg-amber-50/70 dark:bg-amber-950/30",
+      borderColor: "border-amber-200/70 dark:border-amber-900/40",
     },
   ];
 
@@ -59,7 +59,7 @@ export function ExamStats({ exams }: ExamStatsProps) {
         return (
           <div
             key={idx}
-            className="flex flex-col justify-between rounded-2xl border border-[#E5D7DC] bg-white p-3.5 sm:p-5 shadow-xs hover:shadow-md transition duration-200"
+            className="flex flex-col justify-between rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3.5 sm:p-5 shadow-xs hover:shadow-md transition duration-200"
           >
             <div className="flex items-start justify-between gap-2">
               <div
@@ -79,13 +79,13 @@ export function ExamStats({ exams }: ExamStatsProps) {
             </div>
 
             <div className="mt-2.5 sm:mt-4">
-              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#7A5661] truncate">
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] truncate">
                 {stat.label}
               </p>
-              <p className="mt-0.5 text-xl sm:text-3xl font-black text-[#451420]">
+              <p className="mt-0.5 text-xl sm:text-3xl font-black text-[#451420] dark:text-[#F8FAFC]">
                 {stat.value}
               </p>
-              <p className="mt-0.5 text-[10px] sm:text-xs text-[#9C737F] font-medium truncate">
+              <p className="mt-0.5 text-[10px] sm:text-xs text-[#9C737F] dark:text-[#64748B] font-medium truncate">
                 {stat.subtext}
               </p>
             </div>

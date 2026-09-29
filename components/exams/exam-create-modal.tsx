@@ -56,27 +56,27 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
     <div
       aria-modal="true"
       role="dialog"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#451420]/50 backdrop-blur-xs animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in"
     >
       <div
-        className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#E5D7DC] bg-[#FDFBF7] p-5 sm:p-7 text-[#451420] shadow-2xl"
+        className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] p-5 sm:p-7 text-[#451420] dark:text-[#F8FAFC] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#E5D7DC] pb-4">
+        <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] pb-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#451420] text-[#FDFBF7] shadow-xs">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#451420] dark:bg-[#C67D00] text-[#FDFBF7] dark:text-[#141720] shadow-xs">
               <PlusCircle size={22} />
             </div>
             <div>
-              <h3 className="text-xl font-black text-[#451420]">Buat Paket Ujian Baru</h3>
-              <p className="text-xs text-[#7A5661]">Lengkapi informasi dasar kisi-kisi dan durasi ujian</p>
+              <h3 className="text-xl font-black text-[#451420] dark:text-[#F8FAFC]">Buat Paket Ujian Baru</h3>
+              <p className="text-xs text-[#7A5661] dark:text-[#94A3B8]">Lengkapi informasi dasar kisi-kisi dan durasi ujian</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl p-2 text-[#7A5661] hover:bg-[#FAF2F4] hover:text-[#451420] transition cursor-pointer"
+            className="rounded-xl p-2 text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#FAF2F4] dark:hover:bg-[#282E3E] hover:text-[#451420] dark:hover:text-[#F8FAFC] transition cursor-pointer"
           >
             <X size={20} />
           </button>
@@ -102,17 +102,17 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
           />
 
 
-          <div className="mt-7 pt-4 border-t border-[#E5D7DC] flex items-center justify-end gap-3">
+          <div className="mt-7 pt-4 border-t border-[#E5D7DC] dark:border-[#282E3E] flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="h-11 px-6 inline-flex items-center justify-center rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F2] transition cursor-pointer"
+              className="h-11 px-6 inline-flex items-center justify-center rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] text-xs font-bold text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#FAF7F2] dark:hover:bg-[#282E3E] transition cursor-pointer"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="h-11 px-6 inline-flex items-center justify-center rounded-xl bg-[#451420] text-xs font-black text-white hover:bg-[#5B1C2E] transition cursor-pointer shadow-xs"
+              className="h-11 px-6 inline-flex items-center justify-center rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition cursor-pointer shadow-xs"
             >
               Simpan Sebagai Draft
             </button>

@@ -33,7 +33,7 @@ export default function RootLayout({
       lang="id"
       className={`${outfit.variable} ${dmSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#FDFBF7] text-[#451420]">
+      <body className="min-h-full flex flex-col bg-[#FDFBF7] dark:bg-[#141720] text-[#451420] dark:text-[#F8FAFC] transition-colors duration-200">
         <ToastProvider>
           <AuthModalProvider>
             {children}

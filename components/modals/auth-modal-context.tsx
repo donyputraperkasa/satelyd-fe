@@ -14,7 +14,6 @@ import type { User, ModalType, AuthModalContextValue } from "@/types";
 import { AuthModalsRenderer } from "./auth-modals-renderer";
 import { useUserInactivity } from "./use-user-inactivity";
 import { useAuthTransition } from "./use-auth-transition";
-import { useToast } from "@/components/ui";
 
 const AuthModalContext = createContext<AuthModalContextValue | undefined>(undefined);
 
@@ -51,29 +50,26 @@ export function AuthModalProvider({ children }: { children: ReactNode }) {
   const openPin = useCallback(() => setActiveModal("pin"), []);
   const closeModal = useCallback(() => setActiveModal(null), []);
 
-  const { toast } = useToast();
   const { authOverlay, showAuthTransition, logout } = useAuthTransition(() => setLocalUser(null));
 
   const handleLoginSuccess = useCallback(
     async (loggedInUser: User) => {
       closeModal();
       setLocalUser(loggedInUser);
-      toast.success(`Selamat datang kembali, ${loggedInUser.name}!`);
       await showAuthTransition({
-        title: "Menyiapkan Ruang Belajar...",
+        title: "Memulai Sesi Akun...",
         subtitle: `Selamat datang kembali, ${loggedInUser.name}!`,
         type: "login",
         redirectTo: "/dashboard",
       });
     },
-    [closeModal, showAuthTransition, toast]
+    [closeModal, showAuthTransition]
   );
 
   const handleRegisterSuccess = useCallback(
     async (registeredUser: User) => {
       closeModal();
       setLocalUser(registeredUser);
-      toast.success(`Akun berhasil dibuat! Selamat datang, ${registeredUser.name}!`);
       await showAuthTransition({
         title: "Membuat Akun Baru...",
         subtitle: `Selamat datang di Satelyd, ${registeredUser.name}!`,
@@ -81,7 +77,7 @@ export function AuthModalProvider({ children }: { children: ReactNode }) {
         redirectTo: "/dashboard",
       });
     },
-    [closeModal, showAuthTransition, toast]
+    [closeModal, showAuthTransition]
   );
 
   useUserInactivity(user, () => setLocalUser(null));

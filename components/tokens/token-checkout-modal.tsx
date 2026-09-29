@@ -73,11 +73,11 @@ export function TokenCheckoutModal({
 
   return (
     <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-7 shadow-2xl border-2 border-[#DFD0D5] flex flex-col space-y-5 max-h-[92vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-white dark:bg-[#1C202C] rounded-3xl p-6 sm:p-7 shadow-2xl border-2 border-[#DFD0D5] dark:border-[#282E3E] flex flex-col space-y-5 max-h-[92vh] overflow-y-auto">
         <button
           type="button"
           onClick={handleFinish}
-          className="absolute top-4 right-4 p-2 rounded-xl text-[#7A5661] hover:bg-[#FAF0F3] hover:text-[#451420] transition cursor-pointer"
+          className="absolute top-4 right-4 p-2 rounded-xl text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] hover:text-[#451420] dark:hover:text-[#F8FAFC] transition cursor-pointer"
         >
           <X size={18} />
         </button>

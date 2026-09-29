@@ -40,7 +40,7 @@ export interface BreadcrumbItem {
 
 export interface ActionItem {
   title: string;
-  badge: string;
+  badge?: string;
   description: string;
   icon: ComponentType<{ size?: number; className?: string }>;
   href: string;

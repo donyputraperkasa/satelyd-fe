@@ -49,24 +49,24 @@ export function DeckLaunchSessionModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-3xl border border-[#ECD0D8] bg-white p-6 shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-lg rounded-3xl border border-[#ECD0D8] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-6 shadow-2xl overflow-hidden">
         <button
           onClick={onClose}
-          className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full text-[#7A5661] hover:bg-[#FAF0F3] hover:text-[#451420] transition cursor-pointer"
+          className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] hover:text-[#451420] dark:hover:text-[#F8FAFC] transition cursor-pointer"
         >
           <X size={18} />
         </button>
 
-        <div className="flex items-center gap-3 mb-5 border-b border-[#F0E6E9] pb-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAF0F3] border border-[#ECD0D8] text-[#7A283C]">
+        <div className="flex items-center gap-3 mb-5 border-b border-[#F0E6E9] dark:border-[#282E3E] pb-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAF0F3] dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] text-[#7A283C] dark:text-[#C67D00]">
             <Tv size={20} />
           </div>
           <div>
-            <h2 className="text-base sm:text-lg font-black text-[#451420]">
+            <h2 className="text-base sm:text-lg font-black text-[#451420] dark:text-[#F8FAFC]">
               Mulai Sesi Game di Smart TV
             </h2>
-            <p className="text-xs text-[#7A5661]">
-              Deck: <strong className="text-[#451420]">{deck.title}</strong> ({deck.cards?.length || deck.cardCount} Kartu Soal)
+            <p className="text-xs text-[#7A5661] dark:text-[#94A3B8]">
+              Deck: <strong className="text-[#451420] dark:text-[#F8FAFC]">{deck.title}</strong> ({deck.cards?.length || deck.cardCount} Kartu Soal)
             </p>
           </div>
         </div>
@@ -75,18 +75,18 @@ export function DeckLaunchSessionModal({
 
         <DeckLaunchPinSection sessionPin={sessionPin} copied={copied} onCopy={handleCopy} />
 
-        <div className="mt-5 pt-4 border-t border-[#F0E6E9] flex items-center justify-between gap-3">
+        <div className="mt-5 pt-4 border-t border-[#F0E6E9] dark:border-[#282E3E] flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="h-10 px-4 rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F2] transition cursor-pointer"
+            className="h-10 px-4 rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] text-xs font-bold text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#FAF7F2] dark:hover:bg-[#222838] transition cursor-pointer"
           >
             Tutup
           </button>
           <button
             type="button"
             onClick={handlePlayDirect}
-            className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] px-5 text-xs font-black text-white hover:bg-[#5B1C2E] transition shadow-xs cursor-pointer"
+            className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] px-5 text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer"
           >
             <MonitorPlay size={14} />
             <span>Mulai Bermain</span>

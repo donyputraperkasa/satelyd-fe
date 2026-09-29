@@ -24,7 +24,7 @@ export function DeckActionsDropdown({
       <button
         type="button"
         onClick={() => setShowMenu(!showMenu)}
-        className="h-7 w-7 inline-flex items-center justify-center rounded-lg text-[#9C737F] hover:text-[#451420] hover:bg-[#FAF0F3] transition cursor-pointer"
+        className="h-7 w-7 inline-flex items-center justify-center rounded-lg text-[#9C737F] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] transition cursor-pointer"
         title="Opsi Deck"
       >
         <MoreVertical size={16} />
@@ -36,13 +36,13 @@ export function DeckActionsDropdown({
             className="fixed inset-0 z-20"
             onClick={() => setShowMenu(false)}
           />
-          <div className="absolute right-0 top-8 z-30 w-48 rounded-2xl border border-[#E5D7DC] bg-white py-1.5 shadow-xl">
+          <div className="absolute right-0 top-8 z-30 w-48 rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] py-1.5 shadow-xl">
             <button
               onClick={() => {
                 setShowMenu(false);
                 onEdit(deck);
               }}
-              className="flex w-full items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#451420] hover:bg-[#FAF0F3] transition cursor-pointer"
+              className="flex w-full items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#451420] dark:text-[#F8FAFC] hover:bg-[#FAF0F3] dark:hover:bg-[#222838] transition cursor-pointer"
             >
               <Edit2 size={13} />
               <span>Edit Informasi Deck</span>
@@ -52,18 +52,18 @@ export function DeckActionsDropdown({
                 setShowMenu(false);
                 onExportToExam(deck);
               }}
-              className="flex w-full items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#1B4D20] hover:bg-[#F0FDF4] transition cursor-pointer"
+              className="flex w-full items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#1B4D20] dark:text-emerald-400 hover:bg-[#F0FDF4] dark:hover:bg-emerald-950/40 transition cursor-pointer"
             >
               <GraduationCap size={13} />
               <span>Jadikan Ujian Siswa</span>
             </button>
-            <div className="my-1 border-t border-[#F0E6E9]" />
+            <div className="my-1 border-t border-[#F0E6E9] dark:border-[#282E3E]" />
             <button
               onClick={() => {
                 setShowMenu(false);
                 onDelete(deck);
               }}
-              className="flex w-full items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#8A1F2D] hover:bg-[#FBEAEB] transition cursor-pointer"
+              className="flex w-full items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#8A1F2D] dark:text-rose-400 hover:bg-[#FBEAEB] dark:hover:bg-rose-950/40 transition cursor-pointer"
             >
               <Trash2 size={13} />
               <span>Hapus Deck</span>

@@ -4,8 +4,8 @@ import type { User } from "./user";
 export interface MobileNavProps {
   isOpen: boolean;
   onClose: () => void;
-  lang: "id" | "en";
-  onSelectLang: (lang: "id" | "en") => void;
+  theme?: "light" | "dark";
+  onSelectTheme?: (theme: "light" | "dark") => void;
   user: User | null;
   onOpenLogin: () => void;
   onOpenRegister: () => void;

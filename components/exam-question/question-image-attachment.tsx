@@ -35,15 +35,15 @@ export function QuestionImageAttachment({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661] inline-flex items-center gap-1.5">
-          <ImageIcon size={14} className="text-[#7A283C]" />
+        <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] inline-flex items-center gap-1.5">
+          <ImageIcon size={14} className="text-[#7A283C] dark:text-[#FBBF24]" />
           Gambar Pendukung Soal (Opsional)
         </label>
         {imageUrl && !disabled && (
           <button
             type="button"
             onClick={() => onUpdateImage("")}
-            className="text-[11px] font-bold text-red-600 hover:text-red-800 inline-flex items-center gap-1 cursor-pointer"
+            className="text-[11px] font-bold text-red-600 dark:text-rose-400 hover:text-red-800 dark:hover:text-rose-300 inline-flex items-center gap-1 cursor-pointer"
           >
             <Trash2 size={12} /> Hapus Gambar
           </button>
@@ -51,7 +51,7 @@ export function QuestionImageAttachment({
       </div>
 
       {imageUrl ? (
-        <div className="relative rounded-xl border border-[#E5D7DC] bg-[#FAF7F2] p-2 flex flex-col items-center justify-center overflow-hidden">
+        <div className="relative rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-2 flex flex-col items-center justify-center overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageUrl}
@@ -65,7 +65,7 @@ export function QuestionImageAttachment({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="h-10 px-3 rounded-xl border border-dashed border-[#DFD0D5] bg-white hover:bg-[#FAF7F2] text-xs font-bold text-[#7A5661] hover:text-[#451420] inline-flex items-center justify-center gap-1.5 transition cursor-pointer"
+              className="h-10 px-3 rounded-xl border border-dashed border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] hover:bg-[#FAF7F2] dark:hover:bg-[#282E3E] text-xs font-bold text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] inline-flex items-center justify-center gap-1.5 transition cursor-pointer"
             >
               <UploadCloud size={15} /> Upload Gambar (Maks 2MB)
             </button>
@@ -76,13 +76,13 @@ export function QuestionImageAttachment({
               className="hidden"
               onChange={handleFileChange}
             />
-            <div className="flex-1 flex items-center gap-2 bg-white rounded-xl border border-[#E5D7DC] px-3 h-10">
-              <Link2 size={14} className="text-[#9C737F] shrink-0" />
+            <div className="flex-1 flex items-center gap-2 bg-white dark:bg-[#1C202C] rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] px-3 h-10">
+              <Link2 size={14} className="text-[#9C737F] dark:text-[#64748B] shrink-0" />
               <input
                 type="url"
                 placeholder="Atau tempel URL gambar (https://...)"
                 onChange={(e) => onUpdateImage(e.target.value)}
-                className="w-full bg-transparent text-xs text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:outline-none"
+                className="w-full bg-transparent text-xs text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:outline-none"
               />
             </div>
           </div>

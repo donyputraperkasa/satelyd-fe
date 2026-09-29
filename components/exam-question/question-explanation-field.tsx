@@ -18,9 +18,9 @@ export function QuestionExplanationField({
   disabled = false,
 }: QuestionExplanationFieldProps) {
   return (
-    <div className="space-y-3 pt-2 border-t border-[#E5D7DC]/70">
+    <div className="space-y-3 pt-2 border-t border-[#E5D7DC]/70 dark:border-[#282E3E]">
       <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">
           Pembahasan / Catatan Solusi (Opsional)
         </label>
         <textarea
@@ -29,13 +29,13 @@ export function QuestionExplanationField({
           value={explanation}
           onChange={(e) => onUpdateExplanation(e.target.value)}
           placeholder="Tuliskan petunjuk penyelesaian atau pembahasan soal ini..."
-          className="w-full rounded-xl border border-[#E5D7DC] bg-white p-3 text-xs sm:text-sm text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:border-[#451420] focus:outline-none transition shadow-2xs disabled:bg-gray-50 disabled:cursor-not-allowed"
+          className="w-full rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:border-[#C67D00] focus:outline-none transition shadow-2xs disabled:bg-gray-50 dark:disabled:bg-[#141720] disabled:cursor-not-allowed"
         />
       </div>
 
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661] inline-flex items-center gap-1.5">
+          <label className="text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] inline-flex items-center gap-1.5">
             <Video size={14} className="text-[#C67D00]" />
             Link Pembahasan Video / Materi Eksternal (YouTube dsb.)
           </label>
@@ -44,20 +44,20 @@ export function QuestionExplanationField({
               href={explanationLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] font-bold text-[#7A283C] hover:underline inline-flex items-center gap-1"
+              className="text-[11px] font-bold text-[#7A283C] dark:text-[#FBBF24] hover:underline inline-flex items-center gap-1"
             >
               Tes Buka Tautan <ExternalLink size={11} />
             </a>
           )}
         </div>
-        <div className="flex items-center gap-2 bg-white rounded-xl border border-[#E5D7DC] px-3 h-10 shadow-2xs">
+        <div className="flex items-center gap-2 bg-white dark:bg-[#1C202C] rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] px-3 h-10 shadow-2xs">
           <input
             type="url"
             disabled={disabled}
             value={explanationLink}
             onChange={(e) => onUpdateExplanationLink(e.target.value)}
             placeholder="Contoh: https://youtube.com/watch?v=... atau link dokumen PDF"
-            className="w-full bg-transparent text-xs text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:outline-none disabled:cursor-not-allowed"
+            className="w-full bg-transparent text-xs text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:outline-none disabled:cursor-not-allowed"
           />
         </div>
       </div>

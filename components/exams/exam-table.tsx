@@ -26,11 +26,11 @@ export function ExamTable({ exams, onManage, onMonitor, onCloseSession, onDelete
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5D7DC] bg-white shadow-xs">
+    <div className="overflow-hidden rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] shadow-xs">
       {/* 1. Desktop & Tablet Table View */}
       <div className="hidden md:block overflow-x-auto">
-        <table className="w-full text-sm text-[#451420] min-w-[760px]">
-          <thead className="border-b border-[#E5D7DC] bg-[#FAF7F2] text-xs font-black uppercase tracking-wider text-[#7A5661]">
+        <table className="w-full text-sm text-[#451420] dark:text-[#F8FAFC] min-w-[760px]">
+          <thead className="border-b border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] text-xs font-black uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8]">
             <tr>
               <th className="py-4.5 px-4 w-12 text-center">No</th>
               <th className="py-4.5 px-6 text-left">Paket Ujian & Identitas</th>
@@ -42,7 +42,7 @@ export function ExamTable({ exams, onManage, onMonitor, onCloseSession, onDelete
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[#E5D7DC]/70">
+          <tbody className="divide-y divide-[#E5D7DC]/70 dark:divide-[#282E3E]">
             {exams.map((exam, index) => (
               <ExamTableRow
                 key={exam.id}
@@ -61,7 +61,7 @@ export function ExamTable({ exams, onManage, onMonitor, onCloseSession, onDelete
       </div>
 
       {/* 2. Mobile Responsive Card-Row View */}
-      <div className="md:hidden divide-y divide-[#E5D7DC]/70">
+      <div className="md:hidden divide-y divide-[#E5D7DC]/70 dark:divide-[#282E3E]">
         {exams.map((exam) => (
           <ExamTableMobileCard
             key={exam.id}

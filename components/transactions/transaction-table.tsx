@@ -36,23 +36,23 @@ export function TransactionTable({
   return (
     <div className="space-y-5">
       {/* Search & Filter Bar (Matching model from other pages) */}
-      <section className="rounded-2xl border border-[#E5D7DC] bg-white p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      <section className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         {/* Search Input Box */}
-        <div className="flex items-center gap-2.5 bg-[#FAF7F2] border border-[#E5D7DC] focus-within:border-[#451420] focus-within:bg-white rounded-xl px-3.5 py-2 flex-1 transition">
-          <Search size={16} className="text-[#451420] shrink-0" />
+        <div className="flex items-center gap-2.5 bg-[#FAF7F2] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] focus-within:border-[#451420] dark:focus-within:border-[#C67D00] focus-within:bg-white dark:focus-within:bg-[#1C202C] rounded-xl px-3.5 py-2 flex-1 transition">
+          <Search size={16} className="text-[#451420] dark:text-[#FBBF24] shrink-0" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cari nama pengirim, email, sekolah, atau ID transaksi..."
-            className="w-full bg-transparent text-xs sm:text-sm text-[#451420] placeholder-[#BFAAB2] placeholder:font-normal focus:outline-none font-medium"
+            className="w-full bg-transparent text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:outline-none font-medium"
             aria-label="Cari transaksi"
           />
           {search && (
             <button
               type="button"
               onClick={() => setSearch("")}
-              className="text-[#9C737F] hover:text-[#451420] transition p-1 rounded-md cursor-pointer"
+              className="text-[#9C737F] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] transition p-1 rounded-md cursor-pointer"
               title="Hapus pencarian"
             >
               <X size={14} />
@@ -62,11 +62,11 @@ export function TransactionTable({
 
         {/* Filter Switcher & Count */}
         <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0">
-          <span className="text-xs font-bold text-[#7A5661] sm:mr-1">
+          <span className="text-xs font-bold text-[#7A5661] dark:text-[#94A3B8] sm:mr-1">
             {filtered.length} Transaksi
           </span>
 
-          <div className="flex items-center rounded-xl border border-[#E5D7DC] bg-[#FAF7F2] p-1">
+          <div className="flex items-center rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-1">
             {(["ALL", "PENDING", "APPROVED", "REJECTED"] as const).map((st) => (
               <button
                 key={st}
@@ -74,8 +74,8 @@ export function TransactionTable({
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
                   statusFilter === st
-                    ? "bg-white text-[#451420] shadow-xs"
-                    : "text-[#7A5661] hover:text-[#451420]"
+                    ? "bg-white dark:bg-[#282E3E] text-[#451420] dark:text-[#F8FAFC] shadow-xs"
+                    : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                 }`}
               >
                 {st === "ALL" && "Semua"}
@@ -89,12 +89,12 @@ export function TransactionTable({
       </section>
 
       {/* Orders List Container */}
-      <div className="rounded-2xl border border-[#E5D7DC] bg-[#FAF7F2] p-5 sm:p-7 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-[#E5D7DC] pb-3">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#7A5661]">
+      <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-5 sm:p-7 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] pb-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8]">
             Daftar Antrean & Riwayat Transaksi
           </p>
-          <span className="text-xs text-[#7A5661]">
+          <span className="text-xs text-[#7A5661] dark:text-[#94A3B8]">
             Total: {orders.length} Transaksi Terdaftar
           </span>
         </div>

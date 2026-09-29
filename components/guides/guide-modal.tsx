@@ -87,17 +87,17 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-3xl max-h-[90vh] bg-[#FDFBF7] rounded-2xl sm:rounded-3xl border border-[#DFD0D5] shadow-2xl flex flex-col overflow-hidden"
+        className="relative w-full max-w-3xl max-h-[90vh] bg-[#FDFBF7] dark:bg-[#1C202C] rounded-2xl sm:rounded-3xl border border-[#DFD0D5] dark:border-[#282E3E] shadow-2xl flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-start justify-between px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-[#E5D7DC] bg-[#FAF7F2] shrink-0">
+        <div className="flex items-start justify-between px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] shrink-0">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#FAF0F3] border border-[#ECD0D8] text-[#7A283C] shrink-0">
-              <BookOpen size={20} className="text-[#451420]" />
+            <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#FAF0F3] dark:bg-[#C67D00]/15 border border-[#ECD0D8] dark:border-[#C67D00]/30 text-[#7A283C] dark:text-[#FBBF24] shrink-0">
+              <BookOpen size={20} className="text-[#451420] dark:text-[#FBBF24]" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg md:text-xl font-black text-[#451420] leading-tight">
+              <h2 className="text-base sm:text-lg md:text-xl font-black text-[#451420] dark:text-[#F8FAFC] leading-tight">
                 {isDecks
                   ? "Panduan Bank Soal & Deck"
                   : isGames
@@ -106,7 +106,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
                   ? "Panduan Saldo Token & Kuota Satelyd"
                   : "Panduan Mode Ujian & Asesmen"}
               </h2>
-              <p className="text-xs sm:text-sm text-[#7A5661] mt-0.5">
+              <p className="text-xs sm:text-sm text-[#7A5661] dark:text-[#94A3B8] mt-0.5">
                 {isDecks
                   ? "Panduan ringkas menyusun soal dan meluncurkan game interaktif di Smart TV."
                   : isGames
@@ -121,7 +121,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 -mr-1 -mt-1 rounded-xl text-[#7A5661] hover:text-[#451420] hover:bg-[#F0E6E9] transition cursor-pointer"
+            className="p-1.5 -mr-1 -mt-1 rounded-xl text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] hover:bg-[#F0E6E9] dark:hover:bg-[#282E3E] transition cursor-pointer"
             aria-label="Tutup panduan"
           >
             <X size={20} />
@@ -466,10 +466,10 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
         </div>
 
         {/* Modal Footer */}
-        <div className="flex items-center justify-between px-5 sm:px-7 py-3.5 border-t border-[#E5D7DC] bg-[#FAF7F2] shrink-0">
+        <div className="flex items-center justify-between px-5 sm:px-7 py-3.5 border-t border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] shrink-0">
           <Link
             href={`/dashboard/guides?tab=${type === "GAMES" ? "games" : type === "TOKENS" ? "faq" : type.toLowerCase()}`}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7A283C] hover:text-[#451420] hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7A283C] dark:text-[#FBBF24] hover:text-[#451420] dark:hover:text-amber-300 hover:underline"
           >
             <span>Buka Halaman Panduan Lengkap & FAQ</span>
             <ExternalLink size={13} />
@@ -478,7 +478,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-[#451420] text-xs font-bold text-white hover:bg-[#5B1C2E] transition shadow-xs cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer"
           >
             Tutup Panduan
           </button>

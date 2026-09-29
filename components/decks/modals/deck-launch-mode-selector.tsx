@@ -21,7 +21,7 @@ export function DeckLaunchModeSelector({
 }: DeckLaunchModeSelectorProps) {
   return (
     <div className="space-y-2 mb-4">
-      <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661]">
+      <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8]">
         1. Pilih Jenis Permainan:
       </label>
       <div className="grid grid-cols-3 gap-2">
@@ -32,8 +32,8 @@ export function DeckLaunchModeSelector({
             onClick={() => onSelectGame(item.id)}
             className={`h-11 rounded-xl border text-center text-xs font-bold transition cursor-pointer ${
               selectedGame === item.id
-                ? "border-[#451420] bg-[#451420] text-white shadow-xs"
-                : "border-[#E5D7DC] bg-[#FAF7F8] text-[#7A5661] hover:bg-white hover:text-[#451420]"
+                ? "border-[#451420] dark:border-[#C67D00] bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-xs"
+                : "border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F8] dark:bg-[#141720] text-[#7A5661] dark:text-[#94A3B8] hover:bg-white dark:hover:bg-[#222838] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
             }`}
           >
             {item.label}

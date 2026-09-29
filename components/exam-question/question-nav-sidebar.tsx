@@ -21,12 +21,12 @@ export function QuestionNavSidebar({
   isReadOnly = false,
 }: QuestionNavSidebarProps) {
   return (
-    <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#E5D7DC] bg-[#FAF7F2] p-4 flex flex-col shrink-0 overflow-y-auto max-h-48 md:max-h-full">
+    <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-4 flex flex-col shrink-0 overflow-y-auto max-h-48 md:max-h-full">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-extrabold uppercase tracking-wider text-[#7A5661]">
+        <span className="text-xs font-extrabold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8]">
           Daftar Soal ({questions.length})
         </span>
-        <span className="text-[11px] font-bold text-[#7A283C] bg-white px-2 py-0.5 rounded-md border border-[#E5D7DC]">
+        <span className="text-[11px] font-bold text-[#7A283C] dark:text-[#FBBF24] bg-white dark:bg-[#1C202C] px-2 py-0.5 rounded-md border border-[#E5D7DC] dark:border-[#282E3E]">
           Total {totalPoints} Poin
         </span>
       </div>
@@ -42,15 +42,15 @@ export function QuestionNavSidebar({
               onClick={() => onSelectQuestion(idx)}
               className={`relative h-10 rounded-xl font-bold text-xs flex flex-col items-center justify-center transition cursor-pointer shadow-2xs ${
                 isActive
-                  ? "bg-[#451420] text-white border-2 border-[#451420] shadow-sm"
+                  ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] border-2 border-[#451420] dark:border-[#C67D00] shadow-sm"
                   : hasText
-                  ? "bg-white border border-[#E5D7DC] text-[#451420] hover:border-[#451420]"
-                  : "bg-white/60 border border-dashed border-[#DFD0D5] text-[#9C737F] hover:bg-white"
+                  ? "bg-white dark:bg-[#1C202C] border border-[#E5D7DC] dark:border-[#282E3E] text-[#451420] dark:text-[#F8FAFC] hover:border-[#451420] dark:hover:border-[#C67D00]"
+                  : "bg-white/60 dark:bg-[#1C202C]/60 border border-dashed border-[#DFD0D5] dark:border-[#282E3E] text-[#9C737F] dark:text-[#64748B] hover:bg-white dark:hover:bg-[#1C202C]"
               }`}
             >
               <span>{q.number}</span>
               {q.correctAnswer && q.questionType === "MULTIPLE_CHOICE" && (
-                <span className={`text-[9px] font-black ${isActive ? "text-amber-300" : "text-[#7A283C]"}`}>
+                <span className={`text-[9px] font-black ${isActive ? "text-amber-300 dark:text-[#141720]" : "text-[#7A283C] dark:text-[#FBBF24]"}`}>
                   Kunci: {q.correctAnswer}
                 </span>
               )}
@@ -62,7 +62,7 @@ export function QuestionNavSidebar({
           <button
             type="button"
             onClick={onAddQuestion}
-            className="h-10 rounded-xl border border-dashed border-[#7A283C]/40 bg-[#FAF0F3]/60 text-[#7A283C] hover:bg-[#FAF0F3] hover:border-[#7A283C] flex items-center justify-center transition cursor-pointer"
+            className="h-10 rounded-xl border border-dashed border-[#7A283C]/40 dark:border-[#C67D00]/40 bg-[#FAF0F3]/60 dark:bg-[#C67D00]/10 text-[#7A283C] dark:text-[#FBBF24] hover:bg-[#FAF0F3] dark:hover:bg-[#C67D00]/20 hover:border-[#7A283C] dark:hover:border-[#C67D00] flex items-center justify-center transition cursor-pointer"
             title="Tambah Nomor Soal Baru"
           >
             <Plus size={16} />
@@ -71,11 +71,11 @@ export function QuestionNavSidebar({
       </div>
 
       {!isReadOnly && (
-        <div className="mt-4 pt-3 border-t border-[#E5D7DC] hidden md:block">
+        <div className="mt-4 pt-3 border-t border-[#E5D7DC] dark:border-[#282E3E] hidden md:block">
           <button
             type="button"
             onClick={onAddQuestion}
-            className="w-full h-10 inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#451420] hover:bg-[#F5EDF0] transition cursor-pointer shadow-2xs"
+            className="w-full h-10 inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] text-xs font-bold text-[#451420] dark:text-[#F8FAFC] hover:bg-[#F5EDF0] dark:hover:bg-[#282E3E] transition cursor-pointer shadow-2xs"
           >
             <Plus size={14} />
             <span>Tambah Nomor Soal</span>

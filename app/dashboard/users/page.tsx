@@ -5,7 +5,6 @@ export default function UsersPage() {
     <PlaceholderPage
       title="Kelola Pengguna"
       description="Manajemen akun guru, verifikasi sekolah, dan pembagian kuota token untuk super admin."
-      badge="Admin Area"
       iconType="users"
     />
   );

@@ -35,31 +35,31 @@ export function ExamLiveMonitorModal({
   if (!isOpen || !exam) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 bg-[#451420]/60 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-3xl border border-[#DFD0D5] bg-[#FDFBF7] text-[#451420] shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between border-b border-[#DFD0D5] bg-white px-5 sm:px-6 py-4">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-3xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] text-[#451420] dark:text-[#F8FAFC] shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between border-b border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] px-5 sm:px-6 py-4">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold">
+              <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400 text-[11px] font-bold">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> Live Monitoring
               </span>
-              <span className="font-mono text-xs font-black text-[#451420] bg-[#F5EDF0] border border-[#ECD0D8] px-2.5 py-0.5 rounded-md">
+              <span className="font-mono text-xs font-black text-[#451420] dark:text-[#F8FAFC] bg-[#F5EDF0] dark:bg-[#1C202C] border border-[#ECD0D8] dark:border-[#282E3E] px-2.5 py-0.5 rounded-md">
                 TOKEN: {exam.tokenCode}
               </span>
             </div>
-            <h2 className="text-base sm:text-lg font-black text-[#451420] mt-1 truncate">{exam.title}</h2>
+            <h2 className="text-base sm:text-lg font-black text-[#451420] dark:text-[#F8FAFC] mt-1 truncate">{exam.title}</h2>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handleCopyLink}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#DFD0D5] bg-[#FDFBF7] hover:bg-white text-xs font-bold text-[#451420] transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] hover:bg-white dark:hover:bg-[#282E3E] text-xs font-bold text-[#451420] dark:text-[#F8FAFC] transition cursor-pointer"
             >
-              {copied ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+              {copied ? <Check size={14} className="text-emerald-600 dark:text-emerald-400" /> : <Copy size={14} />}
               <span>{copied ? "Tersalin!" : "Salin Link Siswa"}</span>
             </button>
-            <button type="button" onClick={onClose} className="p-2 rounded-xl text-[#7A5661] hover:bg-[#F5EDF0] hover:text-[#451420] cursor-pointer">
+            <button type="button" onClick={onClose} className="p-2 rounded-xl text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#F5EDF0] dark:hover:bg-[#282E3E] hover:text-[#451420] dark:hover:text-[#F8FAFC] cursor-pointer">
               <X size={20} />
             </button>
           </div>
@@ -68,17 +68,17 @@ export function ExamLiveMonitorModal({
         <div className="p-4 sm:p-6 pb-2 space-y-4">
           <MonitorMetrics total={students.length} working={workingCount} blocked={blockedCount} done={doneCount} />
 
-          <div className="flex items-center gap-2 border-b border-[#DFD0D5] pb-2 flex-wrap">
-            <button type="button" onClick={() => setFilterTab("ALL")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "ALL" ? "bg-[#451420] text-white" : "text-[#7A5661]"}`}>
+          <div className="flex items-center gap-2 border-b border-[#DFD0D5] dark:border-[#282E3E] pb-2 flex-wrap">
+            <button type="button" onClick={() => setFilterTab("ALL")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "ALL" ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
               Semua ({students.length})
             </button>
-            <button type="button" onClick={() => setFilterTab("WORKING")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "WORKING" ? "bg-[#451420] text-white" : "text-[#7A5661]"}`}>
+            <button type="button" onClick={() => setFilterTab("WORKING")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "WORKING" ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
               Mengerjakan ({workingCount})
             </button>
-            <button type="button" onClick={() => setFilterTab("BLOCKED")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "BLOCKED" ? "bg-[#8A1F2D] text-white" : "text-[#8A1F2D]"}`}>
+            <button type="button" onClick={() => setFilterTab("BLOCKED")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "BLOCKED" ? "bg-[#8A1F2D] text-white" : "text-[#8A1F2D] dark:text-rose-400"}`}>
               Terkunci ({blockedCount})
             </button>
-            <button type="button" onClick={() => setFilterTab("DONE")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "DONE" ? "bg-[#451420] text-white" : "text-[#7A5661]"}`}>
+            <button type="button" onClick={() => setFilterTab("DONE")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "DONE" ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
               Selesai ({doneCount})
             </button>
           </div>
@@ -88,17 +88,17 @@ export function ExamLiveMonitorModal({
           <MonitorTable students={filtered} onUnblock={handleUnblock} />
         </div>
 
-        <div className="border-t border-[#DFD0D5] bg-white px-5 py-3.5 flex items-center justify-between gap-3">
-          <div className="text-xs text-[#7A5661]">
+        <div className="border-t border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] px-5 py-3.5 flex items-center justify-between gap-3">
+          <div className="text-xs text-[#7A5661] dark:text-[#94A3B8]">
             Pemantauan langsung aktif. Tombol Buka Kunci akan membuka akses siswa seketika.
           </div>
           <div className="flex items-center gap-2">
             {onCloseSession && (
-              <button type="button" onClick={() => { onClose(); onCloseSession(exam); }} className="px-4 py-2 rounded-xl border border-red-200 text-xs font-bold text-red-700 hover:bg-red-50 cursor-pointer">
+              <button type="button" onClick={() => { onClose(); onCloseSession(exam); }} className="px-4 py-2 rounded-xl border border-red-200 dark:border-red-900/60 text-xs font-bold text-red-700 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 cursor-pointer">
                 Tutup Sesi Ujian
               </button>
             )}
-            <button type="button" onClick={onClose} className="px-5 py-2 rounded-xl bg-[#451420] text-xs font-bold text-white hover:bg-[#300C15] cursor-pointer">
+            <button type="button" onClick={onClose} className="px-5 py-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#300C15] dark:hover:bg-[#B37000] cursor-pointer">
               Selesai Pantau
             </button>
           </div>

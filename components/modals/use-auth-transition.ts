@@ -16,7 +16,7 @@ export function useAuthTransition(onLogoutSession: () => void) {
   const showAuthTransition = useCallback(
     async ({ title, subtitle, type = "login", redirectTo }: AuthTransitionOptions) => {
       setAuthOverlay({ isOpen: true, title, subtitle, type });
-      await new Promise((res) => setTimeout(res, 800));
+      await new Promise((res) => setTimeout(res, 850));
       if (redirectTo) {
         router.push(redirectTo);
         router.refresh();

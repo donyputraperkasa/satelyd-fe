@@ -20,7 +20,7 @@ export function DeckCreateFields({
   return (
     <>
       <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">
           Judul Deck Soal *
         </label>
         <input
@@ -29,13 +29,13 @@ export function DeckCreateFields({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Contoh: Operasi Aljabar & Persamaan Linear"
-          className="w-full rounded-xl border border-[#E2D5D9] bg-[#FAF7F8] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] placeholder-[#A08890] transition focus:border-[#451420] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#451420]/15"
+          className="w-full rounded-xl border border-[#E2D5D9] dark:border-[#282E3E] bg-[#FAF7F8] dark:bg-[#141720] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#A08890] dark:placeholder-[#64748B] transition focus:border-[#451420] dark:focus:border-[#C67D00] focus:bg-white dark:focus:bg-[#141720] focus:outline-none focus:ring-2 focus:ring-[#451420]/15 dark:focus:ring-[#C67D00]/20"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">
             Mata Pelajaran *
           </label>
           <input
@@ -44,12 +44,12 @@ export function DeckCreateFields({
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             placeholder="Matematika, Fisika, dll"
-            className="w-full rounded-xl border border-[#E2D5D9] bg-[#FAF7F8] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] placeholder-[#A08890] transition focus:border-[#451420] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#451420]/15"
+            className="w-full rounded-xl border border-[#E2D5D9] dark:border-[#282E3E] bg-[#FAF7F8] dark:bg-[#141720] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#A08890] dark:placeholder-[#64748B] transition focus:border-[#451420] dark:focus:border-[#C67D00] focus:bg-white dark:focus:bg-[#141720] focus:outline-none focus:ring-2 focus:ring-[#451420]/15 dark:focus:ring-[#C67D00]/20"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">
             Jenjang / Tingkat Kelas *
           </label>
           <input
@@ -58,7 +58,7 @@ export function DeckCreateFields({
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
             placeholder="Kelas 8 SMP, Kelas 10 SMA"
-            className="w-full rounded-xl border border-[#E2D5D9] bg-[#FAF7F8] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] placeholder-[#A08890] transition focus:border-[#451420] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#451420]/15"
+            className="w-full rounded-xl border border-[#E2D5D9] dark:border-[#282E3E] bg-[#FAF7F8] dark:bg-[#141720] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#A08890] dark:placeholder-[#64748B] transition focus:border-[#451420] dark:focus:border-[#C67D00] focus:bg-white dark:focus:bg-[#141720] focus:outline-none focus:ring-2 focus:ring-[#451420]/15 dark:focus:ring-[#C67D00]/20"
           />
         </div>
       </div>
@@ -66,7 +66,7 @@ export function DeckCreateFields({
       <DeckDifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
 
       <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">
           Deskripsi Deck (Opsional)
         </label>
         <textarea
@@ -74,12 +74,12 @@ export function DeckCreateFields({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Ringkasan isi deck soal atau catatan untuk guru..."
-          className="w-full rounded-xl border border-[#E2D5D9] bg-[#FAF7F8] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] placeholder-[#A08890] transition focus:border-[#451420] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#451420]/15"
+          className="w-full rounded-xl border border-[#E2D5D9] dark:border-[#282E3E] bg-[#FAF7F8] dark:bg-[#141720] py-2.5 px-3.5 text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#A08890] dark:placeholder-[#64748B] transition focus:border-[#451420] dark:focus:border-[#C67D00] focus:bg-white dark:focus:bg-[#141720] focus:outline-none focus:ring-2 focus:ring-[#451420]/15 dark:focus:ring-[#C67D00]/20"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+        <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">
           Kustom PIN Sesi Smart TV (Opsional)
         </label>
         <input
@@ -88,7 +88,7 @@ export function DeckCreateFields({
           value={pinCode}
           onChange={(e) => setPinCode(e.target.value.toUpperCase())}
           placeholder="Kosongkan untuk PIN acak (contoh: TV-8821)"
-          className="w-full rounded-xl border border-[#E2D5D9] bg-[#FAF7F8] py-2.5 px-3.5 text-xs sm:text-sm font-mono text-[#451420] placeholder-[#A08890] transition focus:border-[#451420] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#451420]/15"
+          className="w-full rounded-xl border border-[#E2D5D9] dark:border-[#282E3E] bg-[#FAF7F8] dark:bg-[#141720] py-2.5 px-3.5 text-xs sm:text-sm font-mono text-[#451420] dark:text-[#F8FAFC] placeholder-[#A08890] dark:placeholder-[#64748B] transition focus:border-[#451420] dark:focus:border-[#C67D00] focus:bg-white dark:focus:bg-[#141720] focus:outline-none focus:ring-2 focus:ring-[#451420]/15 dark:focus:ring-[#C67D00]/20"
         />
       </div>
     </>

@@ -30,30 +30,30 @@ export function CheckoutSuccessView({ order, onFinish }: CheckoutSuccessViewProp
       </div>
 
       <div className="space-y-1">
-        <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+        <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-2.5 py-0.5 rounded-full">
           ID Transaksi: {order.id}
         </span>
-        <h3 className="text-xl sm:text-2xl font-black text-[#451420] pt-1">
+        <h3 className="text-xl sm:text-2xl font-black text-[#451420] dark:text-[#F8FAFC] pt-1">
           Konfirmasi Pesanan Terkirim!
         </h3>
-        <p className="text-xs text-[#7A5661] max-w-sm leading-relaxed mx-auto">
+        <p className="text-xs text-[#7A5661] dark:text-[#94A3B8] max-w-sm leading-relaxed mx-auto">
           Pesanan token Anda berhasil dicatat ke sistem dan menunggu verifikasi admit admin. Anda juga dapat konfirmasi langsung ke WhatsApp Mas Dony agar segera diaktifkan.
         </p>
       </div>
 
       {/* Quick Order Summary Pill */}
-      <div className="w-full bg-[#FAF7F2] border border-[#ECD0D8] rounded-2xl p-3.5 text-xs text-left space-y-1 font-mono">
+      <div className="w-full bg-[#FAF7F2] dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] rounded-2xl p-3.5 text-xs text-left space-y-1 font-mono">
         <div className="flex justify-between font-sans">
-          <span className="text-[#7A5661]">Paket:</span>
-          <strong className="text-[#451420]">{order.packageName}</strong>
+          <span className="text-[#7A5661] dark:text-[#94A3B8]">Paket:</span>
+          <strong className="text-[#451420] dark:text-[#F8FAFC]">{order.packageName}</strong>
         </div>
         <div className="flex justify-between font-sans">
-          <span className="text-[#7A5661]">Total Bayar:</span>
-          <strong className="text-[#2E7D32]">Rp {order.price.toLocaleString("id-ID")}</strong>
+          <span className="text-[#7A5661] dark:text-[#94A3B8]">Total Bayar:</span>
+          <strong className="text-[#2E7D32] dark:text-emerald-400">Rp {order.price.toLocaleString("id-ID")}</strong>
         </div>
         <div className="flex justify-between font-sans">
-          <span className="text-[#7A5661]">Tujuan:</span>
-          <strong className="text-[#451420]">{order.paymentMethod}</strong>
+          <span className="text-[#7A5661] dark:text-[#94A3B8]">Tujuan:</span>
+          <strong className="text-[#451420] dark:text-[#F8FAFC]">{order.paymentMethod}</strong>
         </div>
       </div>
 
@@ -72,7 +72,7 @@ export function CheckoutSuccessView({ order, onFinish }: CheckoutSuccessViewProp
         <button
           type="button"
           onClick={onFinish}
-          className="h-11 w-full rounded-xl border border-[#DFD0D5] bg-white text-[#451420] font-bold text-xs hover:bg-[#FAF7F2] hover:border-[#451420] transition cursor-pointer"
+          className="h-11 w-full rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] text-[#451420] dark:text-[#F8FAFC] font-bold text-xs hover:bg-[#FAF7F2] dark:hover:bg-[#282E3E] hover:border-[#451420] dark:hover:border-[#C67D00] transition cursor-pointer"
         >
           Selesai &amp; Kembali ke Toko
         </button>

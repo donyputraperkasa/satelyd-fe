@@ -50,18 +50,20 @@ export function PinModal({
   return (
     <BaseModal isOpen={isOpen} onClose={onClose}>
       <div className="mb-6 text-center">
-        <h2 className="font-display text-2xl font-bold text-[#451420]">Masukkan PIN Sesi</h2>
-        <p className="mt-1 text-xs sm:text-sm text-[#7A5661]">
+        <h2 className="font-display text-2xl font-bold text-[#451420] dark:text-[#F8FAFC]">Masukkan PIN Sesi</h2>
+        <p className="mt-1 text-xs sm:text-sm text-[#7A5661] dark:text-[#94A3B8]">
           {mode === "game" ? "Ketik 6 karakter kode di TV kelas" : "Masukkan token ujian dari guru"}
         </p>
       </div>
 
-      <div className="mb-5 flex rounded-full bg-[#EFE8EB] p-1 border border-[#DFD0D5]">
+      <div className="mb-5 flex rounded-full bg-[#EFE8EB] dark:bg-[#141720] p-1 border border-[#DFD0D5] dark:border-[#282E3E]">
         <button
           type="button"
           onClick={() => { setMode("game"); setErrorMsg(null); setSuccessMsg(null); }}
           className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
-            mode === "game" ? "bg-[#451420] text-[#FDFBF7] shadow-xs" : "text-[#7A5661] hover:text-[#451420]"
+            mode === "game"
+              ? "bg-[#451420] dark:bg-[#C67D00] text-[#FDFBF7] dark:text-[#141720] shadow-xs"
+              : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
           }`}
         >
           <Gamepad2 size={14} /> Game TV Kelas
@@ -70,7 +72,9 @@ export function PinModal({
           type="button"
           onClick={() => { setMode("exam"); setErrorMsg(null); setSuccessMsg(null); }}
           className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
-            mode === "exam" ? "bg-[#451420] text-[#FDFBF7] shadow-xs" : "text-[#7A5661] hover:text-[#451420]"
+            mode === "exam"
+              ? "bg-[#451420] dark:bg-[#C67D00] text-[#FDFBF7] dark:text-[#141720] shadow-xs"
+              : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
           }`}
         >
           <GraduationCap size={14} /> Ujian Sekolah
@@ -78,10 +82,10 @@ export function PinModal({
       </div>
 
       {errorMsg && (
-        <div className="mb-4 rounded-lg bg-[#FBEAEB] border border-[#F2C2C6] p-2.5 text-xs text-[#8A1F2D] text-center">{errorMsg}</div>
+        <div className="mb-4 rounded-lg bg-[#FBEAEB] dark:bg-rose-950/40 border border-[#F2C2C6] dark:border-rose-900/60 p-2.5 text-xs text-[#8A1F2D] dark:text-rose-300 text-center">{errorMsg}</div>
       )}
       {successMsg && (
-        <div className="mb-4 rounded-lg bg-[#EBF7EE] border border-[#B9E5C2] p-2.5 text-xs text-[#1D6C31] text-center font-medium">{successMsg}</div>
+        <div className="mb-4 rounded-lg bg-[#EBF7EE] dark:bg-emerald-950/40 border border-[#B9E5C2] dark:border-emerald-800/60 p-2.5 text-xs text-[#1D6C31] dark:text-emerald-400 text-center font-medium">{successMsg}</div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,22 +96,22 @@ export function PinModal({
           value={pin}
           onChange={(e) => setPin(e.target.value.toUpperCase())}
           placeholder={mode === "game" ? "CTH: ABC123" : "TOKEN UJIAN"}
-          className="w-full text-center tracking-[0.25em] font-mono text-xl sm:text-2xl font-black rounded-xl border-2 border-[#DFD0D5] bg-white py-2.5 px-4 text-[#451420] placeholder-[#C5B3B9] transition focus:border-[#451420] focus:outline-none focus:ring-2 focus:ring-[#451420]/20 uppercase"
+          className="w-full text-center tracking-[0.25em] font-mono text-xl sm:text-2xl font-black rounded-xl border-2 border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] py-2.5 px-4 text-[#451420] dark:text-[#F8FAFC] placeholder-[#C5B3B9] dark:placeholder-[#64748B] transition focus:border-[#C67D00] focus:outline-none focus:ring-2 focus:ring-[#C67D00]/20 uppercase"
         />
 
         <button
           type="submit"
           disabled={isLoading || !pin.trim()}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] hover:bg-[#300C15] py-3 text-sm font-semibold text-[#FDFBF7] shadow-md shadow-[#451420]/20 transition disabled:opacity-50 cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] dark:bg-[#C67D00] hover:bg-[#300C15] dark:hover:bg-[#B37000] py-3 text-sm font-semibold text-[#FDFBF7] dark:text-[#141720] shadow-md shadow-[#451420]/20 dark:shadow-[#C67D00]/20 transition disabled:opacity-50 cursor-pointer"
         >
           {isLoading ? <><Loader2 size={16} className="animate-spin" /> Memeriksa PIN...</> : "Gabung Sekarang"}
         </button>
       </form>
 
-      <div className="mt-6 flex flex-wrap justify-center gap-3 border-t border-[#E5D7DC] pt-4 text-xs text-[#7A5661]">
-        <button type="button" onClick={onSwitchToLogin} className="text-[#451420] font-semibold hover:underline cursor-pointer">Login Akun</button>
+      <div className="mt-6 flex flex-wrap justify-center gap-3 border-t border-[#E5D7DC] dark:border-[#282E3E] pt-4 text-xs text-[#7A5661] dark:text-[#94A3B8]">
+        <button type="button" onClick={onSwitchToLogin} className="text-[#451420] dark:text-[#FBBF24] font-semibold hover:underline cursor-pointer">Login Akun</button>
         <span>•</span>
-        <button type="button" onClick={onSwitchToRegister} className="text-[#451420] font-semibold hover:underline cursor-pointer">Daftar Akun Baru</button>
+        <button type="button" onClick={onSwitchToRegister} className="text-[#451420] dark:text-[#FBBF24] font-semibold hover:underline cursor-pointer">Daftar Akun Baru</button>
       </div>
     </BaseModal>
   );

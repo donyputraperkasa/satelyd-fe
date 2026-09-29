@@ -12,7 +12,7 @@ const DIFFICULTIES: DeckDifficulty[] = ["MUDAH", "SEDANG", "SULIT", "CAMPURAN"];
 export function DeckDifficultySelector({ difficulty, setDifficulty }: DeckDifficultySelectorProps) {
   return (
     <div>
-      <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] mb-1.5">
+      <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">
         Tingkat Kesulitan Materi
       </label>
       <div className="grid grid-cols-4 gap-2">
@@ -23,8 +23,8 @@ export function DeckDifficultySelector({ difficulty, setDifficulty }: DeckDiffic
             onClick={() => setDifficulty(lvl)}
             className={`rounded-xl py-2 text-xs font-bold transition cursor-pointer ${
               difficulty === lvl
-                ? "bg-[#451420] text-white shadow-xs"
-                : "bg-[#FAF7F8] border border-[#E2D5D9] text-[#7A5661] hover:border-[#451420]"
+                ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-xs"
+                : "bg-[#FAF7F8] dark:bg-[#141720] border border-[#E2D5D9] dark:border-[#282E3E] text-[#7A5661] dark:text-[#94A3B8] hover:border-[#451420] dark:hover:border-[#C67D00]"
             }`}
           >
             {lvl}

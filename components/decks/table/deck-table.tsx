@@ -12,10 +12,10 @@ export function DeckTable({
   onExportToExam,
 }: DeckTableProps) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5D7DC] bg-white shadow-xs">
+    <div className="overflow-hidden rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] shadow-xs">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm text-[#451420] min-w-[760px]">
-          <thead className="border-b border-[#E5D7DC] bg-[#FAF7F2] text-xs font-black uppercase tracking-wider text-[#7A5661]">
+        <table className="w-full text-sm text-[#451420] dark:text-[#F8FAFC] min-w-[760px]">
+          <thead className="border-b border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] text-xs font-black uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8]">
             <tr>
               <th className="py-4 px-4 w-12 text-center">No</th>
               <th className="py-4 px-6 text-left">Paket Deck & Identitas Materi</th>
@@ -26,7 +26,7 @@ export function DeckTable({
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[#E5D7DC]/70">
+          <tbody className="divide-y divide-[#E5D7DC]/70 dark:divide-[#282E3E]">
             {decks.map((deck, index) => (
               <DeckTableRow
                 key={deck.id}

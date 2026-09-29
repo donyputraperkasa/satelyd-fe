@@ -29,11 +29,11 @@ export function GuidesNavTabs({ activeTab, onTabChange }: GuidesNavTabsProps) {
             onClick={() => onTabChange(tab.id)}
             className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer shrink-0 ${
               isActive
-                ? "bg-[#451420] text-white shadow-xs"
-                : "bg-white border border-[#DFD0D5] text-[#7A5661] hover:bg-[#FAF7F2] hover:text-[#451420]"
+                ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-xs"
+                : "bg-white dark:bg-[#1C202C] border border-[#DFD0D5] dark:border-[#282E3E] text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
             }`}
           >
-            <Icon size={15} className={isActive ? "text-[#FDFBF7]" : "text-[#7A5661]"} />
+            <Icon size={15} className={isActive ? "text-[#FDFBF7] dark:text-[#141720]" : "text-[#7A5661] dark:text-[#94A3B8]"} />
             <span>{tab.label}</span>
           </button>
         );

@@ -4,7 +4,7 @@ import { StatsSection } from "@/components/landing/stats-section";
 import { Footer } from "@/components/public/Footer";
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7] selection:bg-[#451420] selection:text-[#FDFBF7]">
+    <div className="min-h-screen flex flex-col bg-[#FDFBF7] dark:bg-[#141720] selection:bg-[#451420] selection:text-[#FDFBF7] dark:selection:bg-[#C67D00] dark:selection:text-[#141720] transition-colors duration-200">
       <Navbar />
       <main className="flex-1 flex flex-col justify-center">
         <HeroSection />

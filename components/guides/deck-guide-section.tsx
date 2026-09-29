@@ -7,23 +7,23 @@ import { GuideStepCard } from "./guide-step-card";
 export function DeckGuideSection() {
   return (
     <section className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5D7DC] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5D7DC] dark:border-[#282E3E] pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#ECD0D8] bg-[#FAF0F3] px-3 py-1 text-xs font-bold text-[#7A283C]">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#ECD0D8] dark:border-[#C67D00]/30 bg-[#FAF0F3] dark:bg-[#C67D00]/15 px-3 py-1 text-xs font-bold text-[#7A283C] dark:text-[#FBBF24]">
             <Layers size={13} />
             Modul 2: Bank Soal & Deck
           </div>
-          <h2 className="mt-2 text-xl sm:text-2xl font-black text-[#451420]">
+          <h2 className="mt-2 text-xl sm:text-2xl font-black text-[#451420] dark:text-[#F8FAFC]">
             Panduan Mengelola Bank Soal & Deck
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-[#7A5661]">
+          <p className="mt-1 text-xs sm:text-sm text-[#7A5661] dark:text-[#94A3B8]">
             Kumpulkan dan kelola pustaka pertanyaan kuis Anda ke dalam kumpulan deck tematik untuk dimainkan di Smart TV dan Ujian Sekolah.
           </p>
         </div>
 
         <Link
           href="/dashboard/decks"
-          className="inline-flex items-center gap-2 rounded-xl bg-[#451420] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#5B1C2E] transition shadow-xs self-start sm:self-center shrink-0"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] px-4 py-2.5 text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs self-start sm:self-center shrink-0"
         >
           <span>Buka Bank Soal</span>
           <ArrowRight size={14} />
