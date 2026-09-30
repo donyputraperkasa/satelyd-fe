@@ -10,6 +10,8 @@ export interface MobileNavProps {
   onOpenLogin: () => void;
   onOpenRegister: () => void;
   onLogout: () => void;
+  onOpenGuide?: () => void;
+  onOpenPin?: () => void;
 }
 
 export interface NavDropdownItem {

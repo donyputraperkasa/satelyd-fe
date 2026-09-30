@@ -79,7 +79,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3 sm:gap-4">
-          <div className="flex items-center bg-[#EFE8EB] dark:bg-[#1C202C] p-0.5 rounded-full border border-[#DDD0D5] dark:border-[#282E3E] transition-colors">
+          <div className="flex items-center gap-0.5 bg-[#EFE8EB] dark:bg-[#1C202C] p-1 rounded-full border border-[#DDD0D5] dark:border-[#282E3E] transition-colors">
             <button
               type="button"
               onClick={() => handleThemeChange("light")}
@@ -91,7 +91,7 @@ export function Navbar() {
               title="Mode Terang"
               aria-label="Mode Terang"
             >
-              <Sun size={13} />
+              <Sun size={15} />
             </button>
             <button
               type="button"
@@ -104,7 +104,7 @@ export function Navbar() {
               title="Mode Gelap"
               aria-label="Mode Gelap"
             >
-              <Moon size={13} />
+              <Moon size={15} />
             </button>
           </div>
 
@@ -170,6 +170,8 @@ export function Navbar() {
         onOpenLogin={openLogin}
         onOpenRegister={openRegister}
         onLogout={logout}
+        onOpenGuide={() => setIsGuideOpen(true)}
+        onOpenPin={openPin}
       />
 
       <GuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} type="GAMES" />
