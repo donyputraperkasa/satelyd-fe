@@ -6,6 +6,7 @@ export * from "./teacher-exam.service";
 export * from "./deck.service";
 export * from "./game.service";
 export * from "./token.service";
+export * from "./user.service";
 
 export async function getSystemHealth() {
   return apiClient<{ status: string }>("/health");

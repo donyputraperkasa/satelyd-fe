@@ -32,7 +32,7 @@ export function StatsCards({ user }: StatsCardsProps) {
         <div className="mt-4 flex items-center justify-between border-t border-[#F2EAEC] dark:border-[#282E3E] pt-3 text-xs">
           <span className="text-[#A48E95] dark:text-[#64748B]">Tarif: Rp 2.500 / token</span>
           <Link
-            href="/dashboard/tokens"
+            href="/dashboard/tokens?type=GAME#catalog-section"
             className="font-bold text-[#451420] dark:text-[#F8FAFC] hover:text-[#C67D00] dark:hover:text-[#FBBF24] inline-flex items-center gap-1 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C67D00]"
           >
             <PlusCircle size={13} />
@@ -62,7 +62,7 @@ export function StatsCards({ user }: StatsCardsProps) {
         <div className="mt-4 flex items-center justify-between border-t border-[#F2EAEC] dark:border-[#282E3E] pt-3 text-xs">
           <span className="text-[#A48E95] dark:text-[#64748B]">Tarif: Rp 14.900 / token</span>
           <Link
-            href="/dashboard/tokens"
+            href="/dashboard/tokens?type=EXAM#catalog-section"
             className="font-bold text-[#451420] dark:text-[#F8FAFC] hover:text-[#C67D00] dark:hover:text-[#FBBF24] inline-flex items-center gap-1 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C67D00]"
           >
             <PlusCircle size={13} />

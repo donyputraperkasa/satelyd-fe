@@ -106,7 +106,6 @@ export function getUserTokenBalances(): {
   examCreditBalance: number;
   isUnlimited: boolean;
 } {
-  syncApprovedOrdersToUser();
   const user = getStoredUser();
   return {
     gameTokenBalance: user?.gameTokenBalance ?? 0,
@@ -289,52 +288,10 @@ export function deductExamCredit(): boolean {
 }
 
 /**
- * Sync approved transactions with user balance
+ * Backend is authoritative for balances; no-op retained for backwards compatibility
  */
 export function syncApprovedOrdersToUser(): void {
-  if (typeof window === "undefined") return;
-  const user = getStoredUser();
-  if (!user) return;
-
-  try {
-    const rawOrders = localStorage.getItem(TRANSACTIONS_KEY);
-    if (!rawOrders) return;
-    const orders: TransactionOrder[] = JSON.parse(rawOrders);
-
-    const rawProcessed = localStorage.getItem(PROCESSED_ORDERS_KEY);
-    const processedIds: string[] = rawProcessed ? JSON.parse(rawProcessed) : [];
-
-    let additionalGame = 0;
-    let additionalExam = 0;
-    const newProcessedIds = [...processedIds];
-
-    for (const order of orders) {
-      const isThisUser = order.userEmail === user.email || order.userName === user.name;
-      const isApproved = order.status === "APPROVED" || order.status === "PAID";
-      if (isThisUser && isApproved && !processedIds.includes(order.id)) {
-        if (order.itemType === "GAME") {
-          additionalGame += order.tokenAmount;
-        } else if (order.itemType === "EXAM") {
-          additionalExam += order.tokenAmount;
-        } else if (order.itemType === "COMBO") {
-          additionalGame += order.tokenAmount;
-          additionalExam += order.tokenAmount;
-        }
-        newProcessedIds.push(order.id);
-      }
-    }
-
-    if (additionalGame > 0 || additionalExam > 0) {
-      updateStoredUser((curr) => ({
-        ...curr,
-        gameTokenBalance: (curr.gameTokenBalance ?? 0) + additionalGame,
-        examCreditBalance: (curr.examCreditBalance ?? 0) + additionalExam,
-      }));
-      localStorage.setItem(PROCESSED_ORDERS_KEY, JSON.stringify(newProcessedIds));
-    }
-  } catch (err) {
-    console.warn("Failed to sync approved orders:", err);
-  }
+  // Authoritative balance is maintained by the backend via /users/me
 }
 
 /**
@@ -349,28 +306,26 @@ export async function submitTokenOrder(payload: {
 }): Promise<TransactionOrder> {
   const user = getStoredUser();
   const prodType = payload.pkg.itemType === "GAME" ? "GAME_TOKEN" : "EXAM_CREDIT";
-  let createdOrderId = `TRX-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
 
-  try {
-    const res = await apiClient<{ order: { id: string } }>("/tokens/buy", {
-      method: "POST",
-      body: JSON.stringify({
-        productType: prodType,
-        quantity: payload.pkg.tokenAmount,
-        price: payload.pkg.price,
-        paymentMethod: payload.paymentMethod || "Transfer Bank / QRIS",
-        proofImageUrl: payload.proofImageUrl || "",
-        packageName: payload.pkg.name,
-        senderAccount: payload.senderAccount.trim(),
-        referenceNumber: payload.referenceNumber?.trim() || `REF-${Date.now().toString(36).toUpperCase()}`,
-      }),
-    });
-    if (res?.order?.id) {
-      createdOrderId = res.order.id;
-    }
-  } catch (err) {
-    console.warn("Backend buy order failed, saved locally:", err);
+  const res = await apiClient<{ order: { id: string } }>("/tokens/buy", {
+    method: "POST",
+    body: JSON.stringify({
+      productType: prodType,
+      quantity: payload.pkg.tokenAmount,
+      price: payload.pkg.price,
+      paymentMethod: payload.paymentMethod || "Transfer Bank / QRIS",
+      proofImageUrl: payload.proofImageUrl || "",
+      packageName: payload.pkg.name,
+      senderAccount: payload.senderAccount.trim(),
+      referenceNumber: payload.referenceNumber?.trim() || `REF-${Date.now().toString(36).toUpperCase()}`,
+    }),
+  });
+
+  if (!res?.order?.id) {
+    throw new Error("Gagal mengajukan pesanan token ke server backend.");
   }
+
+  const createdOrderId = res.order.id;
 
   const newOrder: TransactionOrder = {
     id: createdOrderId,
@@ -384,7 +339,7 @@ export async function submitTokenOrder(payload: {
     price: payload.pkg.price,
     paymentMethod: payload.paymentMethod || "Transfer Bank / QRIS",
     senderAccount: payload.senderAccount.trim(),
-    referenceNumber: payload.referenceNumber?.trim() || `REF-${Date.now().toString(36).toUpperCase()}`,
+    referenceNumber: payload.referenceNumber?.trim() || createdOrderId,
     proofImageUrl: payload.proofImageUrl || "",
     createdAt: new Intl.DateTimeFormat("id-ID", {
       day: "numeric",
@@ -548,16 +503,7 @@ export async function fetchAdminOrdersFromApi(): Promise<TransactionOrder[]> {
     }
   } catch (err) {
     console.warn("fetchAdminOrdersFromApi failed:", err);
-  }
-
-  // Fallback to local
-  if (typeof window !== "undefined") {
-    try {
-      const raw = localStorage.getItem(TRANSACTIONS_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
+    return [];
   }
   return [];
 }
@@ -569,6 +515,11 @@ export async function approveOrderApi(orderId: string): Promise<void> {
   await apiClient(`/tokens/orders/${encodeURIComponent(orderId)}/approve`, {
     method: "PATCH",
   });
+  try {
+    await fetchUserTokenBalancesFromApi();
+  } catch {
+    // Ignore
+  }
 }
 
 /**

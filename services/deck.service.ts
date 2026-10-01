@@ -55,155 +55,92 @@ function saveStoredDecks(decks: Deck[]) {
 export async function fetchDecks(): Promise<Deck[]> {
   try {
     const backendData = await apiClient<Deck[]>("/decks");
-    if (Array.isArray(backendData) && backendData.length > 0) {
-      const local = getStoredDecks();
-      const localMap = new Map(local.map((d) => [d.id, d]));
-
-      const merged = backendData.map((bDeck) => {
-        const lDeck = localMap.get(bDeck.id);
-        const cards =
-          Array.isArray(bDeck.cards) && bDeck.cards.length > 0
-            ? bDeck.cards
-            : lDeck?.cards && lDeck.cards.length > 0
-            ? lDeck.cards
-            : bDeck.cards || [];
-
-        return {
-          ...bDeck,
-          cardCount: cards.length,
-          cards,
-        };
-      });
-
-      saveStoredDecks(merged);
-      return merged;
+    if (Array.isArray(backendData)) {
+      const formatted = backendData.map((d) => ({
+        ...d,
+        cardCount: d.cardCount ?? (Array.isArray(d.cards) ? d.cards.length : 0),
+        cards: d.cards || [],
+      }));
+      saveStoredDecks(formatted);
+      return formatted;
     }
-  } catch {
-    // Graceful fallback to local storage
+  } catch (err) {
+    console.warn("fetchDecks: Backend unreachable, using cached decks:", err);
   }
   return getStoredDecks();
 }
 
 export async function fetchDeckById(id: string): Promise<Deck | null> {
-  const localDecks = getStoredDecks();
-  const localDeck = localDecks.find((d) => d.id === id) || null;
-
   try {
     const backendData = await apiClient<Deck>(`/decks/${encodeURIComponent(id)}`);
     if (backendData?.id) {
-      const cards =
-        Array.isArray(backendData.cards) && backendData.cards.length > 0
-          ? backendData.cards
-          : localDeck?.cards && localDeck.cards.length > 0
-          ? localDeck.cards
-          : backendData.cards || [];
-
-      const merged: Deck = {
+      const formatted: Deck = {
         ...backendData,
-        cardCount: cards.length,
-        cards,
+        cardCount: backendData.cardCount ?? (Array.isArray(backendData.cards) ? backendData.cards.length : 0),
+        cards: backendData.cards || [],
       };
-      return merged;
+      // Update in cache
+      const current = getStoredDecks();
+      const idx = current.findIndex((d) => d.id === id);
+      if (idx !== -1) {
+        current[idx] = formatted;
+        saveStoredDecks(current);
+      }
+      return formatted;
     }
-  } catch {
-    // Fallback
+  } catch (err) {
+    console.warn(`fetchDeckById: Failed to fetch deck ${id} from backend, using cache:`, err);
   }
-  return localDeck;
+
+  const localDecks = getStoredDecks();
+  return localDecks.find((d) => d.id === id) || null;
 }
 
 export async function createDeck(payload: CreateDeckPayload): Promise<Deck> {
-  const customPin = payload.pinCode?.trim()
-    ? payload.pinCode.trim().toUpperCase()
-    : `TV-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+  const fromApi = await apiClient<Deck>("/decks", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 
-  const newDeck: Deck = {
-    id: `DECK-${Date.now().toString(36).toUpperCase()}`,
-    title: payload.title.trim(),
-    subject: payload.subject.trim(),
-    gradeLevel: payload.gradeLevel.trim(),
-    description: payload.description?.trim() || "",
-    cardCount: 0,
-    difficulty: payload.difficulty || "SEDANG",
-    pinCode: customPin,
-    createdAt: new Intl.DateTimeFormat("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }).format(new Date()),
-    cards: [],
-  };
-
-  try {
-    const fromApi = await apiClient<Deck>("/decks", {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-    if (fromApi?.id) {
-      const decks = getStoredDecks();
-      const createdDeck: Deck = {
-        ...fromApi,
-        cards: fromApi.cards || [],
-        cardCount: fromApi.cards?.length || 0,
-      };
-      saveStoredDecks([createdDeck, ...decks]);
-      return createdDeck;
-    }
-  } catch {
-    // Store locally
+  if (!fromApi?.id) {
+    throw new Error("Gagal membuat deck di server backend.");
   }
 
+  const createdDeck: Deck = {
+    ...fromApi,
+    cards: fromApi.cards || [],
+    cardCount: fromApi.cardCount ?? (Array.isArray(fromApi.cards) ? fromApi.cards.length : 0),
+  };
+
   const current = getStoredDecks();
-  const updated = [newDeck, ...current];
-  saveStoredDecks(updated);
-  return newDeck;
+  saveStoredDecks([createdDeck, ...current.filter((d) => d.id !== createdDeck.id)]);
+  return createdDeck;
 }
 
 export async function updateDeck(id: string, payload: UpdateDeckPayload): Promise<Deck> {
-  const current = getStoredDecks();
-  const index = current.findIndex((d) => d.id === id);
+  const fromApi = await apiClient<Deck>(`/decks/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
 
-  if (index === -1) {
-    throw new Error(`Deck dengan ID "${id}" tidak ditemukan.`);
+  if (!fromApi?.id) {
+    throw new Error(`Gagal memperbarui deck "${id}" di server backend.`);
   }
 
   const updatedDeck: Deck = {
-    ...current[index],
-    ...payload,
-    cardCount: payload.cards ? payload.cards.length : current[index].cardCount,
-    updatedAt: new Intl.DateTimeFormat("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }).format(new Date()),
+    ...fromApi,
+    cards: fromApi.cards || payload.cards || [],
+    cardCount: fromApi.cardCount ?? (payload.cards ? payload.cards.length : fromApi.cards?.length || 0),
   };
 
-  // Immediate local save
-  current[index] = updatedDeck;
-  saveStoredDecks(current);
-
-  try {
-    const fromApi = await apiClient<Deck>(`/decks/${encodeURIComponent(id)}`, {
-      method: "PATCH",
-      body: JSON.stringify(payload),
-    });
-    if (fromApi?.id) {
-      const cards =
-        Array.isArray(fromApi.cards) && fromApi.cards.length > 0
-          ? fromApi.cards
-          : updatedDeck.cards;
-
-      const merged: Deck = {
-        ...fromApi,
-        cards,
-        cardCount: cards?.length || 0,
-      };
-      current[index] = merged;
-      saveStoredDecks(current);
-      return merged;
-    }
-  } catch (err) {
-    console.warn("Backend update failed, kept local state:", err);
+  const current = getStoredDecks();
+  const idx = current.findIndex((d) => d.id === id);
+  if (idx !== -1) {
+    current[idx] = updatedDeck;
+  } else {
+    current.push(updatedDeck);
   }
+  saveStoredDecks(current);
 
   return updatedDeck;
 }
@@ -213,13 +150,9 @@ export async function saveDeckCards(deckId: string, cards: DeckCard[]): Promise<
 }
 
 export async function deleteDeck(id: string): Promise<boolean> {
-  try {
-    await apiClient(`/decks/${encodeURIComponent(id)}`, {
-      method: "DELETE",
-    });
-  } catch {
-    // Fallback
-  }
+  await apiClient(`/decks/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
 
   const current = getStoredDecks();
   const filtered = current.filter((d) => d.id !== id);

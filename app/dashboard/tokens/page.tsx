@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Coins, CheckCircle2, BookOpen } from "lucide-react";
 import {
   TokenBalanceCards,
@@ -12,7 +13,7 @@ import {
 import { GuideModal } from "@/components/guides";
 import { useTokensPage } from "./use-tokens-page";
 
-export default function TokensPage() {
+function TokensContent() {
   const {
     filterType,
     setFilterType,
@@ -157,5 +158,19 @@ export default function TokensPage() {
         type="TOKENS"
       />
     </div>
+  );
+}
+
+export default function TokensPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-64 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-3 border-[#C67D00] border-t-transparent" />
+        </div>
+      }
+    >
+      <TokensContent />
+    </Suspense>
   );
 }

@@ -14,15 +14,7 @@ import {
 
 export function useExamsPage() {
   const { toast } = useToast();
-  const [exams, setExams] = useState<Exam[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("satelyd.exams");
-      if (saved) {
-        try { return JSON.parse(saved); } catch {}
-      }
-    }
-    return [];
-  });
+  const [exams, setExams] = useState<Exam[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -44,13 +36,14 @@ export function useExamsPage() {
     setIsLoading(true);
     try {
       const data = await fetchTeacherExams();
-      if (data && data.length > 0) {
-        setExams(data);
-      }
+      setExams(data || []);
+    } catch (err) {
+      console.error("Gagal memuat daftar ujian:", err);
+      toast.error("Gagal memuat daftar ujian dari server.");
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     loadExams();
@@ -93,13 +86,6 @@ export function useExamsPage() {
     }
   }, [exams]);
 
-  const persistExams = (updated: Exam[]) => {
-    setExams(updated);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("satelyd.exams", JSON.stringify(updated));
-    }
-  };
-
   const handleCreate = async (newExam: Exam) => {
     try {
       const created = await createTeacherExam({
@@ -108,13 +94,12 @@ export function useExamsPage() {
         durationMinutes: newExam.durationMinutes,
         pin: newExam.tokenCode,
       });
-      persistExams([created, ...exams]);
+      setExams((prev) => [created, ...prev]);
       notify(`Draft "${created.title}" berhasil dibuat! Silakan kelola butir soal.`);
       setManagingExam(created);
-    } catch {
-      persistExams([newExam, ...exams]);
-      notify(`Draft "${newExam.title}" berhasil dibuat! Silakan kelola butir soal.`);
-      setManagingExam(newExam);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Gagal membuat paket ujian di server.";
+      toast.error(msg);
     }
   };
 
@@ -126,33 +111,41 @@ export function useExamsPage() {
       if (updated.status === "PUBLISHED") {
         await publishTeacherExam(updated.id);
       }
+      setExams((prev) =>
+        prev.some((e) => e.id === updated.id)
+          ? prev.map((e) => (e.id === updated.id ? updated : e))
+          : [updated, ...prev]
+      );
+      setManagingExam(updated);
+      notify(`Bank soal "${updated.title}" berhasil disimpan! (${updated.totalQuestions} Soal)`);
     } catch (err: unknown) {
-      console.warn("Save questions API notice:", err);
+      const msg = err instanceof Error ? err.message : "Gagal menyimpan butir soal ke server.";
+      toast.error(msg);
     }
-
-    const list = exams.some((e) => e.id === updated.id)
-      ? exams.map((e) => (e.id === updated.id ? updated : e))
-      : [updated, ...exams];
-    persistExams(list);
-    setManagingExam(updated);
-    notify(`Bank soal "${updated.title}" berhasil disimpan! (${updated.totalQuestions} Soal)`);
   };
 
   const handleConfirmDelete = async (exam: Exam) => {
     try {
       await deleteTeacherExam(exam.id);
-    } catch {}
-    persistExams(exams.filter((e) => e.id !== exam.id));
-    toast.delete(`Paket ujian "${exam.title}" berhasil dihapus.`);
+      setExams((prev) => prev.filter((e) => e.id !== exam.id));
+      toast.delete(`Paket ujian "${exam.title}" berhasil dihapus.`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Gagal menghapus paket ujian dari server.";
+      toast.error(msg);
+    }
   };
 
   const handleConfirmClose = async (exam: Exam) => {
     try {
       await closeTeacherExam(exam.id);
-    } catch {}
-    const updated = exams.map((e) => (e.id === exam.id ? { ...e, status: "CLOSED" as ExamStatus } : e));
-    persistExams(updated);
-    notify(`Sesi ujian "${exam.title}" ditutup. Anda kini dapat melihat rekap skor atau mengelola soal kembali.`);
+      setExams((prev) =>
+        prev.map((e) => (e.id === exam.id ? { ...e, status: "CLOSED" as ExamStatus } : e))
+      );
+      notify(`Sesi ujian "${exam.title}" ditutup. Anda kini dapat melihat rekap skor atau mengelola soal kembali.`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Gagal menutup sesi ujian di server.";
+      toast.error(msg);
+    }
   };
 
   const handleActionMonitor = (exam: Exam) => {

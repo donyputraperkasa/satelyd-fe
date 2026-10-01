@@ -93,26 +93,9 @@ function mapApiExamToExam(api: ApiExam): Exam {
  * Fetch all teacher exams from backend API, fallback to local storage
  */
 export async function fetchTeacherExams(): Promise<Exam[]> {
-  try {
-    const list = await apiClient<ApiExam[]>("/teacher-exams");
-    if (Array.isArray(list)) {
-      const mapped = list.map(mapApiExamToExam);
-      if (typeof window !== "undefined") {
-        localStorage.setItem(LOCAL_EXAMS_KEY, JSON.stringify(mapped));
-      }
-      return mapped;
-    }
-  } catch (err) {
-    console.warn("fetchTeacherExams API failed, using localStorage:", err);
-  }
-
-  if (typeof window !== "undefined") {
-    const saved = localStorage.getItem(LOCAL_EXAMS_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {}
-    }
+  const list = await apiClient<ApiExam[]>("/teacher-exams");
+  if (Array.isArray(list)) {
+    return list.map(mapApiExamToExam);
   }
   return [];
 }
@@ -121,13 +104,9 @@ export async function fetchTeacherExams(): Promise<Exam[]> {
  * Fetch detailed exam with full questions and options
  */
 export async function fetchTeacherExamById(examId: string): Promise<Exam | null> {
-  try {
-    const detail = await apiClient<ApiExam>(`/teacher-exams/${encodeURIComponent(examId)}`);
-    if (detail && detail.id) {
-      return mapApiExamToExam(detail);
-    }
-  } catch (err) {
-    console.warn("fetchTeacherExamById API failed:", err);
+  const detail = await apiClient<ApiExam>(`/teacher-exams/${encodeURIComponent(examId)}`);
+  if (detail && detail.id) {
+    return mapApiExamToExam(detail);
   }
   return null;
 }
@@ -142,39 +121,19 @@ export async function createTeacherExam(payload: {
   pin?: string;
 }): Promise<Exam> {
   const pin = payload.pin?.trim() || Math.random().toString(36).substring(2, 8).toUpperCase();
-  try {
-    const res = await apiClient<ApiExam>("/teacher-exams", {
-      method: "POST",
-      body: JSON.stringify({
-        title: payload.title,
-        description: payload.description,
-        durationMinutes: payload.durationMinutes,
-        pin,
-      }),
-    });
-    if (res && res.id) {
-      return mapApiExamToExam(res);
-    }
-  } catch (err) {
-    console.warn("createTeacherExam API failed, using local exam:", err);
+  const res = await apiClient<ApiExam>("/teacher-exams", {
+    method: "POST",
+    body: JSON.stringify({
+      title: payload.title,
+      description: payload.description,
+      durationMinutes: payload.durationMinutes,
+      pin,
+    }),
+  });
+  if (res && res.id) {
+    return mapApiExamToExam(res);
   }
-
-  return {
-    id: `exam-${Date.now()}`,
-    title: payload.title,
-    subject: "Materi Ujian",
-    gradeLevel: "Semua Kelas",
-    durationMinutes: payload.durationMinutes,
-    totalQuestions: 0,
-    totalParticipants: 0,
-    activeParticipants: 0,
-    status: "DRAFT",
-    tokenCode: pin,
-    passingScore: 75,
-    createdAt: new Date().toISOString(),
-    description: payload.description,
-    questions: [],
-  };
+  throw new Error("Gagal membuat paket ujian pada server.");
 }
 
 /**
@@ -217,7 +176,8 @@ export async function saveExamQuestions(
       }
     }
   } catch (err) {
-    console.warn("saveExamQuestions API failed:", err);
+    console.error("saveExamQuestions API failed:", err);
+    throw err;
   }
 }
 
@@ -225,16 +185,11 @@ export async function saveExamQuestions(
  * Publish an exam (consumes 1 exam credit in DB)
  */
 export async function publishTeacherExam(examId: string): Promise<Exam | null> {
-  try {
-    const res = await apiClient<ApiExam>(`/teacher-exams/${encodeURIComponent(examId)}/publish`, {
-      method: "PATCH",
-    });
-    if (res && res.id) {
-      return mapApiExamToExam(res);
-    }
-  } catch (err) {
-    console.error("publishTeacherExam failed:", err);
-    throw err;
+  const res = await apiClient<ApiExam>(`/teacher-exams/${encodeURIComponent(examId)}/publish`, {
+    method: "PATCH",
+  });
+  if (res && res.id) {
+    return mapApiExamToExam(res);
   }
   return null;
 }
@@ -243,15 +198,11 @@ export async function publishTeacherExam(examId: string): Promise<Exam | null> {
  * Close an active exam session
  */
 export async function closeTeacherExam(examId: string): Promise<Exam | null> {
-  try {
-    const res = await apiClient<ApiExam>(`/teacher-exams/${encodeURIComponent(examId)}/close`, {
-      method: "PATCH",
-    });
-    if (res && res.id) {
-      return mapApiExamToExam(res);
-    }
-  } catch (err) {
-    console.warn("closeTeacherExam API failed:", err);
+  const res = await apiClient<ApiExam>(`/teacher-exams/${encodeURIComponent(examId)}/close`, {
+    method: "PATCH",
+  });
+  if (res && res.id) {
+    return mapApiExamToExam(res);
   }
   return null;
 }
@@ -260,13 +211,9 @@ export async function closeTeacherExam(examId: string): Promise<Exam | null> {
  * Delete a draft exam package
  */
 export async function deleteTeacherExam(examId: string): Promise<void> {
-  try {
-    await apiClient(`/teacher-exams/${encodeURIComponent(examId)}`, {
-      method: "DELETE",
-    });
-  } catch (err) {
-    console.warn("deleteTeacherExam API failed:", err);
-  }
+  await apiClient(`/teacher-exams/${encodeURIComponent(examId)}`, {
+    method: "DELETE",
+  });
 }
 
 /**
@@ -305,12 +252,8 @@ export async function fetchLiveParticipants(examId: string): Promise<LiveStudent
  * Unblock a student participant in backend
  */
 export async function unblockParticipantApi(examId: string, participantId: string): Promise<void> {
-  try {
-    await apiClient(
-      `/teacher-exams/${encodeURIComponent(examId)}/participants/${encodeURIComponent(participantId)}/unblock`,
-      { method: "PATCH" }
-    );
-  } catch (err) {
-    console.warn("unblockParticipantApi failed:", err);
-  }
+  await apiClient(
+    `/teacher-exams/${encodeURIComponent(examId)}/participants/${encodeURIComponent(participantId)}/unblock`,
+    { method: "PATCH" }
+  );
 }

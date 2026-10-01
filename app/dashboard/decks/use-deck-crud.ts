@@ -22,38 +22,50 @@ export function useDeckCrud(
   const { toast } = useToast();
 
   const handleCreateOrUpdate = async (payload: CreateDeckPayload) => {
-    if (editingDeck) {
-      const updated = await updateDeck(editingDeck.id, payload);
-      setDecks((prev) =>
-        prev.map((d) => (d.id === updated.id ? updated : d))
-      );
-      setEditingDeck(null);
-      toast.success(`Deck "${updated.title}" berhasil diperbarui.`);
-    } else {
-      const created = await createDeck(payload);
-      setDecks((prev) => [created, ...prev]);
-      toast.success(`Deck "${created.title}" berhasil dibuat!`);
-      setManagingDeck(created);
+    try {
+      if (editingDeck) {
+        const updated = await updateDeck(editingDeck.id, payload);
+        setDecks((prev) =>
+          prev.map((d) => (d.id === updated.id ? updated : d))
+        );
+        setEditingDeck(null);
+        toast.success(`Deck "${updated.title}" berhasil diperbarui.`);
+      } else {
+        const created = await createDeck(payload);
+        setDecks((prev) => [created, ...prev]);
+        toast.success(`Deck "${created.title}" berhasil dibuat!`);
+        setManagingDeck(created);
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Gagal menyimpan deck.");
     }
   };
 
   const handleSaveCards = async (deckId: string, cards: DeckCard[]) => {
-    const updated = await saveDeckCards(deckId, cards);
-    setDecks((prev) =>
-      prev.map((d) => (d.id === updated.id ? updated : d))
-    );
-    if (managingDeck?.id === deckId) {
-      setManagingDeck(updated);
+    try {
+      const updated = await saveDeckCards(deckId, cards);
+      setDecks((prev) =>
+        prev.map((d) => (d.id === updated.id ? updated : d))
+      );
+      if (managingDeck?.id === deckId) {
+        setManagingDeck(updated);
+      }
+      toast.success(`Tersimpan ${cards.length} kartu soal untuk deck "${updated.title}".`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Gagal menyimpan kartu soal.");
     }
-    toast.success(`Tersimpan ${cards.length} kartu soal untuk deck "${updated.title}".`);
   };
 
   const handleConfirmDelete = async (deckId: string) => {
     const target = decks.find((d) => d.id === deckId);
-    await deleteDeck(deckId);
-    setDecks((prev) => prev.filter((d) => d.id !== deckId));
-    setDeleteCandidate(null);
-    toast.delete(`Deck materi "${target?.title || deckId}" berhasil dihapus.`);
+    try {
+      await deleteDeck(deckId);
+      setDecks((prev) => prev.filter((d) => d.id !== deckId));
+      setDeleteCandidate(null);
+      toast.delete(`Deck materi "${target?.title || deckId}" berhasil dihapus.`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Gagal menghapus deck.");
+    }
   };
 
   return {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   getUserTokenBalances,
   fetchUserTokenBalancesFromApi,
@@ -13,12 +14,24 @@ import {
 import type { TransactionOrder } from "@/types";
 
 export function useTokensPage() {
-  const [filterType, setFilterType] = useState<"ALL" | "GAME" | "EXAM">("ALL");
+  const searchParams = useSearchParams();
+  const typeParam = searchParams.get("type");
+  const [filterType, setFilterType] = useState<"ALL" | "GAME" | "EXAM">(() => {
+    if (typeParam === "GAME" || typeParam === "EXAM") return typeParam;
+    return "ALL";
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPkg, setSelectedPkg] = useState<TokenPackage | null>(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const currentParam = searchParams.get("type");
+    if (currentParam === "GAME" || currentParam === "EXAM") {
+      setFilterType(currentParam);
+    }
+  }, [searchParams]);
 
   // Balances state
   const [balances, setBalances] = useState(() => getUserTokenBalances());
