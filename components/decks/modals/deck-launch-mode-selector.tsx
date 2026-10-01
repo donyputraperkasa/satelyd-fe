@@ -32,7 +32,7 @@ export function DeckLaunchModeSelector({
             onClick={() => onSelectGame(item.id)}
             className={`h-11 rounded-xl border text-center text-xs font-bold transition cursor-pointer ${
               selectedGame === item.id
-                ? "border-[#451420] dark:border-[#C67D00] bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-xs"
+                ? "border-[#451420] dark:border-white bg-[#451420] dark:bg-white text-white dark:text-[#10131B] shadow-xs"
                 : "border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F8] dark:bg-[#141720] text-[#7A5661] dark:text-[#94A3B8] hover:bg-white dark:hover:bg-[#222838] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
             }`}
           >

@@ -90,10 +90,21 @@ export function LoginModal({
           </div>
         </div>
 
+        <div className="flex items-center justify-end">
+          <a
+            href="https://wa.me/6282236343404?text=Halo%20Admin%20Satelyd%2C%20saya%20lupa%20kata%20sandi%20akun%20saya.%20Mohon%20bantuan%20reset%20kata%20sandi."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-semibold text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#FBBF24] hover:underline"
+          >
+            Lupa kata sandi?
+          </a>
+        </div>
+
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] dark:bg-[#C67D00] hover:bg-[#300C15] dark:hover:bg-[#B37000] py-3 text-sm font-semibold text-[#FDFBF7] dark:text-[#141720] shadow-md shadow-[#451420]/20 dark:shadow-[#C67D00]/20 transition disabled:opacity-60 cursor-pointer"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] dark:bg-white hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] py-3 text-sm font-semibold text-[#FDFBF7] dark:text-[#10131B] shadow-md shadow-[#451420]/20 dark:shadow-none transition disabled:opacity-60 cursor-pointer"
         >
           {isLoading ? <><Loader2 size={16} className="animate-spin" /> Memproses...</> : "Masuk Sekarang"}
         </button>

@@ -23,8 +23,8 @@ export function DeckDifficultySelector({ difficulty, setDifficulty }: DeckDiffic
             onClick={() => setDifficulty(lvl)}
             className={`rounded-xl py-2 text-xs font-bold transition cursor-pointer ${
               difficulty === lvl
-                ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-xs"
-                : "bg-[#FAF7F8] dark:bg-[#141720] border border-[#E2D5D9] dark:border-[#282E3E] text-[#7A5661] dark:text-[#94A3B8] hover:border-[#451420] dark:hover:border-[#C67D00]"
+                ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] border border-[#451420] dark:border-white shadow-xs"
+                : "bg-[#FAF7F8] dark:bg-[#141720] border border-[#E2D5D9] dark:border-[#282E3E] text-[#7A5661] dark:text-[#94A3B8] hover:border-[#451420] dark:hover:border-white/40"
             }`}
           >
             {lvl}

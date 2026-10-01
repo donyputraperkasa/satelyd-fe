@@ -29,6 +29,8 @@ export interface RegisterPayload {
   name: string;
   email: string;
   password: string;
+  role?: Role;
+  schoolName?: string;
 }
 
 export interface LoginResponse {

@@ -1,4 +1,4 @@
-export type Role = "ADMIN" | "USER" | "admin" | "user";
+export type Role = "ADMIN" | "USER" | "TEACHER" | "STUDENT" | "admin" | "user" | "teacher" | "student";
 
 export type School = {
   id: string;
@@ -14,6 +14,7 @@ export type User = {
   name: string;
   email: string;
   role: Role;
+  schoolName?: string | null;
   schoolId?: string | null;
   gameTokenBalance?: number;
   examCreditBalance?: number;

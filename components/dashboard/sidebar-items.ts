@@ -7,6 +7,7 @@ import {
   BookOpen,
   Users,
   Receipt,
+  Settings,
 } from "lucide-react";
 import type { NavItem } from "@/types";
 
@@ -19,4 +20,5 @@ export const DASHBOARD_NAV_ITEMS: NavItem[] = [
   { label: "Transaksi", href: "/dashboard/transactions", icon: Receipt, adminOnly: true },
   { label: "Panduan", href: "/dashboard/guides", icon: BookOpen },
   { label: "Pengguna", href: "/dashboard/users", icon: Users, adminOnly: true },
+  { label: "Pengaturan", href: "/dashboard/settings", icon: Settings },
 ];

@@ -69,7 +69,6 @@ export function DeckCreateModal({
               disabled={form.isSubmitting}
               className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-white px-5 text-xs font-black text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer disabled:opacity-50"
             >
-              <Sparkles size={14} />
               <span>{form.isSubmitting ? "Menyimpan..." : initialData ? "Simpan Perubahan" : "Buat Deck"}</span>
             </button>
           </div>
