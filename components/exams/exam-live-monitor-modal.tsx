@@ -69,16 +69,16 @@ export function ExamLiveMonitorModal({
           <MonitorMetrics total={students.length} working={workingCount} blocked={blockedCount} done={doneCount} />
 
           <div className="flex items-center gap-2 border-b border-[#DFD0D5] dark:border-[#282E3E] pb-2 flex-wrap">
-            <button type="button" onClick={() => setFilterTab("ALL")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "ALL" ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
+            <button type="button" onClick={() => setFilterTab("ALL")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "ALL" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
               Semua ({students.length})
             </button>
-            <button type="button" onClick={() => setFilterTab("WORKING")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "WORKING" ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
+            <button type="button" onClick={() => setFilterTab("WORKING")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "WORKING" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
               Mengerjakan ({workingCount})
             </button>
             <button type="button" onClick={() => setFilterTab("BLOCKED")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "BLOCKED" ? "bg-[#8A1F2D] text-white" : "text-[#8A1F2D] dark:text-rose-400"}`}>
               Terkunci ({blockedCount})
             </button>
-            <button type="button" onClick={() => setFilterTab("DONE")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "DONE" ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
+            <button type="button" onClick={() => setFilterTab("DONE")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "DONE" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
               Selesai ({doneCount})
             </button>
           </div>
@@ -98,7 +98,7 @@ export function ExamLiveMonitorModal({
                 Tutup Sesi Ujian
               </button>
             )}
-            <button type="button" onClick={onClose} className="px-5 py-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#300C15] dark:hover:bg-[#B37000] cursor-pointer">
+            <button type="button" onClick={onClose} className="px-5 py-2 rounded-xl bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] cursor-pointer">
               Selesai Pantau
             </button>
           </div>

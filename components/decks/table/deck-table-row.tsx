@@ -27,7 +27,7 @@ export function DeckTableRow({
       {/* Judul & Mata Pelajaran */}
       <td className="py-4 px-6">
         <div className="flex items-center gap-2 mb-1">
-          <span className="rounded-md bg-[#FAF0F3] dark:bg-[#C67D00]/15 border border-[#ECD0D8] dark:border-[#C67D00]/30 px-2 py-0.5 text-[11px] font-bold text-[#7A283C] dark:text-[#FBBF24]">
+          <span className="rounded-md bg-[#FAF0F3] dark:bg-[#252B39] border border-[#ECD0D8] dark:border-[#394253] px-2 py-0.5 text-[11px] font-bold text-[#7A283C] dark:text-[#F8FAFC]">
             {deck.subject}
           </span>
           <span className="rounded-md bg-[#F5EFEB] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] px-2 py-0.5 text-[11px] font-semibold text-[#573E47] dark:text-[#94A3B8]">
@@ -81,7 +81,7 @@ export function DeckTableRow({
           <button
             type="button"
             onClick={() => onPlayOnTv(deck)}
-            className="h-9 inline-flex items-center gap-1 rounded-xl bg-[#FAF2F4] dark:bg-[#C67D00]/15 border border-[#ECDDE2] dark:border-[#C67D00]/30 px-2.5 text-xs font-bold text-[#7A283C] dark:text-[#FBBF24] hover:bg-[#F3E2E7] dark:hover:bg-[#C67D00]/25 transition cursor-pointer shadow-2xs"
+            className="h-9 inline-flex items-center gap-1 rounded-xl bg-[#451420] dark:bg-white text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] px-2.5 text-xs font-bold transition cursor-pointer shadow-2xs"
             title="Mulai Sesi di Smart TV"
           >
             <Tv size={13} />

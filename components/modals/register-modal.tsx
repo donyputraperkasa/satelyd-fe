@@ -94,7 +94,7 @@ export function RegisterModal({
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] dark:bg-[#C67D00] hover:bg-[#300C15] dark:hover:bg-[#B37000] py-3 text-sm font-semibold text-[#FDFBF7] dark:text-[#141720] shadow-md shadow-[#451420]/20 dark:shadow-[#C67D00]/20 transition disabled:opacity-60 cursor-pointer"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#451420] dark:bg-white hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] py-3 text-sm font-semibold text-[#FDFBF7] dark:text-[#10131B] shadow-md shadow-[#451420]/20 dark:shadow-none transition disabled:opacity-60 cursor-pointer"
         >
           {isLoading ? <><Loader2 size={16} className="animate-spin" /> Mendaftarkan...</> : "Daftar Sekarang"}
         </button>

@@ -19,16 +19,16 @@ export function DeckHeaderBanner({ onCreateNew, onOpenGuide }: DeckHeaderBannerP
         <button
           type="button"
           onClick={onOpenGuide}
-          className="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] text-xs font-bold text-[#451420] dark:text-[#F8FAFC] shadow-2xs hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:border-[#451420] dark:hover:border-[#C67D00] transition cursor-pointer"
+          className="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] text-xs font-bold text-[#451420] dark:text-[#F8FAFC] shadow-2xs hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:border-[#451420] dark:hover:border-[#475569] transition cursor-pointer"
           title="Buka panduan lengkap pengelolaan deck"
         >
-          <BookOpen size={15} className="text-[#C67D00]" />
+          <BookOpen size={15} className="text-[#451420] dark:text-[#CBD5E1]" />
           <span>Panduan Deck</span>
         </button>
         <button
           type="button"
           onClick={onCreateNew}
-          className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer"
+          className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer"
         >
           <Plus size={16} />
           <span>Buat Deck Baru</span>

@@ -65,7 +65,7 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] pb-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#451420] dark:bg-[#C67D00] text-[#FDFBF7] dark:text-[#141720] shadow-xs">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#451420] dark:bg-white text-[#FDFBF7] dark:text-[#10131B] shadow-xs">
               <PlusCircle size={22} />
             </div>
             <div>
@@ -112,7 +112,7 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
             </button>
             <button
               type="submit"
-              className="h-11 px-6 inline-flex items-center justify-center rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition cursor-pointer shadow-xs"
+              className="h-11 px-6 inline-flex items-center justify-center rounded-xl bg-[#451420] dark:bg-white text-xs font-black text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition cursor-pointer shadow-xs"
             >
               Simpan Sebagai Draft
             </button>

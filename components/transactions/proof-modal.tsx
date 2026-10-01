@@ -21,7 +21,7 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
       <div className="relative w-full max-w-lg rounded-2xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] p-6 shadow-2xl space-y-5 z-10 animate-in fade-in zoom-in-95 duration-150">
         <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#451420] dark:bg-[#C67D00] text-[#FDFBF7] dark:text-[#141720]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#451420] dark:bg-white text-[#FDFBF7] dark:text-[#10131B]">
               <FileText size={18} />
             </div>
             <div>
@@ -131,9 +131,9 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
                 onAdmit(order.id);
                 onClose();
               }}
-              className="flex items-center gap-1.5 rounded-full bg-[#451420] dark:bg-[#C67D00] hover:bg-[#300C15] dark:hover:bg-[#B37000] px-6 py-2 text-xs font-bold text-[#FDFBF7] dark:text-[#141720] shadow-md transition cursor-pointer"
+              className="flex items-center gap-1.5 rounded-full bg-[#451420] dark:bg-white hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] px-6 py-2 text-xs font-bold text-[#FDFBF7] dark:text-[#10131B] shadow-md transition cursor-pointer"
             >
-              <UserCheck size={14} className="text-[#C67D00] dark:text-[#141720]" />
+              <UserCheck size={14} className="text-[#FDFBF7] dark:text-[#10131B]" />
               <span>Admit / Setujui Sekarang</span>
             </button>
           )}

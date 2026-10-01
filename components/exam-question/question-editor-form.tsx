@@ -75,7 +75,7 @@ export function QuestionEditorForm({
     <div className="max-w-3xl mx-auto space-y-4">
       <div className="flex items-center justify-between pb-3 border-b border-[#E5D7DC] dark:border-[#282E3E]">
         <div className="flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] font-black text-xs">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#451420] dark:bg-white text-white dark:text-[#10131B] font-black text-xs">
             #{currentQ.number}
           </span>
           <h3 className="text-sm font-black text-[#451420] dark:text-[#F8FAFC]">Butir Soal Nomor {currentQ.number}</h3>
@@ -119,7 +119,7 @@ export function QuestionEditorForm({
             onClick={() => onUpdateQuestion({ questionType: "MULTIPLE_CHOICE" })}
             className={`px-3 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
               currentQ.questionType === "MULTIPLE_CHOICE"
-                ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] shadow-2xs"
                 : "text-[#7A5661] dark:text-[#94A3B8]"
             }`}
           >
@@ -131,7 +131,7 @@ export function QuestionEditorForm({
             onClick={() => onUpdateQuestion({ questionType: "ESSAY" })}
             className={`px-3 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
               currentQ.questionType === "ESSAY"
-                ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] shadow-2xs"
                 : "text-[#7A5661] dark:text-[#94A3B8]"
             }`}
           >
@@ -174,7 +174,7 @@ export function QuestionEditorForm({
                   onClick={() => handleSetOptionCount(3)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     options.length === 3
-                      ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                      ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] shadow-2xs"
                       : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                   }`}
                   title="3 Pilihan Jawaban (A-C)"
@@ -186,7 +186,7 @@ export function QuestionEditorForm({
                   onClick={() => handleSetOptionCount(4)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     options.length === 4
-                      ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                      ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] shadow-2xs"
                       : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                   }`}
                   title="4 Pilihan Jawaban (A-D)"
@@ -198,7 +198,7 @@ export function QuestionEditorForm({
                   onClick={() => handleSetOptionCount(5)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     options.length === 5
-                      ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] shadow-2xs"
+                      ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] shadow-2xs"
                       : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                   }`}
                   title="5 Pilihan Jawaban (A-E)"

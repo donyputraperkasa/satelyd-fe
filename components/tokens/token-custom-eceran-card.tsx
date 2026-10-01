@@ -26,7 +26,7 @@ export function TokenCustomEceranCard({ onSelect }: TokenCustomEceranCardProps) 
   };
 
   return (
-    <div className="relative rounded-2xl border-2 border-[#451420] dark:border-[#C67D00] bg-white dark:bg-[#1C202C] p-5 flex flex-col justify-between shadow-xs transition hover:shadow-md">
+    <div className="relative rounded-2xl border-2 border-[#451420] dark:border-white/30 bg-white dark:bg-[#1C202C] p-5 flex flex-col justify-between shadow-xs transition hover:shadow-md">
       <div>
         <div className="flex items-center justify-between mb-3">
           <span className="rounded-full bg-[#FAF0F3] dark:bg-[#C67D00]/15 border border-[#ECD0D8] dark:border-[#C67D00]/30 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-[#7A283C] dark:text-[#FBBF24]">
@@ -82,7 +82,7 @@ export function TokenCustomEceranCard({ onSelect }: TokenCustomEceranCardProps) 
         <button
           type="button"
           onClick={handleCheckout}
-          className="w-full h-10 px-4 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] hover:bg-[#320E17] dark:hover:bg-[#B37000] font-bold text-xs shadow-2xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+          className="w-full h-10 px-4 rounded-xl bg-[#451420] dark:bg-white text-white dark:text-[#10131B] hover:bg-[#320E17] dark:hover:bg-[#F1F5F9] font-bold text-xs shadow-2xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98"
         >
           <ShoppingCart size={14} />
           <span>Beli {qty} Token Eceran</span>

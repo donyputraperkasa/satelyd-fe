@@ -89,7 +89,7 @@ export function ExamTableMobileCard({
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onMonitor?.(exam); }}
-                className="h-8 px-2.5 rounded-lg bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] cursor-pointer"
+                className="h-8 px-2.5 rounded-lg bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] cursor-pointer"
               >
                 Pantau
               </button>
@@ -123,7 +123,7 @@ export function ExamTableMobileCard({
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); onManage?.(exam); }}
-                  className="h-8 px-2.5 rounded-lg bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] cursor-pointer"
+                  className="h-8 px-2.5 rounded-lg bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] cursor-pointer"
                 >
                   Buka
                 </button>

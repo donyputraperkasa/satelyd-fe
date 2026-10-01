@@ -58,9 +58,9 @@ export function TransactionRow({
             <button
               type="button"
               onClick={() => onAdmit(order.id)}
-              className="flex items-center gap-1.5 rounded-full bg-[#451420] dark:bg-[#C67D00] hover:bg-[#300C15] dark:hover:bg-[#B37000] px-4 py-1.5 text-xs font-bold text-[#FDFBF7] dark:text-[#141720] shadow-sm transition cursor-pointer"
+              className="flex items-center gap-1.5 rounded-full bg-[#451420] dark:bg-white hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] px-4 py-1.5 text-xs font-bold text-[#FDFBF7] dark:text-[#10131B] shadow-sm transition cursor-pointer"
             >
-              <UserCheck size={14} className="text-[#C67D00] dark:text-[#141720]" />
+              <UserCheck size={14} className="text-[#FDFBF7] dark:text-[#10131B]" />
               <span>Admit</span>
             </button>
             <button

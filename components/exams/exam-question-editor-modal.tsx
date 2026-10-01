@@ -139,7 +139,7 @@ export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: E
                 <FileQuestion size={36} className="mb-2 text-[#9C737F] dark:text-[#64748B]" />
                 <p className="font-bold">Belum ada butir soal.</p>
                 {!isLive && (
-                  <button type="button" onClick={handleAddQuestion} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] shadow-xs">
+                  <button type="button" onClick={handleAddQuestion} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] shadow-xs">
                     <Plus size={14} /> Tambah Soal Pertama
                   </button>
                 )}

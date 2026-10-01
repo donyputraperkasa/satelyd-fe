@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
-import { StatsCards, ActionGrid, OwnerRevenueWidget } from "@/components/dashboard";
+import { StatsCards, ActionGrid } from "@/components/dashboard";
 import { getStoredUser } from "@/lib/auth";
 import type { User } from "@/types";
 
@@ -50,7 +50,7 @@ export default function DashboardOverviewPage() {
             Selamat datang, {user.name}
           </h1>
           <p className="text-xs sm:text-sm text-[#7A5661] dark:text-[#94A3B8] mt-1">
-            {user.email} • Terdaftar sebagai {isAdmin ? "CEO" : "Pengguna Aktif"}
+            {user.email} • {isAdmin ? "Administrator" : "Pengajar"}
           </p>
         </div>
       </section>

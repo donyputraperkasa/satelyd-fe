@@ -75,7 +75,7 @@ export function CheckoutOrderForm({
 
       <button
         type="submit"
-        className="w-full h-11 px-4 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] hover:bg-[#320E17] dark:hover:bg-[#B37000] font-bold text-xs shadow-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98 mt-2"
+        className="w-full h-11 px-4 rounded-xl bg-[#451420] dark:bg-white text-white dark:text-[#10131B] hover:bg-[#320E17] dark:hover:bg-[#F1F5F9] font-bold text-xs shadow-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98 mt-2"
       >
         <ShieldCheck size={16} />
         <span>Kirim Konfirmasi Pembayaran</span>

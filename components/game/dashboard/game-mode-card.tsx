@@ -53,17 +53,17 @@ export function GameModeCard({
         <button
           type="button"
           onClick={onOpenGuide}
-          className="h-11 inline-flex items-center justify-center gap-2 rounded-xl border border-[#DFD0D5] dark:border-[#2E364A] bg-white dark:bg-[#141720] px-3 text-xs sm:text-sm font-bold text-[#451420] dark:text-[#F8FAFC] hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:border-[#451420] dark:hover:border-[#C67D00] transition cursor-pointer shadow-2xs"
+          className="h-11 inline-flex items-center justify-center gap-2 rounded-xl border border-[#DFD0D5] dark:border-[#2E364A] bg-white dark:bg-[#141720] px-3 text-xs sm:text-sm font-bold text-[#451420] dark:text-[#F8FAFC] hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:border-[#451420] dark:hover:border-[#475569] transition cursor-pointer shadow-2xs"
           title={`Petunjuk permainan ${game.title}`}
         >
-          <BookOpen size={16} className="text-[#C67D00]" />
+          <BookOpen size={16} className="text-[#451420] dark:text-[#CBD5E1]" />
           <span>Petunjuk</span>
         </button>
 
         <button
           type="button"
           onClick={onStartGame}
-          className="h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-[#451420] hover:bg-[#5B1C2E] dark:bg-[#C67D00] dark:hover:bg-[#B37000] px-3 text-xs sm:text-sm font-bold text-white dark:text-[#141720] transition cursor-pointer shadow-xs"
+          className="h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-[#451420] hover:bg-[#5B1C2E] dark:bg-white dark:hover:bg-[#F1F5F9] px-3 text-xs sm:text-sm font-bold text-white dark:text-[#10131B] transition cursor-pointer shadow-xs"
           title={`Pilih soal & mulai ${game.title}`}
         >
           <Tv size={16} />

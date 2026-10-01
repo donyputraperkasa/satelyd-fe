@@ -62,7 +62,7 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
                   <button
                     type="button"
                     onClick={() => onUnblock(s.id)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#451420] dark:bg-[#C67D00] hover:bg-[#300C15] dark:hover:bg-[#B37000] text-white dark:text-[#141720] text-xs font-bold transition cursor-pointer shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#451420] dark:bg-white hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] text-white dark:text-[#10131B] text-xs font-bold transition cursor-pointer shadow-xs"
                   >
                     <Unlock size={13} /> Buka Kunci
                   </button>

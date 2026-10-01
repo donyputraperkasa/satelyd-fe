@@ -26,7 +26,7 @@ export function DeckCreateModal({
         </button>
 
         <div className="flex items-center gap-2.5 mb-5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAF0F3] dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] text-[#7A283C] dark:text-[#C67D00]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAF0F3] dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] text-[#7A283C] dark:text-[#F8FAFC]">
             <Layers size={20} />
           </div>
           <div>
@@ -67,7 +67,7 @@ export function DeckCreateModal({
             <button
               type="submit"
               disabled={form.isSubmitting}
-              className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] px-5 text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer disabled:opacity-50"
+              className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-white px-5 text-xs font-black text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer disabled:opacity-50"
             >
               <Sparkles size={14} />
               <span>{form.isSubmitting ? "Menyimpan..." : initialData ? "Simpan Perubahan" : "Buat Deck"}</span>

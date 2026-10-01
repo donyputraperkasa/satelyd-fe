@@ -28,7 +28,7 @@ export function RecapBlockedAlert({
       <button
         type="button"
         onClick={onUnblock}
-        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] text-xs font-bold hover:bg-[#300C15] dark:hover:bg-[#B37000] cursor-pointer shadow-xs"
+        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#451420] dark:bg-white text-white dark:text-[#10131B] text-xs font-bold hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] cursor-pointer shadow-xs"
       >
         <Unlock size={14} /> Buka Kunci Siswa
       </button>

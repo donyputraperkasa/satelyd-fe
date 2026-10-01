@@ -83,7 +83,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => handleThemeChange("light")}
-              className={`p-1.5 rounded-full transition cursor-pointer ${
+              className={`flex items-center justify-center shrink-0 p-1.5 rounded-full transition cursor-pointer ${
                 theme === "light"
                   ? "bg-[#451420] text-[#FDFBF7] shadow-xs"
                   : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
@@ -96,9 +96,9 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => handleThemeChange("dark")}
-              className={`p-1.5 rounded-full transition cursor-pointer ${
+              className={`flex items-center justify-center shrink-0 p-1.5 rounded-full transition cursor-pointer ${
                 theme === "dark"
-                  ? "bg-[#C67D00] text-[#141720] shadow-xs"
+                  ? "bg-white text-[#10131B] shadow-xs"
                   : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
               }`}
               title="Mode Gelap"
@@ -112,7 +112,7 @@ export function Navbar() {
             <div className="flex items-center gap-2">
               <Link 
                 href="/dashboard" 
-                className="px-3.5 py-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-[#C67D00] dark:hover:bg-[#B37000] dark:text-[#141720] text-xs font-bold shadow-xs transition hover:-translate-y-0.5">
+                className="px-3.5 py-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-white dark:hover:bg-[#F1F5F9] dark:text-[#10131B] text-xs font-bold shadow-xs transition hover:-translate-y-0.5">
                 Dashboard
               </Link>
               
@@ -136,7 +136,7 @@ export function Navbar() {
               <button type="button" onClick={openLogin} className="text-[13px] font-semibold text-[#451420] dark:text-[#F8FAFC] hover:opacity-75 transition px-2 cursor-pointer">
                 Login
               </button>
-              <button type="button" onClick={openRegister} className="px-4 py-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-[#C67D00] dark:hover:bg-[#B37000] dark:text-[#141720] text-xs font-semibold shadow-xs transition hover:-translate-y-0.5 cursor-pointer">
+              <button type="button" onClick={openRegister} className="px-4 py-1.5 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-white dark:hover:bg-[#F1F5F9] dark:text-[#10131B] text-xs font-semibold shadow-xs transition hover:-translate-y-0.5 cursor-pointer">
                 Register
               </button>
             </>

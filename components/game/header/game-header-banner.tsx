@@ -25,10 +25,10 @@ export function GameHeaderBanner({ onOpenGuide }: GameHeaderBannerProps) {
         <button
           type="button"
           onClick={onOpenGuide}
-          className="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] text-xs font-bold text-[#451420] dark:text-[#F8FAFC] shadow-2xs hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:border-[#451420] dark:hover:border-[#C67D00] transition cursor-pointer"
+          className="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] text-xs font-bold text-[#451420] dark:text-[#F8FAFC] shadow-2xs hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:border-[#451420] dark:hover:border-[#475569] transition cursor-pointer"
           title="Buka petunjuk lengkap penggunaan game interaktif kelas"
         >
-          <BookOpen size={15} className="text-[#C67D00]" />
+          <BookOpen size={15} className="text-[#451420] dark:text-[#CBD5E1]" />
           <span>Panduan Game</span>
         </button>
       </div>

@@ -58,7 +58,7 @@ export function DeckLaunchSessionModal({
         </button>
 
         <div className="flex items-center gap-3 mb-5 border-b border-[#F0E6E9] dark:border-[#282E3E] pb-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAF0F3] dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] text-[#7A283C] dark:text-[#C67D00]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FAF0F3] dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] text-[#7A283C] dark:text-[#F8FAFC]">
             <Tv size={20} />
           </div>
           <div>
@@ -86,7 +86,7 @@ export function DeckLaunchSessionModal({
           <button
             type="button"
             onClick={handlePlayDirect}
-            className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] px-5 text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer"
+            className="h-10 inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-white px-5 text-xs font-black text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer"
           >
             <MonitorPlay size={14} />
             <span>Mulai Bermain</span>

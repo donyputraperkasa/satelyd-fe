@@ -30,7 +30,7 @@ export function MobileNavFooter({
         <button
           type="button"
           onClick={() => onSelectTheme?.("light")}
-          className={`p-2 rounded-full transition cursor-pointer ${
+          className={`flex items-center justify-center shrink-0 p-2 rounded-full transition cursor-pointer ${
             theme === "light"
               ? "bg-[#451420] text-[#FDFBF7] shadow-sm"
               : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
@@ -43,9 +43,9 @@ export function MobileNavFooter({
         <button
           type="button"
           onClick={() => onSelectTheme?.("dark")}
-          className={`p-2 rounded-full transition cursor-pointer ${
+          className={`flex items-center justify-center shrink-0 p-2 rounded-full transition cursor-pointer ${
             theme === "dark"
-              ? "bg-[#C67D00] text-[#141720] shadow-sm"
+              ? "bg-white text-[#10131B] shadow-sm"
               : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
           }`}
           title="Mode Gelap"
@@ -61,7 +61,7 @@ export function MobileNavFooter({
           <Link
             href="/dashboard"
             onClick={onClose}
-            className="px-3 py-1.5 rounded-full bg-[#451420] text-[#FDFBF7] dark:bg-[#C67D00] dark:text-[#141720] text-xs font-bold shadow-xs hover:bg-[#300C15] dark:hover:bg-[#B37000]"
+            className="px-3 py-1.5 rounded-full bg-[#451420] text-[#FDFBF7] dark:bg-white dark:text-[#10131B] text-xs font-bold shadow-xs hover:bg-[#300C15] dark:hover:bg-[#F1F5F9]"
           >
             Dashboard
           </Link>
@@ -99,7 +99,7 @@ export function MobileNavFooter({
               onClose();
               onOpenRegister();
             }}
-            className="px-4 py-2 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-[#C67D00] dark:hover:bg-[#B37000] dark:text-[#141720] text-xs font-bold shadow-xs transition cursor-pointer"
+            className="px-4 py-2 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-white dark:hover:bg-[#F1F5F9] dark:text-[#10131B] text-xs font-bold shadow-xs transition cursor-pointer"
           >
             Register
           </button>

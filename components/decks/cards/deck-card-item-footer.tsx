@@ -48,7 +48,7 @@ export function DeckCardItemFooter({
           <button
             type="button"
             onClick={handleCopyPin}
-            className="h-7 inline-flex items-center gap-1.5 px-2.5 rounded-lg text-xs font-bold text-[#7A283C] dark:text-[#F8FAFC] bg-white dark:bg-[#1C202C] border border-[#E5D7DC] dark:border-[#282E3E] hover:border-[#7A283C] dark:hover:border-[#C67D00] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] transition cursor-pointer shadow-2xs"
+            className="h-7 inline-flex items-center gap-1.5 px-2.5 rounded-lg text-xs font-bold text-[#7A283C] dark:text-[#F8FAFC] bg-white dark:bg-[#1C202C] border border-[#E5D7DC] dark:border-[#282E3E] hover:border-[#7A283C] dark:hover:border-[#475569] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] transition cursor-pointer shadow-2xs"
             title="Salin PIN Sesi TV"
           >
             {copied ? (
@@ -71,7 +71,7 @@ export function DeckCardItemFooter({
         <button
           type="button"
           onClick={() => onPlayOnTv(deck)}
-          className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#FAF2F4] dark:bg-[#C67D00]/15 border border-[#ECDDE2] dark:border-[#C67D00]/30 px-3 text-xs font-bold text-[#7A283C] dark:text-[#FBBF24] hover:bg-[#F3E2E7] dark:hover:bg-[#C67D00]/25 transition cursor-pointer shadow-2xs"
+          className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] dark:bg-white text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] px-3 text-xs font-bold transition cursor-pointer shadow-2xs"
         >
           <Tv size={14} />
           <span>Mulai Sesi TV</span>

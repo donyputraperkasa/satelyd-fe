@@ -104,7 +104,7 @@ export function ExamRecapModal({
                 onClose();
                 onReopenManage(exam);
               }}
-              className="h-10 px-5 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer"
+              className="h-10 px-5 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] dark:bg-white text-xs font-black text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer"
             >
               <BookOpen size={14} /> Kelola & Publikasikan Lagi
             </button>

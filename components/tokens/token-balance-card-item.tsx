@@ -52,7 +52,7 @@ export function TokenBalanceCardItem({
       <button
         type="button"
         onClick={onTopUp}
-        className="h-11 w-full px-4 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] hover:bg-[#320E17] dark:hover:bg-[#B37000] font-bold text-xs shadow-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+        className="h-11 w-full px-4 rounded-xl bg-[#451420] dark:bg-white text-white dark:text-[#10131B] hover:bg-[#320E17] dark:hover:bg-[#F1F5F9] font-bold text-xs shadow-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98"
       >
         <Plus size={15} />
         <span>{buttonLabel}</span>

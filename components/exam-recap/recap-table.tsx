@@ -15,7 +15,7 @@ export function RecapTable({ students, onPrintPdf }: RecapTableProps) {
         <button
           type="button"
           onClick={onPrintPdf}
-          className="h-8 px-3.5 inline-flex items-center gap-1.5 rounded-lg bg-[#451420] dark:bg-[#C67D00] text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] shadow-2xs transition cursor-pointer"
+          className="h-8 px-3.5 inline-flex items-center gap-1.5 rounded-lg bg-[#451420] dark:bg-white text-xs font-black text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] shadow-2xs transition cursor-pointer"
         >
           <Printer size={13} /> Cetak / Unduh PDF
         </button>

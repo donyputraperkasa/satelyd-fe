@@ -33,7 +33,7 @@ export function ExamHeaderBanner({ onCreateNew, onOpenGuide }: ExamHeaderBannerP
           <button
             type="button"
             onClick={onCreateNew}
-            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer"
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer"
           >
             <Plus size={16} />
             <span>Buat Ujian Baru</span>

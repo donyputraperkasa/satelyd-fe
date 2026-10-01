@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Satellite, LogOut, X, Sparkles } from "lucide-react";
+import { Satellite, LogOut, X } from "lucide-react";
 import { useAuthModal } from "@/components/modals";
 import type { DashboardSidebarProps } from "@/types";
 import { DASHBOARD_NAV_ITEMS } from "./sidebar-items";
@@ -48,18 +48,21 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
             <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-[#A48E95] dark:text-[#64748B] mb-2">Menu Utama</p>
             {navList.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href;
+              const isActive = item.href === "/dashboard"
+                ? pathname === item.href
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={onCloseMobile}
+                  aria-current={isActive ? "page" : undefined}
                   className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-all duration-150 ${
-                    isActive ? "bg-[#451420] dark:bg-[#C67D00] text-[#FDFBF7] dark:text-[#10131B] shadow-sm" : "text-[#613D48] dark:text-[#94A3B8] hover:bg-[#F2EAE7] dark:hover:bg-[#1C202C] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
+                    isActive ? "bg-[#451420] dark:bg-[#252B39] text-[#FDFBF7] dark:text-[#F8FAFC] shadow-sm dark:shadow-none dark:ring-1 dark:ring-[#394253]" : "text-[#613D48] dark:text-[#A7B0C0] hover:bg-[#F2EAE7] dark:hover:bg-[#1C202C] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon size={18} className={isActive ? "text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] group-hover:text-[#451420] dark:group-hover:text-[#F8FAFC]"} />
+                    <Icon size={18} className={isActive ? "text-white dark:text-[#E6B85C]" : "text-[#7A5661] dark:text-[#94A3B8] group-hover:text-[#451420] dark:group-hover:text-[#F8FAFC]"} />
                     <span>{item.label}</span>
                   </div>
                   {item.badge && (
@@ -81,9 +84,8 @@ export function DashboardSidebar({ user, isOpenMobile = false, onCloseMobile }: 
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-bold text-[#451420] dark:text-[#F8FAFC] capitalize">{user.name}</p>
               <div className="flex items-center gap-1 mt-0.5">
-                {isAdmin}
                 <span className="text-[10px] font-semibold text-[#7A5661] dark:text-[#94A3B8]">
-                  {isAdmin ? "CEO" : "Pengguna"}
+                  {isAdmin ? "Administrator" : "Pengajar"}
                 </span>
               </div>
             </div>

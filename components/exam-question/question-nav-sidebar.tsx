@@ -42,15 +42,15 @@ export function QuestionNavSidebar({
               onClick={() => onSelectQuestion(idx)}
               className={`relative h-10 rounded-xl font-bold text-xs flex flex-col items-center justify-center transition cursor-pointer shadow-2xs ${
                 isActive
-                  ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] border-2 border-[#451420] dark:border-[#C67D00] shadow-sm"
+                  ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] border-2 border-[#451420] dark:border-white shadow-sm"
                   : hasText
-                  ? "bg-white dark:bg-[#1C202C] border border-[#E5D7DC] dark:border-[#282E3E] text-[#451420] dark:text-[#F8FAFC] hover:border-[#451420] dark:hover:border-[#C67D00]"
+                  ? "bg-white dark:bg-[#1C202C] border border-[#E5D7DC] dark:border-[#282E3E] text-[#451420] dark:text-[#F8FAFC] hover:border-[#451420] dark:hover:border-[#475569]"
                   : "bg-white/60 dark:bg-[#1C202C]/60 border border-dashed border-[#DFD0D5] dark:border-[#282E3E] text-[#9C737F] dark:text-[#64748B] hover:bg-white dark:hover:bg-[#1C202C]"
               }`}
             >
               <span>{q.number}</span>
               {q.correctAnswer && q.questionType === "MULTIPLE_CHOICE" && (
-                <span className={`text-[9px] font-black ${isActive ? "text-amber-300 dark:text-[#141720]" : "text-[#7A283C] dark:text-[#FBBF24]"}`}>
+                <span className={`text-[9px] font-black ${isActive ? "text-amber-300 dark:text-[#10131B]" : "text-[#7A283C] dark:text-[#94A3B8]"}`}>
                   Kunci: {q.correctAnswer}
                 </span>
               )}
@@ -62,7 +62,7 @@ export function QuestionNavSidebar({
           <button
             type="button"
             onClick={onAddQuestion}
-            className="h-10 rounded-xl border border-dashed border-[#7A283C]/40 dark:border-[#C67D00]/40 bg-[#FAF0F3]/60 dark:bg-[#C67D00]/10 text-[#7A283C] dark:text-[#FBBF24] hover:bg-[#FAF0F3] dark:hover:bg-[#C67D00]/20 hover:border-[#7A283C] dark:hover:border-[#C67D00] flex items-center justify-center transition cursor-pointer"
+            className="h-10 rounded-xl border border-dashed border-[#7A283C]/40 dark:border-white/20 bg-[#FAF0F3]/60 dark:bg-white/5 text-[#7A283C] dark:text-[#F8FAFC] hover:bg-[#FAF0F3] dark:hover:bg-white/10 hover:border-[#7A283C] dark:hover:border-white/40 flex items-center justify-center transition cursor-pointer"
             title="Tambah Nomor Soal Baru"
           >
             <Plus size={16} />

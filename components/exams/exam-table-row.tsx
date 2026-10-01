@@ -84,7 +84,7 @@ export function ExamTableRow({
         <div className="flex flex-col gap-1.5 w-32 mx-auto">
           {isLive ? (
             <>
-              <button type="button" onClick={(e) => { e.stopPropagation(); onMonitor?.(exam); }} className="h-8 inline-flex items-center justify-center gap-1 rounded-lg bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer">
+              <button type="button" onClick={(e) => { e.stopPropagation(); onMonitor?.(exam); }} className="h-8 inline-flex items-center justify-center gap-1 rounded-lg bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer">
                 <Activity size={13} /> Pantau Live
               </button>
               <button type="button" onClick={(e) => { e.stopPropagation(); onCloseSession?.(exam); }} className="h-8 inline-flex items-center justify-center gap-1 rounded-lg border border-amber-300 dark:border-amber-700/60 bg-amber-50 dark:bg-amber-950/40 text-xs font-bold text-amber-900 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition cursor-pointer">
@@ -102,7 +102,7 @@ export function ExamTableRow({
             </>
           ) : (
             <>
-              <button type="button" onClick={(e) => { e.stopPropagation(); onManage?.(exam); }} className="h-8 inline-flex items-center justify-center gap-1 rounded-lg bg-[#451420] dark:bg-[#C67D00] text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs cursor-pointer">
+              <button type="button" onClick={(e) => { e.stopPropagation(); onManage?.(exam); }} className="h-8 inline-flex items-center justify-center gap-1 rounded-lg bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs cursor-pointer">
                 <Play size={12} fill="currentColor" /> Buka Ujian
               </button>
               <button type="button" onClick={(e) => { e.stopPropagation(); onManage?.(exam); }} className="h-8 inline-flex items-center justify-center gap-1 rounded-lg border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] text-xs font-bold text-[#451420] dark:text-[#F8FAFC] hover:bg-[#FAF7F2] dark:hover:bg-[#282E3E] transition shadow-2xs cursor-pointer">

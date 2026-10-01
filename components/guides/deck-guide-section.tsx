@@ -23,7 +23,7 @@ export function DeckGuideSection() {
 
         <Link
           href="/dashboard/decks"
-          className="inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-[#C67D00] px-4 py-2.5 text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition shadow-xs self-start sm:self-center shrink-0"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#451420] dark:bg-white px-4 py-2.5 text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition shadow-xs self-start sm:self-center shrink-0"
         >
           <span>Buka Bank Soal</span>
           <ArrowRight size={14} />

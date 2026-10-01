@@ -29,7 +29,7 @@ export function DeckCardItem({
         {/* Top Badges & Dropdown Menu */}
         <div className="flex flex-wrap items-center justify-between gap-2.5">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-lg bg-[#FAF0F3] dark:bg-[#C67D00]/15 border border-[#ECD0D8] dark:border-[#C67D00]/30 px-2.5 py-1 text-xs font-bold text-[#7A283C] dark:text-[#FBBF24]">
+            <span className="rounded-lg bg-[#FAF0F3] dark:bg-[#252B39] border border-[#ECD0D8] dark:border-[#394253] px-2.5 py-1 text-xs font-bold text-[#7A283C] dark:text-[#F8FAFC]">
               {deck.subject}
             </span>
             <span className="rounded-lg bg-[#F5EFEB] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] px-2.5 py-1 text-xs font-semibold text-[#573E47] dark:text-[#94A3B8]">

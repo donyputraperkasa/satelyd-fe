@@ -15,13 +15,13 @@ export function TokenPackageCard({ pkg, onSelect }: TokenPackageCardProps) {
     <div
       className={`relative rounded-2xl border transition-all duration-200 bg-white dark:bg-[#1C202C] p-5 shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md ${
         pkg.isPopular
-          ? "border-[#451420] dark:border-[#C67D00] ring-2 ring-[#451420]/15 dark:ring-[#C67D00]/20"
+          ? "border-[#451420] dark:border-white/30 ring-2 ring-[#451420]/15 dark:ring-white/10"
           : "border-[#E5D7DC] dark:border-[#282E3E]"
       }`}
     >
       {/* Popular / Discount Badge */}
       {pkg.isPopular && (
-        <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-xs">
+        <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-[#451420] dark:bg-white text-white dark:text-[#10131B] text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-xs">
           <Sparkles size={11} />
           <span>Paling Populer</span>
         </div>
@@ -99,8 +99,8 @@ export function TokenPackageCard({ pkg, onSelect }: TokenPackageCardProps) {
         onClick={() => onSelect(pkg)}
         className={`h-10 w-full px-4 rounded-xl font-bold text-xs shadow-xs transition flex items-center justify-center gap-2 cursor-pointer active:scale-98 ${
           pkg.isPopular
-            ? "bg-[#451420] dark:bg-[#C67D00] text-white dark:text-[#141720] hover:bg-[#320E17] dark:hover:bg-[#B37000]"
-            : "bg-white dark:bg-[#141720] border border-[#DFD0D5] dark:border-[#282E3E] text-[#451420] dark:text-[#F8FAFC] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] hover:border-[#451420] dark:hover:border-[#C67D00]"
+            ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] hover:bg-[#320E17] dark:hover:bg-[#F1F5F9]"
+            : "bg-white dark:bg-[#141720] border border-[#DFD0D5] dark:border-[#282E3E] text-[#451420] dark:text-[#F8FAFC] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] hover:border-[#451420] dark:hover:border-[#475569]"
         }`}
       >
         <span>Beli Paket Ini</span>

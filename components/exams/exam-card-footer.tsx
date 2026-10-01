@@ -79,7 +79,7 @@ export function ExamCardFooter({ exam, onManage, onMonitor, onCloseSession }: Ex
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onMonitor?.(exam); }}
-              className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] dark:bg-[#C67D00] px-3 text-xs font-bold text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition cursor-pointer shadow-xs"
+              className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] dark:bg-white px-3 text-xs font-bold text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition cursor-pointer shadow-xs"
             >
               <Activity size={14} />
               <span>Pantau Live</span>
@@ -117,7 +117,7 @@ export function ExamCardFooter({ exam, onManage, onMonitor, onCloseSession }: Ex
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onManage?.(exam); }}
-              className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] dark:bg-[#C67D00] px-3 text-xs font-black text-white dark:text-[#141720] hover:bg-[#5B1C2E] dark:hover:bg-[#B37000] transition cursor-pointer shadow-2xs"
+              className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] dark:bg-white px-3 text-xs font-black text-white dark:text-[#10131B] hover:bg-[#5B1C2E] dark:hover:bg-[#F1F5F9] transition cursor-pointer shadow-2xs"
             >
               <Play size={13} fill="currentColor" />
               <span>Buka Ujian</span>

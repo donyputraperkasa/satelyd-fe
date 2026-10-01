@@ -78,7 +78,7 @@ export function DashboardHeader({ user, onOpenSidebar }: DashboardHeaderProps) {
             <button
               type="button"
               onClick={() => handleThemeChange("light")}
-              className={`p-1.5 rounded-full transition cursor-pointer ${
+              className={`flex items-center justify-center shrink-0 p-1.5 rounded-full transition cursor-pointer ${
                 theme === "light"
                   ? "bg-[#451420] text-[#FDFBF7] shadow-xs"
                   : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
@@ -91,9 +91,9 @@ export function DashboardHeader({ user, onOpenSidebar }: DashboardHeaderProps) {
             <button
               type="button"
               onClick={() => handleThemeChange("dark")}
-              className={`p-1.5 rounded-full transition cursor-pointer ${
+              className={`flex items-center justify-center shrink-0 p-1.5 rounded-full transition cursor-pointer ${
                 theme === "dark"
-                  ? "bg-[#C67D00] text-[#141720] shadow-xs"
+                  ? "bg-white text-[#10131B] shadow-xs"
                   : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
               }`}
               title="Mode Gelap"
@@ -105,7 +105,7 @@ export function DashboardHeader({ user, onOpenSidebar }: DashboardHeaderProps) {
 
           <Link
             href="/dashboard/tokens"
-            className="h-8 sm:h-9 inline-flex items-center rounded-full bg-white dark:bg-[#1C202C] border border-[#DFD0D5] dark:border-[#282E3E] text-[#451420] dark:text-[#F8FAFC] shadow-2xs hover:border-[#451420] dark:hover:border-[#C67D00] hover:bg-[#FAF7F2] dark:hover:bg-[#222838] transition shrink-0 px-1.5 sm:px-2"
+            className="h-8 sm:h-9 inline-flex items-center rounded-full bg-white dark:bg-[#1C202C] border border-[#DFD0D5] dark:border-[#282E3E] text-[#451420] dark:text-[#F8FAFC] shadow-2xs hover:border-[#451420] dark:hover:border-[#475569] hover:bg-[#FAF7F2] dark:hover:bg-[#222838] transition shrink-0 px-1.5 sm:px-2"
             title={`Kelola Token: Game (${gameTokens.toLocaleString("id-ID")}), Publish Ujian (${examTokens.toLocaleString("id-ID")})`}
           >
             <span className="inline-flex items-center gap-1.5 px-2 py-0.5">

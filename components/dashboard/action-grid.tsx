@@ -50,16 +50,16 @@ export function ActionGrid() {
         <h3 className="font-display text-lg font-bold text-[#451420] dark:text-[#F8FAFC]">
           Fitur Utama Platform
         </h3>
-        <span className="text-xs text-[#7A5661] dark:text-[#94A3B8]">Pilih modul untuk memulai</span>
+        <span className="hidden text-xs text-[#7A5661] dark:text-[#94A3B8] sm:inline">Pilih modul untuk memulai</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
         {ACTION_ITEMS.map((item) => {
           const Icon = item.icon;
           return (
             <div
               key={item.title}
-              className="flex flex-col justify-between rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-6 shadow-xs transition hover:-translate-y-0.5 hover:shadow-md group"
+              className="flex flex-col justify-between rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 sm:p-6 shadow-xs transition hover:-translate-y-0.5 hover:shadow-md group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -80,7 +80,7 @@ export function ActionGrid() {
               <div className="mt-6 border-t border-[#F2EAEC] dark:border-[#282E3E] pt-4">
                 <Link
                   href={item.href}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#451420] dark:text-[#F8FAFC] group-hover:text-[#C67D00] dark:group-hover:text-[#FBBF24] transition"
+                  className="inline-flex min-h-11 items-center gap-1.5 text-xs font-bold text-[#451420] dark:text-[#F8FAFC] group-hover:text-[#C67D00] dark:group-hover:text-[#FBBF24] transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C67D00]"
                 >
                   <span>{item.actionText}</span>
                   <ArrowRight size={14} className="transition group-hover:translate-x-1" />
