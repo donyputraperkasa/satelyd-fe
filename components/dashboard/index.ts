@@ -2,6 +2,7 @@ export * from "./dashboard-header";
 export * from "./dashboard-sidebar";
 export * from "./dashboard-shell";
 export * from "./sidebar-items";
+export * from "./stat-card-item";
 export * from "./stats-cards";
 export * from "./action-grid";
 export * from "./owner-revenue-widget";

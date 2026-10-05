@@ -71,17 +71,22 @@ export interface TokenUserHistoryProps {
 
 export interface TokenBalanceCardItemProps {
   title: string;
-  badge: string;
-  badgeColor: string;
+  icon: React.ReactNode;
   balance: number;
-  unit: string;
-  desc: string;
-  icon: unknown;
-  iconBg: string;
+  label: string;
+  isUnlimited: boolean;
+  buttonLabel?: string;
+  onTopUp: () => void;
 }
 
 export interface TokenBalanceCardsProps {
-  user: User;
+  gameTokenBalance: number;
+  examCreditBalance: number;
+  isUnlimited: boolean;
+  freeSessionsRemaining: number;
+  freeSessionsMax: number;
+  onBuyGameTokens: () => void;
+  onBuyExamCredits: () => void;
 }
 
 export interface TokenPackageCardProps {
@@ -90,9 +95,12 @@ export interface TokenPackageCardProps {
 }
 
 export interface TokenFreeTierCardProps {
-  onOpenGame: () => void;
-  onCreateDeck: () => void;
+  freeSessionsRemaining: number;
+  freeSessionsMax: number;
+  freeUsagePercent: number;
+  className?: string;
 }
+
 
 export interface TokenQuickActionsProps {
   searchQuery: string;

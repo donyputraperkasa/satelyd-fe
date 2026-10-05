@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { LucideIcon } from "lucide-react";
 import type { User } from "./user";
 
 export interface NavItem {
@@ -52,6 +53,16 @@ export interface StatsCardsProps {
   user: User;
 }
 
+export interface StatCardItemProps {
+  title: string;
+  icon: LucideIcon;
+  value: string;
+  subtitle: string;
+  priceText: string;
+  topUpHref: string;
+  isAdmin: boolean;
+}
+
 export type PlaceholderIconKey =
   | "game"
   | "decks"
@@ -66,4 +77,3 @@ export interface PlaceholderPageProps {
   badge?: string;
   iconType: PlaceholderIconKey;
 }
-
