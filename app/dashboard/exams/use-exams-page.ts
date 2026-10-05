@@ -157,6 +157,37 @@ export function useExamsPage() {
     }
   };
 
+  const handleJoinRoom = (code: string) => {
+    const clean = code.trim().toUpperCase();
+    const found = exams.find((e) => e.tokenCode?.toUpperCase() === clean);
+    if (found) {
+      if (found.status === "CLOSED") {
+        setRecapCandidate(found);
+        notify(`Sesi ujian "${found.title}" sudah selesai. Menampilkan Rekap Nilai.`);
+      } else {
+        openMonitor(found);
+        notify(`Membuka pengawasan langsung untuk "${found.title}"`);
+      }
+    } else {
+      const tempExam: Exam = {
+        id: `EXM-${clean}`,
+        title: `Ruang Ujian [${clean}]`,
+        subject: "Pengawasan Langsung",
+        gradeLevel: "Semua Kelas",
+        durationMinutes: 60,
+        totalQuestions: 20,
+        totalParticipants: 1,
+        activeParticipants: 1,
+        status: "PUBLISHED",
+        tokenCode: clean,
+        passingScore: 75,
+        createdAt: "Hari ini",
+      };
+      openMonitor(tempExam);
+      notify(`Membuka pengawasan ruang ujian [${clean}]`);
+    }
+  };
+
   const counts = {
     all: exams.length,
     published: exams.filter((e) => e.status === "PUBLISHED").length,
@@ -167,21 +198,45 @@ export function useExamsPage() {
   const filtered = exams.filter((e) => {
     const matchStatus = statusFilter === "ALL" || e.status === statusFilter;
     const q = searchQuery.toLowerCase();
-    return matchStatus && (!q || [e.title, e.subject, e.tokenCode, e.gradeLevel].some((s) => s.toLowerCase().includes(q)));
+    const matchesQuery =
+      !q ||
+      [e.title, e.subject, e.tokenCode, e.gradeLevel].some((s) =>
+        s.toLowerCase().includes(q)
+      );
+    return matchStatus && matchesQuery;
   });
 
   return {
-    exams, filtered, counts, toast, isLoading,
-    isCreateModalOpen, setIsCreateModalOpen,
-    searchQuery, setSearchQuery,
-    statusFilter, setStatusFilter,
-    viewMode, setViewMode,
-    managingExam, setManagingExam,
-    deleteCandidate, setDeleteCandidate,
-    closeCandidate, setCloseCandidate,
-    recapCandidate, setRecapCandidate,
-    liveMonitorExam, openMonitor, closeMonitor,
-    notify, handleCreate, handleSaveQuestions,
-    handleConfirmDelete, handleConfirmClose, handleActionMonitor,
+    exams,
+    filtered,
+    counts,
+    toast,
+    isLoading,
+    isCreateModalOpen,
+    setIsCreateModalOpen,
+    searchQuery,
+    setSearchQuery,
+    statusFilter,
+    setStatusFilter,
+    viewMode,
+    setViewMode,
+    managingExam,
+    setManagingExam,
+    deleteCandidate,
+    setDeleteCandidate,
+    closeCandidate,
+    setCloseCandidate,
+    recapCandidate,
+    setRecapCandidate,
+    liveMonitorExam,
+    openMonitor,
+    closeMonitor,
+    notify,
+    handleCreate,
+    handleSaveQuestions,
+    handleConfirmDelete,
+    handleConfirmClose,
+    handleActionMonitor,
+    handleJoinRoom,
   };
 }

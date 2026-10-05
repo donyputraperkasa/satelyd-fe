@@ -3,19 +3,19 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #FDFBF7;
+  --background: #F8F9FB;
   --foreground: #451420;
   --primary: #451420;
   --primary-hover: #300C15;
-  --accent-border: #E0D2D6;
+  --accent-border: #E2E8F0;
 }
 
 .dark {
-  --background: #141720;
+  --background: #0A0D14;
   --foreground: #F8FAFC;
   --primary: #C67D00;
   --primary-hover: #E09200;
-  --accent-border: #282E3E;
+  --accent-border: #242A38;
 }
 
 @theme inline {

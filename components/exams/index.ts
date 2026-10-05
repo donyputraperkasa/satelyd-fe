@@ -13,4 +13,5 @@ export * from "./delete-exam-modal";
 export * from "./close-session-modal";
 export * from "./exam-recap-modal";
 export * from "./exam-live-monitor-modal";
+export * from "./exam-modals-container";
 

@@ -1,18 +1,9 @@
 import { apiClient } from "@/lib/api/client";
 import { getStoredUser, USER_KEY } from "@/lib/auth/storage";
-import type { User } from "@/types";
+import type { User, RegisteredUser } from "@/types";
 
-export interface RegisteredUser {
-  id: string;
-  name: string;
-  email: string;
-  role: "ADMIN" | "TEACHER" | "USER" | "STUDENT";
-  schoolName?: string | null;
-  gameTokenBalance: number;
-  examCreditBalance: number;
-  createdAt: string;
-  updatedAt: string;
-}
+export type { RegisteredUser };
+
 
 export async function fetchAllUsers(): Promise<RegisteredUser[]> {
   const users = await apiClient<RegisteredUser[]>("/users");

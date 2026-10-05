@@ -45,7 +45,7 @@ export function DashboardHeader({ user, onOpenSidebar }: DashboardHeaderProps) {
   };
 
   return (
-    <header className="w-full h-16 bg-[#FDFBF7] dark:bg-[#141720] border-b border-[#E5D7DC] dark:border-[#282E3E] px-4 sm:px-6 md:px-8 sticky top-0 z-30 transition-colors">
+    <header className="w-full h-16 bg-white dark:bg-[#0F1219] border-b border-[#E5E7EB] dark:border-[#242A38] px-4 sm:px-6 md:px-8 sticky top-0 z-30 transition-colors">
       <div className="h-full max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Left: Mobile Toggle & Brand / Desktop Breadcrumbs */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
