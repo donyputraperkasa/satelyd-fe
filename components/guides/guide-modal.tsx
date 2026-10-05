@@ -378,7 +378,7 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
                 details={[
                   "Buka menu 'Bank Soal & Deck' lalu klik tombol '+ Buat Deck Baru'.",
                   "Beri judul deck yang jelas, misalnya 'Operasi Aljabar & Pemfaktoran'.",
-                  "Tentukan mata pelajaran, tingkat kelas, dan estimasi tingkat kesulitan materi.",
+                  "Tentukan mata pelajaran, tingkat kelas, dan deskripsi deck jika diperlukan.",
                 ]}
                 tip="Kelompokkan setiap deck per topik bahasan kecil agar mudah dipilih saat pembelajaran harian."
               />

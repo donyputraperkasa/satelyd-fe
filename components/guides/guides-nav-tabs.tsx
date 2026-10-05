@@ -18,7 +18,7 @@ const TABS: { id: GuideTab; label: string; icon: typeof BookOpen }[] = [
 
 export function GuidesNavTabs({ activeTab, onTabChange }: GuidesNavTabsProps) {
   return (
-    <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 w-full">
       {TABS.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -27,14 +27,14 @@ export function GuidesNavTabs({ activeTab, onTabChange }: GuidesNavTabsProps) {
             key={tab.id}
             type="button"
             onClick={() => onTabChange(tab.id)}
-            className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer shrink-0 ${
+            className={`flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 py-2.5 sm:px-3.5 sm:py-2.5 text-xs sm:text-sm font-bold transition text-center cursor-pointer ${
               isActive
                 ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B] shadow-xs"
                 : "bg-white dark:bg-[#1C202C] border border-[#DFD0D5] dark:border-[#282E3E] text-[#7A5661] dark:text-[#94A3B8] hover:bg-[#FAF7F2] dark:hover:bg-[#222838] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
             }`}
           >
-            <Icon size={15} className={isActive ? "text-[#FDFBF7] dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8]"} />
-            <span>{tab.label}</span>
+            <Icon size={16} className={`shrink-0 ${isActive ? "text-[#FDFBF7] dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8]"}`} />
+            <span className="truncate">{tab.label}</span>
           </button>
         );
       })}

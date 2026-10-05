@@ -21,11 +21,11 @@ export function GuideStepCard({
   tip,
 }: GuideStepCardProps) {
   return (
-    <article className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 sm:p-6 shadow-xs transition hover:border-[#451420]/30 dark:hover:border-[#C67D00]/40">
-      <div className="flex items-start gap-4">
+    <article className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-4 sm:p-6 shadow-xs transition hover:border-[#451420]/30 dark:hover:border-[#C67D00]/40">
+      <div className="flex items-start gap-3 sm:gap-4">
         {/* Step Badge & Icon */}
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FAF0F3] dark:bg-[#141720] text-[#7A283C] dark:text-[#C67D00] border border-[#F2DEB0]/30 dark:border-[#282E3E] shadow-2xs">
-          <Icon size={22} className="text-[#451420] dark:text-[#C67D00]" />
+        <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-[#FAF0F3] dark:bg-[#141720] text-[#7A283C] dark:text-[#C67D00] border border-[#F2DEB0]/30 dark:border-[#282E3E] shadow-2xs">
+          <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#451420] dark:text-[#C67D00]" />
         </div>
 
         <div className="flex-1 min-w-0">

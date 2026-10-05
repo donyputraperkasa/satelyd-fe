@@ -6,21 +6,23 @@ interface TokenFreeTierCardProps {
   freeSessionsRemaining: number;
   freeSessionsMax: number;
   freeUsagePercent: number;
+  className?: string;
 }
 
 export function TokenFreeTierCard({
   freeSessionsRemaining,
   freeSessionsMax,
   freeUsagePercent,
+  className = "",
 }: TokenFreeTierCardProps) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-[#ECD0D8] dark:border-[#282E3E] bg-[#FAF0F3]/40 dark:bg-[#1C202C] p-6 shadow-xs flex flex-col justify-between min-h-[220px] sm:min-h-[235px]">
+    <div className={`relative overflow-hidden rounded-2xl border border-[#ECD0D8] dark:border-[#282E3E] bg-[#FAF0F3]/40 dark:bg-[#1C202C] p-3.5 sm:p-6 shadow-xs flex flex-col justify-between min-h-[170px] sm:min-h-[235px] ${className}`}>
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] text-[#7A283C] dark:text-[#FBBF24] shrink-0">
-            <Sparkles size={18} />
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg sm:rounded-xl bg-white dark:bg-[#141720] border border-[#ECD0D8] dark:border-[#282E3E] text-[#7A283C] dark:text-[#FBBF24] shrink-0">
+            <Sparkles className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
           </div>
-          <h3 className="text-base sm:text-lg font-black text-[#451420] dark:text-[#F8FAFC]">
+          <h3 className="text-sm sm:text-lg font-black text-[#451420] dark:text-[#F8FAFC]">
             Sesi Game Gratis
           </h3>
         </div>

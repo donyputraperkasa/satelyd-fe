@@ -17,6 +17,7 @@ import {
   Check,
   X,
   MessageCircle,
+  ChevronRight,
 } from "lucide-react";
 import {
   fetchAllUsers,
@@ -32,6 +33,9 @@ export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [roleFilter, setRoleFilter] = useState<string>("ALL");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Selected User for Mobile Detail Modal
+  const [selectedUserDetail, setSelectedUserDetail] = useState<RegisteredUser | null>(null);
 
   // Reset Password Modal State
   const [resetModalData, setResetModalData] = useState<{
@@ -179,86 +183,86 @@ export default function UsersPage() {
       </div>
 
       {/* Summary Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8]">Total Terdaftar</p>
-              <h3 className="font-display text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-1">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-[11px] sm:text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8] truncate">Total Terdaftar</p>
+              <h3 className="font-display text-lg sm:text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-0.5 sm:mt-1 truncate">
                 {stats.total.toLocaleString("id-ID")}
               </h3>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F5EDF0] dark:bg-[#252B39] text-[#451420] dark:text-[#F8FAFC]">
-              <Users size={20} />
+            <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-[#F5EDF0] dark:bg-[#252B39] text-[#451420] dark:text-[#F8FAFC]">
+              <Users className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
-          <p className="text-[11px] text-[#A48E95] dark:text-[#64748B] mt-3">Akun pengguna aktif</p>
+          <p className="text-[10px] sm:text-[11px] text-[#A48E95] dark:text-[#64748B] mt-2 sm:mt-3 truncate">Akun pengguna aktif</p>
         </div>
 
-        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8]">Akun Guru / Pendidik</p>
-              <h3 className="font-display text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-1">
+        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-[11px] sm:text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8] truncate">Akun Guru / Pendidik</p>
+              <h3 className="font-display text-lg sm:text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-0.5 sm:mt-1 truncate">
                 {stats.teachers.toLocaleString("id-ID")}
               </h3>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFF7ED] dark:bg-[#281F13] text-[#C67D00] dark:text-[#FBBF24]">
-              <UserCheck size={20} />
+            <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-[#FFF7ED] dark:bg-[#281F13] text-[#C67D00] dark:text-[#FBBF24]">
+              <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
-          <p className="text-[11px] text-[#A48E95] dark:text-[#64748B] mt-3">Guru pembuat kuis &amp; materi</p>
+          <p className="text-[10px] sm:text-[11px] text-[#A48E95] dark:text-[#64748B] mt-2 sm:mt-3 truncate">Guru pembuat kuis &amp; materi</p>
         </div>
 
-        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8]">Token Game Beredar</p>
-              <h3 className="font-display text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-1">
+        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-[11px] sm:text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8] truncate">Token Game Beredar</p>
+              <h3 className="font-display text-lg sm:text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-0.5 sm:mt-1 truncate">
                 {stats.totalGameTokens.toLocaleString("id-ID")}
               </h3>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EFF6FF] dark:bg-[#172554] text-[#2563EB] dark:text-[#60A5FA]">
-              <Gamepad2 size={20} />
+            <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-[#EFF6FF] dark:bg-[#172554] text-[#2563EB] dark:text-[#60A5FA]">
+              <Gamepad2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
-          <p className="text-[11px] text-[#A48E95] dark:text-[#64748B] mt-3">Total saldo di akun guru</p>
+          <p className="text-[10px] sm:text-[11px] text-[#A48E95] dark:text-[#64748B] mt-2 sm:mt-3 truncate">Total saldo di akun guru</p>
         </div>
 
-        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8]">Kredit Ujian Beredar</p>
-              <h3 className="font-display text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-1">
+        <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-[11px] sm:text-xs font-semibold text-[#7A5661] dark:text-[#94A3B8] truncate">Kredit Ujian Beredar</p>
+              <h3 className="font-display text-lg sm:text-2xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-0.5 sm:mt-1 truncate">
                 {stats.totalExamCredits.toLocaleString("id-ID")}
               </h3>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FAF5FF] dark:bg-[#2E1065] text-[#9333EA] dark:text-[#C084FC]">
-              <GraduationCap size={20} />
+            <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-[#FAF5FF] dark:bg-[#2E1065] text-[#9333EA] dark:text-[#C084FC]">
+              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
-          <p className="text-[11px] text-[#A48E95] dark:text-[#64748B] mt-3">Total kuota ujian aktif</p>
+          <p className="text-[10px] sm:text-[11px] text-[#A48E95] dark:text-[#64748B] mt-2 sm:mt-3 truncate">Total kuota ujian aktif</p>
         </div>
       </div>
 
-      {/* Filter and Search Bar Container (Sama persis model Bank Soal) */}
-      <section className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 transition-colors">
+      {/* Filter and Search Bar Container */}
+      <section className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 transition-colors overflow-hidden">
         {/* Search Input Box */}
-        <div className="flex items-center gap-2.5 bg-[#FAF7F2] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] focus-within:border-[#451420] dark:focus-within:border-[#C67D00] focus-within:bg-white dark:focus-within:bg-[#141720] rounded-xl px-4 py-2.5 flex-1 transition">
+        <div className="flex items-center gap-2.5 bg-[#FAF7F2] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] focus-within:border-[#451420] dark:focus-within:border-[#C67D00] focus-within:bg-white dark:focus-within:bg-[#141720] rounded-xl px-4 py-2.5 flex-1 transition min-w-0">
           <Search size={18} className="text-[#451420] dark:text-[#94A3B8] shrink-0" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari berdasarkan nama, email, atau asal sekolah..."
-            className="w-full bg-transparent text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:outline-none font-medium"
+            className="w-full min-w-0 bg-transparent text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:outline-none font-medium"
             aria-label="Cari pengguna"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="text-[#9C737F] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] transition p-1 rounded-md cursor-pointer"
+              className="text-[#9C737F] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] transition p-1 rounded-md cursor-pointer shrink-0"
               title="Hapus pencarian"
             >
               <X size={15} />
@@ -266,13 +270,13 @@ export default function UsersPage() {
           )}
         </div>
 
-        {/* Counter & 2-Role Filter Switcher (Semua, Guru, Non-Guru) */}
-        <div className="flex items-center gap-3 shrink-0 justify-between sm:justify-end">
-          <span className="text-xs font-bold text-[#7A5661] dark:text-[#94A3B8]">
+        {/* Counter & 2-Role Filter Switcher (Hidden on mobile) */}
+        <div className="hidden sm:flex items-center gap-3 shrink-0 justify-end">
+          <span className="text-xs font-bold text-[#7A5661] dark:text-[#94A3B8] shrink-0">
             {filteredUsers.length} Pengguna
           </span>
 
-          <div className="flex items-center rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-1">
+          <div className="flex items-center rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-1 overflow-x-auto max-w-full no-scrollbar">
             {[
               { id: "ALL", label: "Semua" },
               { id: "TEACHER", label: "Guru" },
@@ -282,7 +286,7 @@ export default function UsersPage() {
                 key={tab.id}
                 type="button"
                 onClick={() => setRoleFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer whitespace-nowrap shrink-0 ${
                   roleFilter === tab.id
                     ? "bg-white dark:bg-[#282E3E] text-[#451420] dark:text-[#F8FAFC] shadow-xs font-bold"
                     : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
@@ -302,8 +306,192 @@ export default function UsersPage() {
         </div>
       )}
 
-      {/* Table Container */}
-      <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] shadow-2xs overflow-hidden">
+      {/* Mobile User List View (Compact name-only with tap for detail) */}
+      <div className="block md:hidden space-y-2.5">
+        {isLoading ? (
+          <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-8 text-center">
+            <div className="flex flex-col items-center justify-center gap-2">
+              <div className="h-7 w-7 animate-spin rounded-full border-3 border-[#C67D00] border-t-transparent" />
+              <span className="text-xs text-[#7A5661] dark:text-[#94A3B8]">
+                Memuat data pengguna...
+              </span>
+            </div>
+          </div>
+        ) : filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => {
+            const isAdmin = user.role === "ADMIN";
+            const initial = user.name ? user.name.charAt(0).toUpperCase() : "U";
+
+            return (
+              <button
+                key={user.id}
+                type="button"
+                onClick={() => setSelectedUserDetail(user)}
+                className="w-full text-left rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 shadow-2xs hover:bg-[#FAF7F2] dark:hover:bg-[#202634] transition flex items-center justify-between gap-3 group cursor-pointer active:scale-99"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#451420] text-sm font-bold text-[#FDFBF7] shadow-2xs">
+                    {initial}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-bold text-sm text-[#451420] dark:text-[#F8FAFC] truncate group-hover:text-[#C67D00] dark:group-hover:text-[#FBBF24] transition">
+                      {user.name}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  {isAdmin ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#451420] text-white px-2 py-0.5 text-[10px] font-bold">
+                      <ShieldCheck size={11} />
+                      ADMIN
+                    </span>
+                  ) : user.role === "TEACHER" ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF4E5] dark:bg-[#2C2114] text-[#C67D00] dark:text-[#FBBF24] border border-[#FDE68A] dark:border-[#4E3918] px-2 py-0.5 text-[10px] font-bold">
+                      <GraduationCap size={11} />
+                      GURU
+                    </span>
+                  ) : null}
+                  <ChevronRight size={16} className="text-[#A48E95] dark:text-[#64748B] group-hover:translate-x-0.5 transition" />
+                </div>
+              </button>
+            );
+          })
+        ) : (
+          <div className="rounded-2xl border border-dashed border-[#DFD0D5] bg-[#FAF7F2] dark:bg-[#141720] p-8 text-center">
+            <p className="text-xs sm:text-sm font-bold text-[#451420] dark:text-[#F8FAFC]">
+              Tidak ada pengguna yang sesuai dengan filter
+            </p>
+            <p className="text-xs text-[#7A5661] dark:text-[#94A3B8] mt-1">
+              Coba ganti kata kunci pencarian atau reset filter status.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Modal Detail Pengguna (Mobile Mode) */}
+      {selectedUserDetail && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="w-full max-w-sm rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 sm:p-6 shadow-xl space-y-4">
+            {/* Header: Title & Close */}
+            <div className="flex items-center justify-between border-b border-[#F2EAEC] dark:border-[#282E3E] pb-3">
+              <h3 className="font-display text-base font-bold text-[#451420] dark:text-[#F8FAFC]">
+                Detail Pengguna
+              </h3>
+              <button
+                type="button"
+                onClick={() => setSelectedUserDetail(null)}
+                className="text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC] p-1 rounded-lg hover:bg-[#FAF7F2] dark:hover:bg-[#282E3E] transition cursor-pointer"
+                title="Tutup detail"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Profile Info */}
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#451420] text-base font-bold text-[#FDFBF7] shadow-2xs">
+                {selectedUserDetail.name ? selectedUserDetail.name.charAt(0).toUpperCase() : "U"}
+              </div>
+              <div className="min-w-0">
+                <p className="font-bold text-base text-[#451420] dark:text-[#F8FAFC] truncate">
+                  {selectedUserDetail.name}
+                </p>
+                <div className="flex items-center gap-1.5 text-xs text-[#7A5661] dark:text-[#94A3B8] truncate mt-0.5">
+                  <Mail size={12} className="shrink-0" />
+                  <span className="truncate">{selectedUserDetail.email}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Role & School details */}
+            <div className="rounded-xl bg-[#FAF7F2] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] p-3.5 space-y-2.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-[#7A5661] dark:text-[#94A3B8]">Peran Akun:</span>
+                {selectedUserDetail.role === "ADMIN" ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#451420] text-white px-2.5 py-0.5 text-[10px] font-bold">
+                    <ShieldCheck size={11} />
+                    ADMIN
+                  </span>
+                ) : selectedUserDetail.role === "TEACHER" ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF4E5] dark:bg-[#2C2114] text-[#C67D00] dark:text-[#FBBF24] border border-[#FDE68A] dark:border-[#4E3918] px-2.5 py-0.5 text-[10px] font-bold">
+                    <GraduationCap size={11} />
+                    GURU
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#F5EDF0] dark:bg-[#252B39] text-[#7A5661] dark:text-[#94A3B8] px-2.5 py-0.5 text-[10px] font-bold">
+                    NON-GURU
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-[#7A5661] dark:text-[#94A3B8]">Instansi / Sekolah:</span>
+                <span className="font-semibold text-[#451420] dark:text-[#F8FAFC] truncate max-w-[170px]">
+                  {selectedUserDetail.schoolName || "-"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-[#7A5661] dark:text-[#94A3B8]">Tanggal Bergabung:</span>
+                <span className="font-semibold text-[#451420] dark:text-[#F8FAFC]">
+                  {formatDate(selectedUserDetail.createdAt)}
+                </span>
+              </div>
+            </div>
+
+            {/* Token Balances Grid */}
+            <div className="grid grid-cols-2 gap-2.5">
+              <div className="rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-3 text-center">
+                <span className="text-[10px] text-[#7A5661] dark:text-[#94A3B8] font-bold block uppercase tracking-wider">
+                  Token Game
+                </span>
+                <span className="font-display text-xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-0.5 block">
+                  {selectedUserDetail.role === "ADMIN" ? "∞" : selectedUserDetail.gameTokenBalance ?? 0}
+                </span>
+              </div>
+
+              <div className="rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-3 text-center">
+                <span className="text-[10px] text-[#7A5661] dark:text-[#94A3B8] font-bold block uppercase tracking-wider">
+                  Kredit Ujian
+                </span>
+                <span className="font-display text-xl font-extrabold text-[#451420] dark:text-[#F8FAFC] mt-0.5 block">
+                  {selectedUserDetail.role === "ADMIN" ? "∞" : selectedUserDetail.examCreditBalance ?? 0}
+                </span>
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="pt-2 border-t border-[#F2EAEC] dark:border-[#282E3E] flex flex-col gap-2">
+              {selectedUserDetail.role !== "ADMIN" && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const u = selectedUserDetail;
+                    setSelectedUserDetail(null);
+                    handleOpenResetModal(u);
+                  }}
+                  className="w-full h-10 rounded-xl border border-[#F2C2C6] bg-[#FBEAEB] dark:bg-[#281A1D] hover:bg-[#F8D7DA] dark:hover:bg-[#341F23] text-xs font-bold text-[#8A1F2D] dark:text-[#F87171] transition flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <KeyRound size={14} />
+                  <span>Reset Kata Sandi</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => setSelectedUserDetail(null)}
+                className="w-full h-10 rounded-xl bg-[#451420] dark:bg-white text-white dark:text-[#10131B] text-xs font-bold hover:bg-[#320E17] dark:hover:bg-[#F1F5F9] transition cursor-pointer"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="border-b border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] text-[#7A5661] dark:text-[#94A3B8] font-bold uppercase tracking-wider text-[10px]">

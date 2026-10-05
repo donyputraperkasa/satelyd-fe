@@ -1,7 +1,6 @@
 "use client";
 
 import type { DeckCreateFieldsProps } from "@/types";
-import { DeckDifficultySelector } from "./deck-difficulty-selector";
 
 export function DeckCreateFields({
   title,
@@ -62,8 +61,6 @@ export function DeckCreateFields({
           />
         </div>
       </div>
-
-      <DeckDifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
 
       <div>
         <label className="block text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8] mb-1.5">

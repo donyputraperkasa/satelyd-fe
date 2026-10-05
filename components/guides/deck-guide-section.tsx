@@ -40,7 +40,7 @@ export function DeckGuideSection() {
             "Buka menu 'Bank Soal & Deck' di sidebar lalu klik '+ Buat Deck Baru'.",
             "Beri judul deck yang jelas, misalnya 'Operasi Aljabar & Pemfaktoran'.",
             "Tentukan mata pelajaran dan tingkat kelas (misal: Matematika - Kelas 8 SMP).",
-            "Pilih estimasi tingkat kesulitan materi (Mudah, Sedang, Sulit, atau Campuran).",
+            "Tuliskan deskripsi ringkas materi atau catatan untuk guru jika diperlukan.",
           ]}
           tip="Kelompokkan setiap deck per topik bahasan kecil agar mudah dipilih saat pembelajaran harian."
         />
