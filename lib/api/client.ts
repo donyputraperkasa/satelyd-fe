@@ -30,7 +30,17 @@ export async function apiClient<T>(
 
   if (!res.ok) {
     const errorBody = await res.json().catch(() => ({}));
-    throw new Error(errorBody.message || `Request failed with status ${res.status}`);
+    let msg = `Request failed with status ${res.status}`;
+    if (errorBody) {
+      if (typeof errorBody.message === "string") {
+        msg = errorBody.message;
+      } else if (Array.isArray(errorBody.message)) {
+        msg = errorBody.message.join(", ");
+      } else if (typeof errorBody.error === "string") {
+        msg = errorBody.error;
+      }
+    }
+    throw new Error(msg);
   }
 
   return res.json();

@@ -117,10 +117,41 @@ export async function createDeck(payload: CreateDeckPayload): Promise<Deck> {
   return createdDeck;
 }
 
+export function sanitizeDeckCardsForApi(deckId: string, cards: DeckCard[]) {
+  return cards.map((c, idx) => ({
+    deckId,
+    orderIndex: idx + 1,
+    order: idx + 1,
+    frontQuestion: c.frontQuestion ?? "",
+    question: c.frontQuestion ?? "",
+    backAnswer: c.backAnswer ?? "",
+    answer: c.backAnswer ?? "",
+    explanation: c.explanation ?? "",
+    hint: c.explanation ?? "",
+    questionType: c.questionType ?? "MULTIPLE_CHOICE",
+    options: Array.isArray(c.options)
+      ? c.options.map((opt) => ({
+          key: opt.key ?? "",
+          text: opt.text ?? "",
+        }))
+      : [],
+    points: typeof c.points === "number" ? c.points : 10,
+    timerSeconds: typeof c.timerSeconds === "number" ? c.timerSeconds : 30,
+    durationSeconds: typeof c.timerSeconds === "number" ? c.timerSeconds : 30,
+    ...(c.imageUrl ? { imageUrl: c.imageUrl } : {}),
+    ...(c.answerImageUrl ? { answerImageUrl: c.answerImageUrl } : {}),
+  }));
+}
+
 export async function updateDeck(id: string, payload: UpdateDeckPayload): Promise<Deck> {
+  const sanitizedPayload: any = { ...payload };
+  if (Array.isArray(payload.cards)) {
+    sanitizedPayload.cards = sanitizeDeckCardsForApi(id, payload.cards);
+  }
+
   const fromApi = await apiClient<Deck>(`/decks/${encodeURIComponent(id)}`, {
     method: "PATCH",
-    body: JSON.stringify(payload),
+    body: JSON.stringify(sanitizedPayload),
   });
 
   if (!fromApi?.id) {

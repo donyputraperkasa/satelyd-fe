@@ -9,6 +9,7 @@ export function CardEditorSidebar({
   totalPoints,
   onSelectCard,
   onAddCard,
+  isTokenUnlocked = false,
 }: CardEditorSidebarProps) {
   return (
     <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#E5D7DC] bg-[#FAF7F2] p-4 flex flex-col shrink-0 overflow-y-auto max-h-48 md:max-h-full">
@@ -22,12 +23,18 @@ export function CardEditorSidebar({
       </div>
 
       {cards.length > 8 ? (
-        <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-[#FFF8E6] border border-[#F2DEB0] text-[10px] text-[#9A6200] leading-tight font-medium">
-          ✨ <strong>Mode Lengkap (&gt; 8 soal):</strong> Memulai sesi game untuk deck ini membutuhkan 1 Token Game (Rp 3.000).
-        </div>
+        isTokenUnlocked ? (
+          <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-purple-50 border border-purple-200 text-[10px] text-purple-800 leading-tight font-medium">
+            💎 <strong>Deck Unlocked ({cards.length} soal):</strong> Kuota soal tanpa batas telah aktif.
+          </div>
+        ) : (
+          <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-[#FFF8E6] border border-[#F2DEB0] text-[10px] text-[#9A6200] leading-tight font-medium">
+            ⚠️ <strong>Mode Lengkap ({cards.length} soal):</strong> Kuota gratis maks 8 soal. Menyimpan lebih dari 8 soal memerlukan 1 Token Game (Rp 2.500) untuk membuka kuota permanen.
+          </div>
+        )
       ) : (
         <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-800 leading-tight font-medium">
-          🎉 <strong>Gratis:</strong> Deck ini (&le; 8 soal) bisa dimainkan gratis (kuota 4 sesi per hari).
+          🎉 <strong>Gratis:</strong> Deck ini ({cards.length}/8 soal) bisa disimpan dan dimainkan gratis.
         </div>
       )}
 

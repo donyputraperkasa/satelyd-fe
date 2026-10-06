@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import type { Deck, DeckCard } from "@/types";
 import { useToast } from "@/components/ui";
+import { getStoredUser } from "@/lib/auth/storage";
 import { useCardEditorOptions, DEFAULT_DECK_OPTIONS } from "./use-card-editor-options";
 import { useCardImageUpload } from "./use-card-image-upload";
 import { createInitialDeckCard, createNewDeckCard } from "./card-editor-utils";
@@ -21,7 +22,26 @@ export function useCardEditor(
   const [isSaving, setIsSaving] = useState(false);
   const [isSavedToast, setIsSavedToast] = useState(false);
 
+  const draftKey = deck?.id ? `satelyd_draft_deck_${deck.id}` : null;
+
   useEffect(() => {
+    if (!isOpen || !deck?.id) return;
+
+    if (draftKey && typeof window !== "undefined") {
+      try {
+        const savedDraft = localStorage.getItem(draftKey);
+        if (savedDraft) {
+          const parsed = JSON.parse(savedDraft);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setCards(parsed);
+            setActiveCardIndex(0);
+            toast.info(`Memulihkan draf ${parsed.length} soal yang belum tersimpan.`);
+            return;
+          }
+        }
+      } catch {}
+    }
+
     if (deck?.cards && deck.cards.length > 0) {
       setCards(JSON.parse(JSON.stringify(deck.cards)));
     } else {
@@ -29,6 +49,14 @@ export function useCardEditor(
     }
     setActiveCardIndex(0);
   }, [deck, isOpen]);
+
+  // Simpan draf otomatis ke localStorage setiap kali ada perubahan kartu
+  useEffect(() => {
+    if (!isOpen || !draftKey || cards.length === 0 || typeof window === "undefined") return;
+    try {
+      localStorage.setItem(draftKey, JSON.stringify(cards));
+    } catch {}
+  }, [cards, isOpen, draftKey]);
 
   const currentCard: DeckCard | undefined = cards[activeCardIndex] || cards[0];
   const totalPoints = cards.reduce((sum, c) => sum + (c.points || 10), 0);
@@ -65,12 +93,35 @@ export function useCardEditor(
   };
 
   const handleSave = async () => {
+    const user = getStoredUser();
+    const isAdmin = user?.role === "ADMIN";
+    const maxFree = 8;
+    const isUnlocked = Boolean(deck.isTokenUnlocked);
+
+    if (cards.length > maxFree && !isAdmin && !isUnlocked) {
+      const balance = user?.gameTokenBalance ?? 0;
+      if (balance < 1) {
+        toast.error(
+          `Deck ini memiliki ${cards.length} soal (melebihi kuota ${maxFree} soal gratis). Anda memerlukan 1 Token Game (Rp 2.500) untuk membuka kuota tak terbatas, atau kurangi jumlah soal menjadi ${maxFree}.`
+        );
+        return;
+      }
+    }
+
     setIsSaving(true);
     try {
       await onSaveCards(deck.id, cards);
       setIsSavedToast(true);
+      if (draftKey && typeof window !== "undefined") {
+        try {
+          localStorage.removeItem(draftKey);
+        } catch {}
+      }
       setTimeout(() => setIsSavedToast(false), 2000);
       onClose();
+    } catch (err) {
+      // JANGAN tutup modal agar soal yang sudah diketik tidak hilang!
+      console.error("Gagal menyimpan kartu:", err);
     } finally {
       setIsSaving(false);
     }

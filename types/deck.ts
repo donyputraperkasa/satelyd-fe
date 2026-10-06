@@ -30,6 +30,7 @@ export interface Deck {
   createdAt: string;
   updatedAt?: string;
   cards?: DeckCard[];
+  isTokenUnlocked?: boolean;
 }
 
 export interface DeckSummaryMetrics {
@@ -151,6 +152,7 @@ export interface CardEditorSidebarProps {
   totalPoints: number;
   onSelectCard: (index: number) => void;
   onAddCard: () => void;
+  isTokenUnlocked?: boolean;
 }
 
 export interface CardEditorOptionsListProps {

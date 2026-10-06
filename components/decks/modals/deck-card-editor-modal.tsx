@@ -48,6 +48,7 @@ export function DeckCardEditorModal({
             totalPoints={editor.totalPoints}
             onSelectCard={editor.setActiveCardIndex}
             onAddCard={editor.handleAddCard}
+            isTokenUnlocked={deck.isTokenUnlocked}
           />
 
           <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-[#FDFBF7]">

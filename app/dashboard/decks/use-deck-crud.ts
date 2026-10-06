@@ -53,6 +53,7 @@ export function useDeckCrud(
       toast.success(`Tersimpan ${cards.length} kartu soal untuk deck "${updated.title}".`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Gagal menyimpan kartu soal.");
+      throw err;
     }
   };
 
