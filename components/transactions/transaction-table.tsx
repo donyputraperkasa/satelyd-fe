@@ -90,7 +90,7 @@ export function TransactionTable({
 
       {/* Orders List Container */}
       <div className="rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] p-5 sm:p-7 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4 border-b border-[#E5D7DC] dark:border-[#282E3E] pb-3">
           <p className="text-xs font-bold uppercase tracking-wider text-[#7A5661] dark:text-[#94A3B8]">
             Daftar Antrean & Riwayat Transaksi
           </p>

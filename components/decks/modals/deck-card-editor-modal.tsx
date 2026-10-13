@@ -29,7 +29,7 @@ export function DeckCardEditorModal({
       className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-[#451420]/60 backdrop-blur-xs animate-in fade-in duration-200"
     >
       <div
-        className="w-full max-w-5xl h-[92vh] max-h-[92vh] flex flex-col rounded-2xl border border-[#E5D7DC] bg-[#FDFBF7] text-[#451420] shadow-2xl overflow-hidden"
+        className="w-full max-w-5xl h-[96vh] sm:h-[92vh] max-h-[96vh] sm:max-h-[92vh] flex flex-col rounded-2xl border border-[#E5D7DC] bg-white text-[#451420] shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <CardEditorHeader
@@ -51,7 +51,7 @@ export function DeckCardEditorModal({
             isTokenUnlocked={deck.isTokenUnlocked}
           />
 
-          <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-[#FDFBF7]">
+          <div className="flex-1 p-3.5 sm:p-6 overflow-y-auto bg-white">
             {editor.currentCard && (
               <CardEditorForm
                 currentCard={editor.currentCard}

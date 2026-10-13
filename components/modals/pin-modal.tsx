@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Gamepad2, GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { checkGameRoom, fetchExamByToken } from "@/services";
+import { checkGameRoom, fetchExamByToken, fetchDeckByPinOrId } from "@/services";
 import type { PinModalProps } from "@/types";
 import { BaseModal } from "./base-modal";
 
@@ -31,14 +31,59 @@ export function PinModal({
 
     try {
       if (mode === "game") {
-        try { await checkGameRoom(cleanPin); } catch { /* local lookup */ }
-        setSuccessMsg(`Sesi game "${cleanPin}" valid! Membuka layar TV...`);
-        setTimeout(() => { onClose(); router.push(`/game/${encodeURIComponent(cleanPin)}`); }, 600);
-      } else {
+        // 1. Coba periksa apakah ini sesi TV aktif atau Deck game yang valid
+        let isGameValid = false;
+        try {
+          await checkGameRoom(cleanPin);
+          isGameValid = true;
+        } catch {
+          // Cek apakah ada deck dengan PIN ini
+          const deck = await fetchDeckByPinOrId(cleanPin);
+          if (deck) isGameValid = true;
+        }
+
+        if (isGameValid) {
+          setSuccessMsg(`Sesi game "${cleanPin}" valid! Membuka arena game...`);
+          setTimeout(() => { onClose(); router.push(`/game/${encodeURIComponent(cleanPin)}`); }, 600);
+          return;
+        }
+
+        // Fallback: Siapa tahu user mengetik Token Ujian saat berada di tab Game
         const exam = await fetchExamByToken(cleanPin);
-        if (!exam) throw new Error(`Ujian dengan token "${cleanPin}" tidak ditemukan.`);
-        setSuccessMsg(`Ujian "${exam.title}" valid! Mengalihkan ke lembar ujian...`);
-        setTimeout(() => { onClose(); router.push(`/exam/${encodeURIComponent(cleanPin)}`); }, 600);
+        if (exam) {
+          setSuccessMsg(`Token Ujian "${exam.title}" ditemukan! Mengalihkan ke lembar ujian...`);
+          setTimeout(() => { onClose(); router.push(`/exam/${encodeURIComponent(cleanPin)}`); }, 600);
+          return;
+        }
+
+        // Jika keduanya tidak ditemukan
+        throw new Error(`PIN "${cleanPin}" tidak ditemukan. Pastikan kode sesuai dengan layar guru.`);
+      } else {
+        // Mode Ujian
+        const exam = await fetchExamByToken(cleanPin);
+        if (exam) {
+          setSuccessMsg(`Ujian "${exam.title}" valid! Mengalihkan ke lembar ujian...`);
+          setTimeout(() => { onClose(); router.push(`/exam/${encodeURIComponent(cleanPin)}`); }, 600);
+          return;
+        }
+
+        // Fallback: Siapa tahu user mengetik PIN Game saat berada di tab Ujian
+        let isGameValid = false;
+        try {
+          await checkGameRoom(cleanPin);
+          isGameValid = true;
+        } catch {
+          const deck = await fetchDeckByPinOrId(cleanPin);
+          if (deck) isGameValid = true;
+        }
+
+        if (isGameValid) {
+          setSuccessMsg(`PIN Game "${cleanPin}" valid! Mengalihkan ke arena game...`);
+          setTimeout(() => { onClose(); router.push(`/game/${encodeURIComponent(cleanPin)}`); }, 600);
+          return;
+        }
+
+        throw new Error(`Token Ujian "${cleanPin}" tidak ditemukan.`);
       }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "PIN/Kode tidak ditemukan");
@@ -56,28 +101,28 @@ export function PinModal({
         </p>
       </div>
 
-      <div className="mb-5 flex rounded-full bg-[#EFE8EB] dark:bg-[#141720] p-1 border border-[#DFD0D5] dark:border-[#282E3E]">
+      <div className="mb-6 flex rounded-full bg-[#EFE8EB] dark:bg-[#141720] p-1.5 border border-[#DFD0D5] dark:border-[#282E3E]">
         <button
           type="button"
           onClick={() => { setMode("game"); setErrorMsg(null); setSuccessMsg(null); }}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold transition cursor-pointer ${
             mode === "game"
-              ? "bg-[#451420] dark:bg-white text-[#FDFBF7] dark:text-[#10131B] shadow-xs"
+              ? "bg-[#451420] dark:bg-white text-[#FDFBF7] dark:text-[#10131B] shadow-sm"
               : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
           }`}
         >
-          <Gamepad2 size={14} /> Game TV Kelas
+          <Gamepad2 size={16} /> Game TV Kelas
         </button>
         <button
           type="button"
           onClick={() => { setMode("exam"); setErrorMsg(null); setSuccessMsg(null); }}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold transition cursor-pointer ${
             mode === "exam"
-              ? "bg-[#451420] dark:bg-white text-[#FDFBF7] dark:text-[#10131B] shadow-xs"
+              ? "bg-[#451420] dark:bg-white text-[#FDFBF7] dark:text-[#10131B] shadow-sm"
               : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"
           }`}
         >
-          <GraduationCap size={14} /> Ujian Sekolah
+          <GraduationCap size={16} /> Ujian Sekolah
         </button>
       </div>
 

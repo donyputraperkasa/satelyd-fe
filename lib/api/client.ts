@@ -1,5 +1,20 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+export function getApiBaseUrl(): string {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    // Jika diakses dari HP (IP LAN seperti 192.168.x.x) tetapi envUrl masih default ke localhost
+    if (
+      (!envUrl || envUrl.includes("localhost") || envUrl.includes("127.0.0.1")) &&
+      hostname &&
+      hostname !== "localhost" &&
+      hostname !== "127.0.0.1"
+    ) {
+      const protocol = window.location.protocol;
+      return `${protocol}//${hostname}:4000`;
+    }
+  }
+  return envUrl ?? "http://localhost:4000";
+}
 
 interface RequestOptions extends RequestInit {
   token?: string;
@@ -19,7 +34,8 @@ export async function apiClient<T>(
       undefined;
   }
 
-  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const baseUrl = getApiBaseUrl();
+  const res = await fetch(`${baseUrl}${endpoint}`, {
     ...rest,
     headers: {
       "Content-Type": "application/json",

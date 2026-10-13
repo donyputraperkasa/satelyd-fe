@@ -22,17 +22,17 @@ export function CardEditorFormHeader({
   onDeleteCard,
 }: CardEditorFormHeaderProps) {
   return (
-    <div className="flex items-center justify-between pb-3 border-b border-[#E5D7DC]">
-      <div className="flex items-center gap-2">
-        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#451420] text-white font-black text-xs">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-[#E5D7DC]">
+      <div className="flex items-center gap-2 min-w-0">
+        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#451420] text-white font-black text-xs shrink-0">
           #{cardIndex + 1}
         </span>
-        <h3 className="text-sm font-black text-[#451420]">
+        <h3 className="text-sm font-black text-[#451420] whitespace-nowrap">
           Butir Soal Nomor {cardIndex + 1}
         </h3>
       </div>
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2 flex-wrap">
         {/* Timer Selector */}
         <div className="h-8 flex items-center gap-1.5 bg-white border border-[#E5D7DC] rounded-xl px-2.5 shadow-2xs">
           <Clock size={14} className="text-amber-700 shrink-0" />

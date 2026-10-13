@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Gamepad2 } from "lucide-react";
 import { useAuthModal } from "@/components/modals";
 
 export function HeroSection() {
@@ -32,18 +32,19 @@ export function HeroSection() {
         <button
           type="button"
           onClick={openRegister}
-          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-[#C67D00] dark:hover:bg-[#B37000] dark:text-[#141720] px-5 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-base font-semibold shadow-md shadow-[#451420]/20 dark:shadow-none transition hover:-translate-y-0.5 cursor-pointer shrink-0"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#451420] hover:bg-[#300C15] text-[#FDFBF7] dark:bg-white dark:hover:bg-slate-100 dark:text-[#10131B] min-w-[165px] sm:min-w-[195px] h-12 sm:h-13 px-6 text-sm sm:text-base font-bold shadow-md shadow-[#451420]/20 dark:shadow-none transition hover:-translate-y-0.5 cursor-pointer shrink-0"
         >
-          Register
+          <span>Register</span>
           <ArrowRight size={16} className="stroke-[2.5] sm:w-[18px] sm:h-[18px]" />
         </button>
 
         <button
           type="button"
           onClick={openPin}
-          className="inline-flex items-center justify-center rounded-full border border-[#DFD0D5] dark:border-[#282E3E] bg-white/80 hover:bg-white dark:bg-[#1C202C] dark:hover:bg-[#222838] px-5 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-base font-semibold text-[#451420] dark:text-[#F8FAFC] shadow-md shadow-[#451420]/10 dark:shadow-none transition hover:-translate-y-0.5 hover:border-[#451420] dark:hover:border-[#C67D00] cursor-pointer shrink-0"
+          className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#451420] dark:border-[#C67D00] bg-white hover:bg-[#FAF0F3] dark:bg-[#1C202C] dark:hover:bg-[#252B3B] min-w-[165px] sm:min-w-[195px] h-12 sm:h-13 px-6 text-sm sm:text-base font-bold text-[#451420] dark:text-[#F8FAFC] shadow-md shadow-[#451420]/10 dark:shadow-none transition hover:-translate-y-0.5 cursor-pointer shrink-0"
         >
-          Masukkan PIN
+          <Gamepad2 size={16} className="text-[#451420] dark:text-[#C67D00] sm:w-[18px] sm:h-[18px]" />
+          <span>Masukkan PIN</span>
         </button>
       </div>
     </section>

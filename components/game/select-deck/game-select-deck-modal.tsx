@@ -47,7 +47,7 @@ export function GameSelectDeckModal({
 
       <div
         className="relative w-full max-w-2xl transform overflow-hidden
-          rounded-3xl border border-[#DFD0D5] bg-[#FDFBF7] p-6 sm:p-7
+          rounded-3xl border border-[#DFD0D5] bg-white p-6 sm:p-7
           text-[#451420] shadow-2xl transition-all z-10 space-y-5"
       >
         <GameSelectDeckHeader gameType={gameType} onClose={onClose} />

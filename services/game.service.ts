@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api/client";
-import { fetchDeckById } from "./deck.service";
+import { fetchDeckById, fetchDeckByPinOrId } from "./deck.service";
 import type { GameSession, GameType, GameTeam, Deck } from "@/types";
 
 const LOCAL_STORAGE_SESSIONS_KEY = "satelyd.game-sessions.v1";
@@ -134,7 +134,7 @@ export async function fetchGameSessionByPin(pinCode: string): Promise<GameSessio
   if (found) return found;
 
   // If not found in stored sessions, check if there is a deck with this pin
-  const deck = await fetchDeckById(cleanPin);
+  const deck = await fetchDeckByPinOrId(cleanPin);
   if (deck) {
     return createOrGetGameSession(deck.id, "FLIP_CARD", cleanPin);
   }

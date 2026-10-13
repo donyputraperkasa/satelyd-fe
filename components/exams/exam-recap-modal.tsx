@@ -39,7 +39,7 @@ export function ExamRecapModal({
       className="fixed inset-0 z-[110] flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs animate-fade-in"
     >
       <div
-        className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] text-[#451420] dark:text-[#F8FAFC] shadow-2xl overflow-hidden"
+        className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] text-[#451420] dark:text-[#F8FAFC] shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#141720] px-5 py-4 shrink-0">

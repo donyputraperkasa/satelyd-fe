@@ -9,21 +9,21 @@ export function CardEditorFooter({
   isSaving,
 }: CardEditorFooterProps) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E5D7DC] bg-white px-5 py-3.5 shrink-0">
+    <div className="flex items-center justify-between gap-2.5 border-t border-[#E5D7DC] bg-white px-4 sm:px-6 py-3 sm:py-3.5 shrink-0">
       <button
         type="button"
         onClick={onClose}
-        className="h-10 px-4 inline-flex items-center justify-center rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#7A5661] hover:bg-[#FAF7F2] transition cursor-pointer"
+        className="h-10 px-4 inline-flex items-center justify-center rounded-xl border border-[#DFD0D5] bg-white text-xs font-bold text-[#7A5661] hover:bg-[#F5EDF0] transition cursor-pointer"
       >
         Tutup
       </button>
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2">
         <button
           type="button"
           onClick={onSave}
           disabled={isSaving}
-          className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] px-5 text-xs font-black text-white hover:bg-[#5B1C2E] transition cursor-pointer shadow-xs disabled:opacity-50"
+          className="h-10 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#451420] px-4 sm:px-5 text-xs font-black text-white hover:bg-[#5B1C2E] transition cursor-pointer shadow-xs disabled:opacity-50"
         >
           <Save size={15} />
           <span>{isSaving ? "Menyimpan..." : "Simpan Semua Kartu"}</span>

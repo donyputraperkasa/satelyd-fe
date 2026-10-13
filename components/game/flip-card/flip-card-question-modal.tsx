@@ -49,7 +49,7 @@ export function FlipCardQuestionModal({
       aria-modal="true"
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
     >
-      <div className="relative w-full max-w-4xl max-h-[92vh] bg-[#FDFBF7] rounded-3xl border-2 border-[#DFD0D5] shadow-2xl flex flex-col overflow-hidden">
+      <div className="relative w-full max-w-4xl max-h-[92vh] bg-white rounded-3xl border-2 border-[#DFD0D5] shadow-2xl flex flex-col overflow-hidden">
         <FlipCardModalHeader
           cardNumber={cardNumber}
           points={points}

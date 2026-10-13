@@ -25,7 +25,7 @@ export function StudentAntiCheatAlert({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#451420]/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="w-full max-w-md rounded-3xl border border-[#DFD0D5] bg-[#FDFBF7] p-6 sm:p-7 shadow-2xl">
+      <div className="w-full max-w-md rounded-3xl border border-[#DFD0D5] bg-white p-6 sm:p-7 shadow-2xl">
         {/* Icon & Title */}
         <div className="flex items-center gap-3.5 mb-4">
           <div className="w-12 h-12 rounded-2xl bg-[#F5EDF0] border border-[#ECD0D8] text-[#451420] flex items-center justify-center shrink-0">

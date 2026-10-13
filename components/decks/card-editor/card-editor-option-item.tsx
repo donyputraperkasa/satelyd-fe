@@ -50,8 +50,9 @@ export function CardEditorOptionItem({
       />
 
       {isCorrect && (
-        <span className="flex items-center gap-1 pr-2 text-xs font-bold text-[#2E7D32] shrink-0">
-          <CheckCircle2 size={14} /> Kunci Jawaban
+        <span className="flex items-center gap-1 pr-1 sm:pr-2 text-xs font-bold text-[#2E7D32] shrink-0" title="Kunci Jawaban">
+          <CheckCircle2 size={15} />
+          <span className="hidden sm:inline">Kunci Jawaban</span>
         </span>
       )}
 

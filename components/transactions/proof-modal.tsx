@@ -18,7 +18,7 @@ export function ProofModal({ order, onClose, onAdmit }: ProofModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div onClick={onClose} className="fixed inset-0 bg-black/60 backdrop-blur-xs" />
 
-      <div className="relative w-full max-w-lg rounded-2xl border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] p-6 shadow-2xl space-y-5 z-10 animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-lg rounded-2xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-6 shadow-2xl space-y-5 z-10 animate-in fade-in zoom-in-95 duration-150">
         <div className="flex items-center justify-between border-b border-[#E5D7DC] dark:border-[#282E3E] pb-4">
           <div className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#451420] dark:bg-white text-[#FDFBF7] dark:text-[#10131B]">

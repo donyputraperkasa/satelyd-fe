@@ -87,11 +87,11 @@ export function GuideModal({ isOpen, onClose, type, gameType }: GuideModalProps)
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-3xl max-h-[90vh] bg-[#FDFBF7] dark:bg-[#1C202C] rounded-2xl sm:rounded-3xl border border-[#DFD0D5] dark:border-[#282E3E] shadow-2xl flex flex-col overflow-hidden"
+        className="relative w-full max-w-3xl max-h-[90vh] bg-white dark:bg-[#1C202C] rounded-2xl sm:rounded-3xl border border-[#DFD0D5] dark:border-[#282E3E] shadow-2xl flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-start justify-between px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-[#E5D7DC] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] shrink-0">
+        <div className="flex items-start justify-between px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-[#E5D7DC] dark:border-[#282E3E] bg-stone-50/80 dark:bg-[#141720] shrink-0">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#FAF0F3] dark:bg-[#C67D00]/15 border border-[#ECD0D8] dark:border-[#C67D00]/30 text-[#7A283C] dark:text-[#FBBF24] shrink-0">
               <BookOpen size={20} className="text-[#451420] dark:text-[#FBBF24]" />

@@ -21,7 +21,7 @@ export function GameEndSessionModal({
         bg-black/60 backdrop-blur-xs animate-in fade-in duration-150"
     >
       <div
-        className="w-full max-w-md bg-[#FDFBF7] rounded-3xl
+        className="w-full max-w-md bg-white rounded-3xl
           border border-[#DFD0D5] p-6 shadow-2xl space-y-4"
       >
         <div className="flex items-center gap-3">

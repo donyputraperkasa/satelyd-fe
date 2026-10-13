@@ -30,7 +30,7 @@ export function CardEditorOptionsList({
         </div>
 
         {/* Segmented Selector Opsi: ABC, ABCD, ABCDE */}
-        <div className="inline-flex items-center gap-1 rounded-xl border border-[#E5D7DC] bg-[#FAF7F2] p-1 self-start sm:self-auto">
+        <div className="inline-flex items-center gap-1 rounded-xl border border-[#E5D7DC] bg-stone-100/80 p-1 self-start sm:self-auto">
           {[3, 4, 5].map((cnt) => {
             const label = cnt === 3 ? "A–C (3)" : cnt === 4 ? "A–D (4)" : "A–E (5)";
             const isActive = options.length === cnt;

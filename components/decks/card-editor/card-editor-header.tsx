@@ -12,13 +12,13 @@ export function CardEditorHeader({
   onClose,
 }: CardEditorHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-[#E5D7DC] bg-white px-5 sm:px-6 py-4 shrink-0">
-      <div className="flex items-center gap-3.5 min-w-0">
-        <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#FAF0F3] border border-[#ECD0D8] text-[#7A283C] shrink-0">
-          <Layers size={20} />
+    <div className="flex items-center justify-between border-b border-[#E5D7DC] bg-white px-3.5 sm:px-6 py-3 sm:py-4 shrink-0">
+      <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+        <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#FAF0F3] border border-[#ECD0D8] text-[#7A283C] shrink-0">
+          <Layers size={18} className="sm:w-5 sm:h-5" />
         </div>
         <div className="min-w-0">
-          <h2 className="text-base sm:text-lg md:text-xl font-black text-[#451420] truncate tracking-tight">
+          <h2 className="text-sm sm:text-lg md:text-xl font-black text-[#451420] truncate tracking-tight">
             {title}
           </h2>
           <div className="flex items-center gap-2 text-xs text-[#7A5661] font-medium mt-0.5 flex-wrap">

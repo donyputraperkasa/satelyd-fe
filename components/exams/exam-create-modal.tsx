@@ -59,7 +59,7 @@ export function ExamCreateModal({ isOpen, onClose, onSubmit }: ExamCreateModalPr
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in"
     >
       <div
-        className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] p-5 sm:p-7 text-[#451420] dark:text-[#F8FAFC] shadow-2xl"
+        className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-5 sm:p-7 text-[#451420] dark:text-[#F8FAFC] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

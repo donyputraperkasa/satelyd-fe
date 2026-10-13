@@ -51,7 +51,7 @@ export function BaseModal({
 
       {/* Modal Container */}
       <div
-        className={`relative w-full ${maxWidth} transform overflow-hidden rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] p-6 sm:p-8 text-[#451420] dark:text-[#F8FAFC] shadow-2xl transition-all z-10`}
+        className={`relative w-full ${maxWidth} transform overflow-hidden rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-6 sm:p-8 text-[#451420] dark:text-[#F8FAFC] shadow-2xl transition-all z-10`}
       >
         {/* Close Button */}
         <button

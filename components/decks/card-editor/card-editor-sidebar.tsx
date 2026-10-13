@@ -12,8 +12,8 @@ export function CardEditorSidebar({
   isTokenUnlocked = false,
 }: CardEditorSidebarProps) {
   return (
-    <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#E5D7DC] bg-[#FAF7F2] p-4 flex flex-col shrink-0 overflow-y-auto max-h-48 md:max-h-full">
-      <div className="flex items-center justify-between mb-2">
+    <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#E5D7DC] bg-[#FAFAF9] p-3 sm:p-4 flex flex-col shrink-0 overflow-y-auto max-h-36 sm:max-h-44 md:max-h-full">
+      <div className="flex items-center justify-between mb-1.5 sm:mb-2">
         <span className="text-xs font-extrabold uppercase tracking-wider text-[#7A5661]">
           Daftar Soal ({cards.length})
         </span>
@@ -24,16 +24,16 @@ export function CardEditorSidebar({
 
       {cards.length > 8 ? (
         isTokenUnlocked ? (
-          <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-purple-50 border border-purple-200 text-[10px] text-purple-800 leading-tight font-medium">
+          <div className="mb-2 sm:mb-3 px-2.5 py-1.5 rounded-xl bg-purple-50 border border-purple-200 text-[10px] text-purple-800 leading-tight font-medium">
             💎 <strong>Deck Unlocked ({cards.length} soal):</strong> Kuota soal tanpa batas telah aktif.
           </div>
         ) : (
-          <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-[#FFF8E6] border border-[#F2DEB0] text-[10px] text-[#9A6200] leading-tight font-medium">
+          <div className="mb-2 sm:mb-3 px-2.5 py-1.5 rounded-xl bg-[#FFF8E6] border border-[#F2DEB0] text-[10px] text-[#9A6200] leading-tight font-medium">
             ⚠️ <strong>Mode Lengkap ({cards.length} soal):</strong> Kuota gratis maks 8 soal. Menyimpan lebih dari 8 soal memerlukan 1 Token Game (Rp 2.500) untuk membuka kuota permanen.
           </div>
         )
       ) : (
-        <div className="mb-3 px-2.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-800 leading-tight font-medium">
+        <div className="mb-2 sm:mb-3 px-2.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-800 leading-tight font-medium">
           🎉 <strong>Gratis:</strong> Deck ini ({cards.length}/8 soal) bisa disimpan dan dimainkan gratis.
         </div>
       )}

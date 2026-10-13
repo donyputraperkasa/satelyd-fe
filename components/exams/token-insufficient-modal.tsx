@@ -23,7 +23,7 @@ export function TokenInsufficientModal({
       className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in"
     >
       <div
-        className="w-full max-w-md rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-[#FDFBF7] dark:bg-[#1C202C] p-6 text-[#451420] dark:text-[#F8FAFC] shadow-2xl animate-scale-up"
+        className="w-full max-w-md rounded-2xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-6 text-[#451420] dark:text-[#F8FAFC] shadow-2xl animate-scale-up"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between pb-3 border-b border-[#E5D7DC] dark:border-[#282E3E]">

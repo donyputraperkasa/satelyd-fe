@@ -96,6 +96,27 @@ export async function fetchDeckById(id: string): Promise<Deck | null> {
   return localDecks.find((d) => d.id === id) || null;
 }
 
+export async function fetchDeckByPinOrId(pinOrId: string): Promise<Deck | null> {
+  const clean = pinOrId.trim().toUpperCase();
+  if (!clean) return null;
+
+  // 1. Coba cari langsung by ID
+  const direct = await fetchDeckById(clean);
+  if (direct) return direct;
+
+  // 2. Ambil semua deck yang tersedia (baik dari backend maupun storage lokal)
+  const allDecks = await fetchDecks();
+  const matched = allDecks.find((d) => {
+    if (d.id?.toUpperCase() === clean) return true;
+    if (d.pinCode?.toUpperCase() === clean) return true;
+    const sessionPin = `TV-${d.id.replace(/[^0-9A-Z]/gi, "").slice(-4).toUpperCase() || "8821"}`;
+    if (sessionPin === clean) return true;
+    return false;
+  });
+
+  return matched || null;
+}
+
 export async function createDeck(payload: CreateDeckPayload): Promise<Deck> {
   const fromApi = await apiClient<Deck>("/decks", {
     method: "POST",
