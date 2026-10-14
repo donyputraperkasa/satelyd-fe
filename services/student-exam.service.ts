@@ -20,7 +20,12 @@ export async function fetchExamByToken(token: string): Promise<Exam | null> {
         question: string;
         imageUrl?: string;
         explanation?: string;
-        options: Array<{ id: string; optionKey: string; optionText: string }>;
+        options: Array<{ id: string; label?: string; text?: string; optionKey?: string; optionText?: string }>;
+      }>;
+      rosterEntries?: Array<{
+        attendanceNumber: string;
+        studentName: string;
+        className: string;
       }>;
       _count?: { questions: number };
     }>(`/teacher-exams/public/${encodeURIComponent(cleanToken)}`);
@@ -40,6 +45,7 @@ export async function fetchExamByToken(token: string): Promise<Exam | null> {
         passingScore: 75,
         createdAt: new Date().toISOString(),
         description: apiExam.description,
+        rosterEntries: apiExam.rosterEntries || [],
         questions: (apiExam.questions || []).map((q, idx) => ({
           id: q.id,
           number: q.order || idx + 1,
@@ -48,8 +54,8 @@ export async function fetchExamByToken(token: string): Promise<Exam | null> {
           imageUrl: q.imageUrl,
           points: 10,
           options: q.options?.map((opt) => ({
-            key: opt.optionKey,
-            text: opt.optionText,
+            key: opt.label || opt.optionKey || "A",
+            text: opt.text || opt.optionText || "",
           })) || [],
         })),
       };

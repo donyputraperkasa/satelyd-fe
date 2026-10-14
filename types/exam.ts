@@ -32,6 +32,7 @@ export interface Exam {
   description?: string;
   scheduledAt?: string;
   questions?: ExamQuestion[];
+  rosterEntries?: { attendanceNumber: string; studentName: string; className: string }[];
 }
 
 export interface ExamSummaryMetrics {
