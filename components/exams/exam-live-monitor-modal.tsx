@@ -94,7 +94,7 @@ export function ExamLiveMonitorModal({
                 className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#FAF0F3] dark:bg-[#282E3E] hover:bg-[#F5EDF0] text-[#8A1F2D] dark:text-rose-300 border border-[#ECD0D8] dark:border-[#384055] text-xs font-bold transition cursor-pointer disabled:opacity-50"
                 title="Buka kunci dan reset pelanggaran seluruh siswa sekaligus"
               >
-                <span>{isUnblockingAll ? "Membuka Kunci..." : "🔓 Buka Kunci Semua Siswa"}</span>
+                <span>{isUnblockingAll ? "Membuka Kunci..." : "Buka Kunci Semua Siswa"}</span>
               </button>
             )}
           </div>

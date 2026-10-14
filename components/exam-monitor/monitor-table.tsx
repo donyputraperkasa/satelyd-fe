@@ -61,7 +61,7 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
               <td className="py-3 px-3 text-center">
                 {s.isBlocked ? (
                   <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FAF0F3] dark:bg-rose-950/50 text-[#8A1F2D] dark:text-rose-300 border border-[#ECD0D8] dark:border-rose-900/60">
-                    🔒 Terkunci
+                    Terkunci
                   </span>
                 ) : s.isSubmitted ? (
                   <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/60">
@@ -78,7 +78,7 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
                   <button
                     type="button"
                     onClick={() => onUnblock(s.id)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#8A1F2D] hover:bg-[#6b1521] text-white text-xs font-bold transition cursor-pointer shadow-sm animate-pulse"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#8A1F2D] hover:bg-[#6b1521] text-white text-xs font-bold transition cursor-pointer shadow-sm"
                     title="Buka kunci siswa yang terblokir"
                   >
                     <Unlock size={13} /> Buka Kunci
