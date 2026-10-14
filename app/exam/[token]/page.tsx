@@ -34,6 +34,7 @@ export default function StudentExamPage({
     setAntiCheatOpen,
     maxViolations,
     isBlocked,
+    isCheckingStatus,
     handleJoin,
     handleSelectOption,
     handleToggleDoubtful,
@@ -146,6 +147,7 @@ export default function StudentExamPage({
         violationCount={session.violationCount}
         maxViolations={maxViolations}
         isBlocked={isBlocked}
+        isChecking={isCheckingStatus}
         onDismiss={() => {
           if (!isBlocked) setAntiCheatOpen(false);
         }}

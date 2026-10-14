@@ -78,10 +78,23 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
                   <button
                     type="button"
                     onClick={() => onUnblock(s.id)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#451420] dark:bg-white hover:bg-[#300C15] dark:hover:bg-[#F1F5F9] text-white dark:text-[#10131B] text-xs font-bold transition cursor-pointer shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#8A1F2D] hover:bg-[#6b1521] text-white text-xs font-bold transition cursor-pointer shadow-sm animate-pulse"
+                    title="Buka kunci siswa yang terblokir"
                   >
                     <Unlock size={13} /> Buka Kunci
                   </button>
+                ) : !s.isSubmitted ? (
+                  <div className="flex items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onUnblock(s.id)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-[#DFD0D5] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] hover:bg-[#F5EDF0] dark:hover:bg-[#282E3E] text-[#451420] dark:text-[#F8FAFC] text-[11px] font-bold transition cursor-pointer"
+                      title="Klik untuk membuka kunci / reset toleransi siswa ini jika terkunci di PC siswa"
+                    >
+                      <Unlock size={12} className="text-[#8A1F2D] dark:text-rose-400" /> Buka Kunci
+                    </button>
+                    <span className="text-[11px] text-[#8F6672] dark:text-[#94A3B8] font-medium hidden sm:inline">{s.startedAt}</span>
+                  </div>
                 ) : (
                   <span className="text-[11px] text-[#8F6672] dark:text-[#94A3B8] font-medium">{s.startedAt}</span>
                 )}

@@ -3,12 +3,13 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Exam, StudentExamSession } from "@/types";
 import type { LiveStudent } from "../exam-monitor/monitor-table";
-import { fetchLiveParticipants, unblockParticipantApi } from "@/services";
+import { fetchLiveParticipants, unblockParticipantApi, unblockAllParticipantsApi } from "@/services";
 
 export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
   const [copied, setCopied] = useState(false);
   const [filterTab, setFilterTab] = useState<"ALL" | "WORKING" | "BLOCKED" | "DONE">("ALL");
   const [students, setStudents] = useState<LiveStudent[]>([]);
+  const [isUnblockingAll, setIsUnblockingAll] = useState(false);
 
   const loadParticipants = useCallback(async () => {
     if (!isOpen || !exam) return;
@@ -39,6 +40,7 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
             const existingIdx = realStudents.findIndex(
               (s) =>
                 s.id === session.participant.id ||
+                s.id === session.participant.participantToken ||
                 (s.name.trim().toLowerCase() === session.participant.name.trim().toLowerCase() &&
                   s.className.trim().toLowerCase() === session.participant.className.trim().toLowerCase())
             );
@@ -111,6 +113,35 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
     }
   };
 
+  const handleUnblockAll = async () => {
+    setIsUnblockingAll(true);
+    try {
+      if (exam?.id) {
+        await unblockAllParticipantsApi(exam.id);
+      }
+      setStudents((prev) =>
+        prev.map((s) => ({
+          ...s,
+          isBlocked: false,
+          violations: 0,
+        }))
+      );
+      if (typeof window !== "undefined" && exam?.tokenCode) {
+        const key = `satelyd.exam_session_${exam.tokenCode.toUpperCase()}`;
+        const saved = localStorage.getItem(key);
+        if (saved) {
+          try {
+            const session: StudentExamSession = JSON.parse(saved);
+            session.violationCount = 0;
+            localStorage.setItem(key, JSON.stringify(session));
+          } catch {}
+        }
+      }
+    } catch {} finally {
+      setIsUnblockingAll(false);
+    }
+  };
+
   const filtered = students.filter((s) => {
     if (filterTab === "WORKING") return !s.isSubmitted && !s.isBlocked;
     if (filterTab === "BLOCKED") return s.isBlocked;
@@ -131,7 +162,9 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
     blockedCount,
     workingCount,
     doneCount,
+    isUnblockingAll,
     handleCopyLink,
     handleUnblock,
+    handleUnblockAll,
   };
 }

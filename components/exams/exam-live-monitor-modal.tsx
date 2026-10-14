@@ -30,6 +30,8 @@ export function ExamLiveMonitorModal({
     doneCount,
     handleCopyLink,
     handleUnblock,
+    handleUnblockAll,
+    isUnblockingAll,
   } = useLiveMonitor(isOpen, exam);
 
   if (!isOpen || !exam) return null;
@@ -68,19 +70,33 @@ export function ExamLiveMonitorModal({
         <div className="p-4 sm:p-6 pb-2 space-y-4">
           <MonitorMetrics total={students.length} working={workingCount} blocked={blockedCount} done={doneCount} />
 
-          <div className="flex items-center gap-2 border-b border-[#DFD0D5] dark:border-[#282E3E] pb-2 flex-wrap">
-            <button type="button" onClick={() => setFilterTab("ALL")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "ALL" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
-              Semua ({students.length})
-            </button>
-            <button type="button" onClick={() => setFilterTab("WORKING")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "WORKING" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
-              Mengerjakan ({workingCount})
-            </button>
-            <button type="button" onClick={() => setFilterTab("BLOCKED")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "BLOCKED" ? "bg-[#8A1F2D] text-white" : "text-[#8A1F2D] dark:text-rose-400"}`}>
-              Terkunci ({blockedCount})
-            </button>
-            <button type="button" onClick={() => setFilterTab("DONE")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "DONE" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
-              Selesai ({doneCount})
-            </button>
+          <div className="flex items-center justify-between border-b border-[#DFD0D5] dark:border-[#282E3E] pb-2 flex-wrap gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <button type="button" onClick={() => setFilterTab("ALL")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "ALL" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
+                Semua ({students.length})
+              </button>
+              <button type="button" onClick={() => setFilterTab("WORKING")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "WORKING" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
+                Mengerjakan ({workingCount})
+              </button>
+              <button type="button" onClick={() => setFilterTab("BLOCKED")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "BLOCKED" ? "bg-[#8A1F2D] text-white" : "text-[#8A1F2D] dark:text-rose-400"}`}>
+                Terkunci ({blockedCount})
+              </button>
+              <button type="button" onClick={() => setFilterTab("DONE")} className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${filterTab === "DONE" ? "bg-[#451420] dark:bg-white text-white dark:text-[#10131B]" : "text-[#7A5661] dark:text-[#94A3B8] hover:text-[#451420] dark:hover:text-[#F8FAFC]"}`}>
+                Selesai ({doneCount})
+              </button>
+            </div>
+
+            {students.length > 0 && (
+              <button
+                type="button"
+                onClick={handleUnblockAll}
+                disabled={isUnblockingAll}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#FAF0F3] dark:bg-[#282E3E] hover:bg-[#F5EDF0] text-[#8A1F2D] dark:text-rose-300 border border-[#ECD0D8] dark:border-[#384055] text-xs font-bold transition cursor-pointer disabled:opacity-50"
+                title="Buka kunci dan reset pelanggaran seluruh siswa sekaligus"
+              >
+                <span>{isUnblockingAll ? "Membuka Kunci..." : "🔓 Buka Kunci Semua Siswa"}</span>
+              </button>
+            )}
           </div>
         </div>
 

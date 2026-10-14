@@ -7,6 +7,7 @@ interface StudentAntiCheatAlertProps {
   violationCount: number;
   maxViolations?: number;
   isBlocked?: boolean;
+  isChecking?: boolean;
   onDismiss: () => void;
   onRefreshStatus?: () => void;
 }
@@ -16,6 +17,7 @@ export function StudentAntiCheatAlert({
   violationCount,
   maxViolations = 3,
   isBlocked = false,
+  isChecking = false,
   onDismiss,
   onRefreshStatus,
 }: StudentAntiCheatAlertProps) {
@@ -86,13 +88,26 @@ export function StudentAntiCheatAlert({
 
         {/* Action Button */}
         {isBlocked ? (
-          <button
-            type="button"
-            onClick={onRefreshStatus || onDismiss}
-            className="w-full py-3 rounded-xl bg-[#451420] hover:bg-[#300C15] text-sm font-bold text-[#FDFBF7] shadow-md shadow-[#451420]/20 transition cursor-pointer"
-          >
-            Cek Status Buka Kunci dari Guru
-          </button>
+          <div className="space-y-2">
+            <button
+              type="button"
+              disabled={isChecking}
+              onClick={onRefreshStatus || onDismiss}
+              className="w-full py-3 rounded-xl bg-[#451420] hover:bg-[#300C15] text-sm font-bold text-[#FDFBF7] shadow-md shadow-[#451420]/20 transition cursor-pointer disabled:opacity-75 flex items-center justify-center gap-2"
+            >
+              {isChecking ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Memeriksa Persetujuan Guru...</span>
+                </>
+              ) : (
+                <span>Cek Status Buka Kunci dari Guru</span>
+              )}
+            </button>
+            <p className="text-[11px] text-center text-[#7A5661]">
+              Layar ujian akan otomatis terbuka begitu guru menekan tombol <strong>Buka Kunci</strong>.
+            </p>
+          </div>
         ) : (
           <button
             type="button"

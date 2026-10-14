@@ -10,6 +10,7 @@ import {
   submitStudentExam,
   recordStudentAnswer,
   recordAntiCheatEvent,
+  fetchParticipantStatus,
   type JoinStudentExamPayload,
 } from "@/services/student-exam.service";
 
@@ -215,14 +216,36 @@ export function useStudentExam(token: string) {
   }, [session?.isSubmitted, triggerViolation]);
 
   const isBlocked = Boolean(session && session.violationCount >= maxViolations);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
 
-  // Cross-tab real-time listener & polling for teacher unblock
+  // Cross-tab real-time listener & remote polling for teacher unblock
   useEffect(() => {
-    const checkUnblockStatus = () => {
+    let isCancelled = false;
+
+    const checkUnblockStatus = async () => {
+      // 1. Cek storage lokal terlebih dahulu
       const fresh = getActiveExamSession(token);
       if (fresh && fresh.violationCount < maxViolations) {
         setSession(fresh);
         setAntiCheatOpen(false);
+        return;
+      }
+
+      // 2. Jika sesi siswa memiliki participantToken, cek status langsung ke server backend guru
+      if (fresh?.participant?.participantToken) {
+        try {
+          const remote = await fetchParticipantStatus(fresh.participant.participantToken);
+          if (isCancelled) return;
+          if (remote && remote.status === "IN_PROGRESS" && (remote.violationCount === 0 || remote.violationCount < maxViolations)) {
+            const unlockedSession: StudentExamSession = {
+              ...fresh,
+              violationCount: remote.violationCount || 0,
+            };
+            setSession(unlockedSession);
+            saveActiveExamSession(token, unlockedSession);
+            setAntiCheatOpen(false);
+          }
+        } catch {}
       }
     };
 
@@ -233,9 +256,11 @@ export function useStudentExam(token: string) {
     };
 
     window.addEventListener("storage", handleStorage);
-    const pollTimer = setInterval(checkUnblockStatus, 1000);
+    // Polling setiap 2 detik agar begitu guru klik Buka Kunci, layar siswa otomatis langsung terbuka
+    const pollTimer = setInterval(checkUnblockStatus, 2000);
 
     return () => {
+      isCancelled = true;
       window.removeEventListener("storage", handleStorage);
       clearInterval(pollTimer);
     };
@@ -282,13 +307,34 @@ export function useStudentExam(token: string) {
     });
   };
 
-  const handleRefreshStatus = () => {
-    const fresh = getActiveExamSession(token);
-    if (fresh) {
-      setSession(fresh);
-      if (fresh.violationCount < maxViolations) {
-        setAntiCheatOpen(false);
+  const handleRefreshStatus = async () => {
+    setIsCheckingStatus(true);
+    try {
+      const current = sessionRef.current || getActiveExamSession(token);
+      if (current?.participant?.participantToken) {
+        const remote = await fetchParticipantStatus(current.participant.participantToken);
+        if (remote && remote.status === "IN_PROGRESS" && (remote.violationCount === 0 || remote.violationCount < maxViolations)) {
+          const unlocked: StudentExamSession = {
+            ...current,
+            violationCount: remote.violationCount || 0,
+          };
+          setSession(unlocked);
+          saveActiveExamSession(token, unlocked);
+          setAntiCheatOpen(false);
+          return;
+        }
       }
+
+      // Fallback lokal jika backend tidak terjangkau atau masih sync
+      const fresh = getActiveExamSession(token);
+      if (fresh) {
+        setSession(fresh);
+        if (fresh.violationCount < maxViolations) {
+          setAntiCheatOpen(false);
+        }
+      }
+    } finally {
+      setIsCheckingStatus(false);
     }
   };
 
@@ -299,6 +345,7 @@ export function useStudentExam(token: string) {
     setCurrentIndex,
     isLoading,
     isSubmitting,
+    isCheckingStatus,
     errorMsg,
     isSubmitModalOpen,
     setIsSubmitModalOpen,

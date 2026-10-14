@@ -259,3 +259,14 @@ export async function unblockParticipantApi(examId: string, participantId: strin
     { method: "PATCH" }
   );
 }
+
+/**
+ * Unblock all participants for an exam in backend
+ */
+export async function unblockAllParticipantsApi(examId: string): Promise<void> {
+  await apiClient(
+    `/teacher-exams/${encodeURIComponent(examId)}/participants/unblock-all`,
+    { method: "PATCH" }
+  );
+}
+

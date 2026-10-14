@@ -89,6 +89,7 @@ export async function joinExamSession(
 ): Promise<StudentExamSession> {
   const cleanToken = exam.tokenCode.toUpperCase();
   let participantToken = `part_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  let participantId = participantToken;
 
   // Coba daftarkan peserta ke backend API
   try {
@@ -107,12 +108,15 @@ export async function joinExamSession(
     if (res?.participantToken) {
       participantToken = res.participantToken;
     }
+    if (res?.id) {
+      participantId = res.id;
+    }
   } catch {
     // Lanjut menggunakan lokal participant token
   }
 
   const participant: StudentParticipant = {
-    id: participantToken,
+    id: participantId,
     name: payload.name.trim(),
     className: payload.className.trim(),
     attendanceNumber: payload.attendanceNumber?.trim(),
@@ -300,5 +304,20 @@ export async function recordAntiCheatEvent(
     );
   } catch (err) {
     console.warn("recordAntiCheatEvent API notice:", err);
+  }
+}
+
+export async function fetchParticipantStatus(participantToken: string): Promise<{
+  status: "IN_PROGRESS" | "BLOCKED" | "SUBMITTED";
+  blockReason: string | null;
+  violationCount: number;
+  score: number | null;
+} | null> {
+  try {
+    return await apiClient(
+      `/teacher-exams/participants/${encodeURIComponent(participantToken)}/status`
+    );
+  } catch {
+    return null;
   }
 }
