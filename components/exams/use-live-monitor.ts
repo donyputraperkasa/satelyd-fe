@@ -18,7 +18,13 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
     try {
       const live = await fetchLiveParticipants(exam.id);
       if (Array.isArray(live) && live.length > 0) {
-        realStudents.push(...live);
+        const total = exam.totalQuestions || exam.questions?.length || 8;
+        realStudents.push(
+          ...live.map((s) => ({
+            ...s,
+            totalQuestions: s.totalQuestions || total,
+          }))
+        );
       }
     } catch {}
 
@@ -29,20 +35,36 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
       if (saved) {
         try {
           const session: StudentExamSession = JSON.parse(saved);
-          if (session?.participant?.id && !realStudents.some((s) => s.id === session.participant.id)) {
-            realStudents.unshift({
-              id: session.participant.id,
-              name: session.participant.name,
-              className: session.participant.className,
-              attendanceNumber: session.participant.attendanceNumber,
-              answeredCount: Object.keys(session.answers || {}).length,
-              totalQuestions: exam.questions?.length || exam.totalQuestions || 20,
-              violations: session.violationCount || 0,
-              isBlocked: (session.violationCount || 0) >= 3,
-              isSubmitted: session.isSubmitted,
-              score: session.score,
-              startedAt: "Sesi Aktif",
-            });
+          if (session?.participant?.id) {
+            const existingIdx = realStudents.findIndex(
+              (s) =>
+                s.id === session.participant.id ||
+                (s.name.trim().toLowerCase() === session.participant.name.trim().toLowerCase() &&
+                  s.className.trim().toLowerCase() === session.participant.className.trim().toLowerCase())
+            );
+            if (existingIdx >= 0) {
+              realStudents[existingIdx].violations = Math.max(
+                realStudents[existingIdx].violations,
+                session.violationCount || 0
+              );
+              realStudents[existingIdx].answeredCount = Object.keys(session.answers || {}).length;
+              realStudents[existingIdx].isBlocked =
+                realStudents[existingIdx].isBlocked || (session.violationCount || 0) >= 3;
+            } else {
+              realStudents.unshift({
+                id: session.participant.id,
+                name: session.participant.name,
+                className: session.participant.className,
+                attendanceNumber: session.participant.attendanceNumber,
+                answeredCount: Object.keys(session.answers || {}).length,
+                totalQuestions: exam.questions?.length || exam.totalQuestions || 8,
+                violations: session.violationCount || 0,
+                isBlocked: (session.violationCount || 0) >= 3,
+                isSubmitted: session.isSubmitted,
+                score: session.score,
+                startedAt: "Sesi Aktif",
+              });
+            }
           }
         } catch {}
       }

@@ -88,33 +88,131 @@ export function useStudentExam(token: string) {
     return () => clearInterval(interval);
   }, [session?.isSubmitted, token, handleFinalSubmit]);
 
-  // Anti-Cheat: Visibility Change & Window Blur
+  // Anti-Cheat: Visibility Change, Window Blur, Right-Click, Screenshot, Copy
   const sessionRef = useRef(session);
   useEffect(() => {
     sessionRef.current = session;
   }, [session]);
   const maxViolations = 3;
+  const lastViolationTimeRef = useRef(0);
+
+  const triggerViolation = useCallback(
+    (
+      type:
+        | "TAB_HIDDEN"
+        | "WINDOW_BLUR"
+        | "FULLSCREEN_EXIT"
+        | "COPY_ATTEMPT"
+        | "PASTE_ATTEMPT"
+        | "RIGHT_CLICK"
+        | "MANUAL_BLOCK",
+      detail?: string
+    ) => {
+      const now = Date.now();
+      // Debounce 1.2 detik agar event blur + visibilitychange tidak terhitung ganda secara bersamaan
+      if (now - lastViolationTimeRef.current < 1200) return;
+      lastViolationTimeRef.current = now;
+
+      const current = sessionRef.current;
+      if (!current || current.isSubmitted) return;
+
+      const nextViolation = current.violationCount + 1;
+      const updated = {
+        ...current,
+        violationCount: nextViolation,
+      };
+      setSession(updated);
+      saveActiveExamSession(token, updated);
+      setAntiCheatOpen(true);
+
+      // Kirim event pelanggaran ke backend API secara real-time agar muncul di Pantau Live guru
+      if (current.participant?.participantToken) {
+        recordAntiCheatEvent(current.participant.participantToken, type, detail);
+      }
+    },
+    [token]
+  );
 
   useEffect(() => {
     if (!session || session.isSubmitted) return;
+
+    // 1. Pindah tab atau minimize browser
     const handleVisibility = () => {
-      if (document.hidden && sessionRef.current && !sessionRef.current.isSubmitted) {
-        setSession((prev) => {
-          if (!prev || prev.isSubmitted) return prev;
-          const nextViolation = prev.violationCount + 1;
-          const updated = {
-            ...prev,
-            violationCount: nextViolation,
-          };
-          saveActiveExamSession(token, updated);
-          return updated;
-        });
-        setAntiCheatOpen(true);
+      if (document.hidden) {
+        triggerViolation("TAB_HIDDEN", "Berpindah tab atau browser diminimalkan");
       }
     };
+
+    // 2. Window blur (klik di luar jendela ujian, buka aplikasi lain, dsb.)
+    const handleBlur = () => {
+      triggerViolation("WINDOW_BLUR", "Kehilangan fokus jendela ujian");
+    };
+
+    // 3. Klik kanan (Context Menu)
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      triggerViolation("RIGHT_CLICK", "Mencoba klik kanan pada lembar ujian");
+    };
+
+    // 4. Deteksi tombol screenshot, copy, print, dan developer tools
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // PrintScreen
+      if (e.key === "PrintScreen") {
+        e.preventDefault();
+        triggerViolation("COPY_ATTEMPT", "Mencoba tangkapan layar (PrintScreen)");
+        return;
+      }
+
+      // Mac screenshot: Cmd+Shift+3, Cmd+Shift+4, Cmd+Shift+5
+      if (e.metaKey && e.shiftKey && ["3", "4", "5"].includes(e.key)) {
+        triggerViolation("COPY_ATTEMPT", "Mencoba tangkapan layar (Cmd+Shift+Screenshot)");
+        return;
+      }
+
+      // Windows Snipping Tool: Win+Shift+S (Shift + Meta/Ctrl + S)
+      if (e.shiftKey && (e.metaKey || e.ctrlKey) && (e.key === "s" || e.key === "S")) {
+        triggerViolation("COPY_ATTEMPT", "Mencoba tangkapan layar / potong layar");
+        return;
+      }
+
+      // Inspect Element / DevTools: F12 atau Ctrl/Cmd+Shift+I / J / C
+      if (
+        e.key === "F12" ||
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && ["i", "I", "j", "J", "c", "C"].includes(e.key))
+      ) {
+        e.preventDefault();
+        triggerViolation("COPY_ATTEMPT", "Mencoba membuka inspect element / devtools");
+        return;
+      }
+
+      // Print: Ctrl+P / Cmd+P
+      if ((e.ctrlKey || e.metaKey) && (e.key === "p" || e.key === "P")) {
+        e.preventDefault();
+        triggerViolation("COPY_ATTEMPT", "Mencoba mencetak lembar ujian");
+        return;
+      }
+    };
+
+    // 5. Copy attempt
+    const handleCopy = (e: ClipboardEvent) => {
+      e.preventDefault();
+      triggerViolation("COPY_ATTEMPT", "Mencoba menyalin (copy) teks soal");
+    };
+
     document.addEventListener("visibilitychange", handleVisibility);
-    return () => document.removeEventListener("visibilitychange", handleVisibility);
-  }, [session?.isSubmitted, token]);
+    window.addEventListener("blur", handleBlur);
+    document.addEventListener("contextmenu", handleContextMenu);
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("copy", handleCopy);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("blur", handleBlur);
+      document.removeEventListener("contextmenu", handleContextMenu);
+      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("copy", handleCopy);
+    };
+  }, [session?.isSubmitted, triggerViolation]);
 
   const isBlocked = Boolean(session && session.violationCount >= maxViolations);
 

@@ -48,17 +48,22 @@ export function StudentQuestionGrid({
       </div>
 
       {/* Numbers Grid */}
-      <div className="grid grid-cols-5 gap-2 max-h-[360px] overflow-y-auto pr-1">
+      <div className="grid grid-cols-5 gap-2.5 max-h-[360px] overflow-y-auto p-1">
         {questions.map((q, idx) => {
           const isCurrent = idx === currentIndex;
           const isAnswered = Boolean(answers[q.id]);
           const isDoubt = Boolean(doubtful[q.id]);
 
-          let stateStyle = "bg-[#FDFBF7] border-[#DFD0D5] text-[#5C323E] hover:border-[#451420]";
+          // Tampilan Klasik CBT:
+          // Hijau = Sudah Dijawab, Kuning = Ragu-ragu, Putih/Abu = Belum Dijawab
+          let stateStyle =
+            "bg-white dark:bg-[#1C202C] border-[#D5CDD0] dark:border-[#3A4050] text-[#451420] dark:text-[#F8FAFC] hover:border-[#8F6672]";
           if (isDoubt) {
-            stateStyle = "bg-amber-400 border-amber-500 text-amber-950 font-black";
+            stateStyle =
+              "bg-[#EAB308] border-[#CA8A04] text-white font-black shadow-xs";
           } else if (isAnswered) {
-            stateStyle = "bg-[#451420] border-[#451420] text-[#FDFBF7] font-bold";
+            stateStyle =
+              "bg-[#16A34A] border-[#15803D] text-white font-bold shadow-xs";
           }
 
           return (
@@ -66,14 +71,13 @@ export function StudentQuestionGrid({
               key={q.id}
               type="button"
               onClick={() => onSelectIndex(idx)}
-              className={`relative h-10 rounded-xl border text-xs transition cursor-pointer flex items-center justify-center ${stateStyle} ${
-                isCurrent ? "ring-2 ring-offset-1 ring-[#C67D00] font-black scale-105 z-10" : ""
+              className={`h-11 rounded-lg border-2 text-xs font-bold transition flex items-center justify-center cursor-pointer select-none ${stateStyle} ${
+                isCurrent
+                  ? "ring-2 ring-offset-2 ring-[#451420] dark:ring-[#FBBF24] font-black z-10"
+                  : ""
               }`}
             >
               <span>{idx + 1}</span>
-              {isAnswered && !isDoubt && (
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#22C55E] border-2 border-white" />
-              )}
             </button>
           );
         })}
