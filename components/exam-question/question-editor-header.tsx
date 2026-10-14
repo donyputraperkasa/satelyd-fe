@@ -26,7 +26,7 @@ export function QuestionEditorHeader({ exam, isSavedToast, onClose }: QuestionEd
             <span>{exam.gradeLevel}</span>
             <span className="text-[#C5A5B0] dark:text-[#64748B]">•</span>
             <span className="font-mono font-bold text-[#451420] dark:text-[#F8FAFC]">
-              Token: {exam.tokenCode}
+              PIN: {exam.pin || exam.tokenCode}
             </span>
           </div>
         </div>

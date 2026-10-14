@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, FileQuestion, Lock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, FileQuestion, Lock, Loader2 } from "lucide-react";
 import type { Exam, ExamQuestion } from "@/types";
 import { getPublishTokenBalance, deductPublishToken } from "@/lib/publish-tokens";
+import { fetchTeacherExamById } from "@/services";
 import { QuestionNavSidebar } from "../exam-question/question-nav-sidebar";
 import { QuestionEditorForm, DEFAULT_OPTIONS_A_TO_E } from "../exam-question/question-editor-form";
 import { QuestionEditorHeader } from "../exam-question/question-editor-header";
@@ -17,22 +18,22 @@ interface ExamQuestionEditorModalProps {
   onSaveExam: (updatedExam: Exam) => void;
 }
 
+const createDefaultQuestion = (num = 1): ExamQuestion => ({
+  id: `q-${Date.now()}-${num}`,
+  number: num,
+  questionText: "",
+  questionType: "MULTIPLE_CHOICE",
+  options: DEFAULT_OPTIONS_A_TO_E.map((opt) => ({ ...opt })),
+  correctAnswer: "A",
+  points: 4,
+});
+
 export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: ExamQuestionEditorModalProps) {
   if (!isOpen || !exam) return null;
 
   const [questions, setQuestions] = useState<ExamQuestion[]>(() => {
     if (exam.questions && exam.questions.length > 0) return exam.questions;
-    return [
-      {
-        id: `q-${Date.now()}-1`,
-        number: 1,
-        questionText: "",
-        questionType: "MULTIPLE_CHOICE",
-        options: DEFAULT_OPTIONS_A_TO_E.map((opt) => ({ ...opt })),
-        correctAnswer: "A",
-        points: 4,
-      },
-    ];
+    return [createDefaultQuestion(1)];
   });
 
   const [activeIdx, setActiveIdx] = useState(0);
@@ -40,6 +41,45 @@ export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: E
   const [isSavedToast, setIsSavedToast] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [tokenBalance, setTokenBalance] = useState(0);
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen || !exam) return;
+    setExamStatus(exam.status);
+
+    if (exam.questions && exam.questions.length > 0) {
+      setQuestions(exam.questions);
+      setActiveIdx(0);
+      return;
+    }
+
+    let isMounted = true;
+    setIsLoadingQuestions(true);
+
+    fetchTeacherExamById(exam.id)
+      .then((full) => {
+        if (!isMounted) return;
+        if (full && full.questions && full.questions.length > 0) {
+          setQuestions(full.questions);
+        } else {
+          setQuestions([createDefaultQuestion(1)]);
+        }
+        setActiveIdx(0);
+      })
+      .catch((err) => {
+        console.error("Gagal memuat detail butir soal:", err);
+        if (isMounted) {
+          setQuestions([createDefaultQuestion(1)]);
+        }
+      })
+      .finally(() => {
+        if (isMounted) setIsLoadingQuestions(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isOpen, exam?.id]);
 
   const isLive = examStatus === "PUBLISHED";
   const currentQ = questions[activeIdx] || questions[0];
@@ -78,7 +118,11 @@ export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: E
   };
 
   const handleRemoveQuestion = (idxToRemove: number) => {
-    if (isLive || questions.length <= 1) return;
+    if (isLive) return;
+    if (questions.length <= 1) {
+      setQuestions([createDefaultQuestion(1)]);
+      return;
+    }
     setQuestions((prev) => prev.filter((_, idx) => idx !== idxToRemove).map((q, idx) => ({ ...q, number: idx + 1 })));
     if (activeIdx >= questions.length - 1) setActiveIdx(Math.max(0, questions.length - 2));
   };
@@ -129,24 +173,31 @@ export function ExamQuestionEditorModal({ isOpen, exam, onClose, onSaveExam }: E
             <Lock size={13} /> Ujian sedang berlangsung (Live). Butir soal dan kunci jawaban dikunci agar integritas pengerjaan terjaga.
           </div>
         )}
-        <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
-          <QuestionNavSidebar questions={questions} activeQuestionIndex={activeIdx} onSelectQuestion={setActiveIdx} onAddQuestion={handleAddQuestion} totalPoints={totalPoints} isReadOnly={isLive} />
-          <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-white dark:bg-[#1C202C]">
-            {currentQ ? (
-              <QuestionEditorForm currentQ={currentQ} totalQuestions={questions.length} onUpdateQuestion={updateCurrentQuestion} onUpdateOption={updateOptionText} onRemoveQuestion={() => handleRemoveQuestion(activeIdx)} isReadOnly={isLive} />
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center text-[#7A5661] dark:text-[#94A3B8]">
-                <FileQuestion size={36} className="mb-2 text-[#9C737F] dark:text-[#64748B]" />
-                <p className="font-bold">Belum ada butir soal.</p>
-                {!isLive && (
-                  <button type="button" onClick={handleAddQuestion} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] shadow-xs">
-                    <Plus size={14} /> Tambah Soal Pertama
-                  </button>
-                )}
-              </div>
-            )}
+        {isLoadingQuestions ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 gap-3 bg-white dark:bg-[#1C202C]">
+            <Loader2 size={32} className="animate-spin text-[#7A283C] dark:text-[#FBBF24]" />
+            <p className="text-xs font-bold text-[#7A5661] dark:text-[#94A3B8]">Memuat butir soal ujian...</p>
           </div>
-        </div>
+        ) : (
+          <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
+            <QuestionNavSidebar questions={questions} activeQuestionIndex={activeIdx} onSelectQuestion={setActiveIdx} onAddQuestion={handleAddQuestion} totalPoints={totalPoints} isReadOnly={isLive} />
+            <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-white dark:bg-[#1C202C]">
+              {currentQ ? (
+                <QuestionEditorForm currentQ={currentQ} totalQuestions={questions.length} onUpdateQuestion={updateCurrentQuestion} onUpdateOption={updateOptionText} onRemoveQuestion={() => handleRemoveQuestion(activeIdx)} isReadOnly={isLive} />
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-center text-[#7A5661] dark:text-[#94A3B8]">
+                  <FileQuestion size={36} className="mb-2 text-[#9C737F] dark:text-[#64748B]" />
+                  <p className="font-bold">Belum ada butir soal.</p>
+                  {!isLive && (
+                    <button type="button" onClick={handleAddQuestion} className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#451420] dark:bg-white text-xs font-bold text-white dark:text-[#10131B] shadow-xs">
+                      <Plus size={14} /> Tambah Soal Pertama
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
         <QuestionEditorFooter examStatus={examStatus} onClose={onClose} onSave={handleSave} />
       </div>
       <TokenInsufficientModal isOpen={isTokenModalOpen} onClose={() => setIsTokenModalOpen(false)} tokenBalance={tokenBalance} />

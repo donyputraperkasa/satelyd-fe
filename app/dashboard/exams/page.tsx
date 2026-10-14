@@ -36,6 +36,7 @@ export default function ExamsPage() {
     liveMonitorExam,
     closeMonitor,
     handleCreate,
+    handleOpenManage,
     handleSaveQuestions,
     handleConfirmDelete,
     handleConfirmClose,
@@ -69,7 +70,7 @@ export default function ExamsPage() {
               <ExamCard 
                 key={e.id} 
                 exam={e} 
-                onManage={setManagingExam} 
+                onManage={handleOpenManage} 
                 onMonitor={handleActionMonitor} 
                 onCloseSession={setCloseCandidate} 
                 onDelete={setDeleteCandidate}
@@ -79,7 +80,7 @@ export default function ExamsPage() {
         ) : (
           <ExamTable 
             exams={filtered} 
-            onManage={setManagingExam} 
+            onManage={handleOpenManage} 
             onMonitor={handleActionMonitor} 
             onCloseSession={setCloseCandidate} 
             onDelete={setDeleteCandidate}

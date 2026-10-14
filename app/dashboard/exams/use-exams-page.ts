@@ -5,6 +5,7 @@ import type { Exam, ExamStatus } from "@/types";
 import { useToast } from "@/components/ui";
 import {
   fetchTeacherExams,
+  fetchTeacherExamById,
   createTeacherExam,
   saveExamQuestions,
   publishTeacherExam,
@@ -85,6 +86,20 @@ export function useExamsPage() {
       }
     }
   }, [exams]);
+
+  const handleOpenManage = async (exam: Exam) => {
+    setManagingExam(exam);
+    if (!exam.questions || exam.questions.length === 0) {
+      try {
+        const full = await fetchTeacherExamById(exam.id);
+        if (full) {
+          setManagingExam(full);
+        }
+      } catch (err) {
+        console.error("Gagal memuat detail soal:", err);
+      }
+    }
+  };
 
   const handleCreate = async (newExam: Exam) => {
     try {
@@ -233,6 +248,7 @@ export function useExamsPage() {
     closeMonitor,
     notify,
     handleCreate,
+    handleOpenManage,
     handleSaveQuestions,
     handleConfirmDelete,
     handleConfirmClose,

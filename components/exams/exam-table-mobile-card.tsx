@@ -71,11 +71,12 @@ export function ExamTableMobileCard({
           </span>
         ) : (
           <div className="flex items-center gap-1.5 bg-white dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] rounded-lg px-2.5 py-1 text-xs font-mono font-bold text-[#451420] dark:text-[#F8FAFC]">
-            <span>{exam.tokenCode}</span>
+            <span>{exam.pin || exam.tokenCode}</span>
             <button
               type="button"
-              onClick={(e) => onCopyCode(exam.id, exam.tokenCode, e)}
+              onClick={(e) => onCopyCode(exam.id, exam.pin || exam.tokenCode, e)}
               className="p-1 text-[#7A283C] dark:text-[#FBBF24] hover:bg-white dark:hover:bg-[#282E3E] rounded transition cursor-pointer"
+              title="Salin PIN"
             >
               {isCopied ? <Check size={12} className="text-[#2E7D32] dark:text-emerald-400" /> : <Copy size={12} />}
             </button>

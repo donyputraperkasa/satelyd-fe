@@ -15,10 +15,12 @@ export function ExamCardFooter({ exam, onManage, onMonitor, onCloseSession }: Ex
   const [copied, setCopied] = useState(false);
   const isLive = exam.status === "PUBLISHED";
 
+  const examPin = exam.pin || exam.tokenCode;
+
   const handleCopyCode = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(exam.tokenCode);
+      navigator.clipboard.writeText(examPin);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -44,10 +46,10 @@ export function ExamCardFooter({ exam, onManage, onMonitor, onCloseSession }: Ex
         <div className="flex items-center justify-between rounded-xl border border-[#ECDDE2] dark:border-[#282E3E] bg-[#FAF7F2] dark:bg-[#141720] px-3.5 py-2">
           <div className="flex items-center gap-2">
             <span className="text-[10px] sm:text-[11px] font-black tracking-wider uppercase text-[#7A5661] dark:text-[#94A3B8]">
-              KODE TOKEN:
+              KODE PIN:
             </span>
             <span className="font-mono font-black text-xs sm:text-sm tracking-widest text-[#451420] dark:text-[#F8FAFC]">
-              {exam.tokenCode}
+              {examPin}
             </span>
           </div>
 
@@ -55,7 +57,7 @@ export function ExamCardFooter({ exam, onManage, onMonitor, onCloseSession }: Ex
             type="button"
             onClick={handleCopyCode}
             className="h-7 inline-flex items-center gap-1.5 px-2.5 rounded-lg text-xs font-bold text-[#7A283C] dark:text-[#FBBF24] bg-white dark:bg-[#1C202C] border border-[#E5D7DC] dark:border-[#282E3E] hover:border-[#7A283C] dark:hover:border-[#C67D00] hover:bg-[#FAF0F3] dark:hover:bg-[#282E3E] transition cursor-pointer shadow-2xs"
-            title="Salin Kode Ujian"
+            title="Salin PIN Ujian"
           >
             {copied ? (
               <>

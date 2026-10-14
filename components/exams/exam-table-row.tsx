@@ -41,8 +41,8 @@ export function ExamTableRow({
               </span>
             ) : (
               <div className="inline-flex items-center gap-1.5 bg-[#FAF7F2] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] rounded-lg px-2 py-0.5">
-                <span className="font-mono text-[11px] font-bold text-[#451420] dark:text-[#F8FAFC]">{exam.tokenCode}</span>
-                <button type="button" onClick={(e) => onCopyCode(exam.id, exam.tokenCode, e)} className="text-[#7A283C] dark:text-[#FBBF24] hover:text-[#451420] dark:hover:text-amber-300 transition cursor-pointer" title="Salin Token">
+                <span className="font-mono text-[11px] font-bold text-[#451420] dark:text-[#F8FAFC]">{exam.pin || exam.tokenCode}</span>
+                <button type="button" onClick={(e) => onCopyCode(exam.id, exam.pin || exam.tokenCode, e)} className="text-[#7A283C] dark:text-[#FBBF24] hover:text-[#451420] dark:hover:text-amber-300 transition cursor-pointer" title="Salin PIN">
                   {isCopied ? <Check size={11} className="text-[#2E7D32] dark:text-emerald-400" /> : <Copy size={11} />}
                 </button>
               </div>

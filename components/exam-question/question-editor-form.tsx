@@ -96,15 +96,15 @@ export function QuestionEditorForm({
             />
           </div>
 
-          {totalQuestions > 1 && !isReadOnly && (
+          {!isReadOnly && (
             <button
               type="button"
               onClick={onRemoveQuestion}
               className="h-8 px-2.5 rounded-xl border border-red-200 dark:border-rose-900/60 bg-red-50/70 dark:bg-rose-950/40 hover:bg-red-100 dark:hover:bg-rose-900/50 text-red-700 dark:text-rose-300 text-[11px] font-bold inline-flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
-              title="Hapus Nomor Soal Ini"
+              title={totalQuestions > 1 ? "Hapus Nomor Soal Ini" : "Kosongkan / Reset Soal Nomor Ini"}
             >
               <Trash2 size={13} />
-              <span>Hapus Soal</span>
+              <span>{totalQuestions > 1 ? "Hapus Soal" : "Reset Soal"}</span>
             </button>
           )}
         </div>

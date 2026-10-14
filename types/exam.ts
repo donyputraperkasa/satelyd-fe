@@ -25,6 +25,8 @@ export interface Exam {
   activeParticipants: number;
   status: ExamStatus;
   tokenCode: string;
+  pin?: string;
+  shareToken?: string;
   passingScore: number;
   createdAt: string;
   description?: string;
