@@ -77,10 +77,10 @@ function mapApiExamToExam(api: ApiExam): Exam {
     questions: (api.questions || []).map((q, idx) => ({
       id: q.id,
       number: q.order || idx + 1,
-      questionText: q.question,
+      questionText: q.question ?? "",
       questionType: "MULTIPLE_CHOICE",
-      imageUrl: q.imageUrl,
-      explanation: q.explanation,
+      imageUrl: q.imageUrl ?? undefined,
+      explanation: q.explanation ?? "",
       points: 10,
       options: q.options?.map((opt) => ({
         key: opt.label,

@@ -45,6 +45,14 @@ export async function apiClient<T>(
   });
 
   if (!res.ok) {
+    if (res.status === 401 && typeof window !== "undefined") {
+      localStorage.removeItem("satelyd.access-token");
+      localStorage.removeItem("satelyd_token");
+      localStorage.removeItem("satelyd.user");
+      localStorage.removeItem("satelyd_user");
+      window.dispatchEvent(new Event("storage"));
+    }
+
     const errorBody = await res.json().catch(() => ({}));
     let msg = `Request failed with status ${res.status}`;
     if (errorBody) {

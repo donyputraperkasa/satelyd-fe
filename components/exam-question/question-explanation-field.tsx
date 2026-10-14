@@ -26,7 +26,7 @@ export function QuestionExplanationField({
         <textarea
           rows={2}
           disabled={disabled}
-          value={explanation}
+          value={explanation ?? ""}
           onChange={(e) => onUpdateExplanation(e.target.value)}
           placeholder="Tuliskan petunjuk penyelesaian atau pembahasan soal ini..."
           className="w-full rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 text-xs sm:text-sm text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:border-[#C67D00] focus:outline-none transition shadow-2xs disabled:bg-gray-50 dark:disabled:bg-[#141720] disabled:cursor-not-allowed"

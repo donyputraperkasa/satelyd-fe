@@ -38,9 +38,16 @@ export function useExamsPage() {
     try {
       const data = await fetchTeacherExams();
       setExams(data || []);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Gagal memuat daftar ujian:", err);
-      toast.error("Gagal memuat daftar ujian dari server.");
+      const isAuthError =
+        err instanceof Error &&
+        (err.message.includes("Unauthorized") || err.message.includes("401"));
+      if (isAuthError) {
+        toast.error("Sesi login Anda telah kedaluwarsa. Silakan masuk (login) kembali.");
+      } else {
+        toast.error("Gagal memuat daftar ujian dari server.");
+      }
     } finally {
       setIsLoading(false);
     }

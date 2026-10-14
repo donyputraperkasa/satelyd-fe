@@ -5,6 +5,7 @@ import React, {
   useContext,
   useState,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 import { CheckCircle2, AlertCircle, Trash2, Info, X } from "lucide-react";
@@ -50,15 +51,20 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     [removeToast]
   );
 
-  const toastMethods = {
-    success: (msg: string, duration?: number) => showToast(msg, "success", duration),
-    delete: (msg: string, duration?: number) => showToast(msg, "delete", duration),
-    error: (msg: string, duration?: number) => showToast(msg, "error", duration),
-    info: (msg: string, duration?: number) => showToast(msg, "info", duration),
-  };
+  const toastMethods = useMemo(
+    () => ({
+      success: (msg: string, duration?: number) => showToast(msg, "success", duration),
+      delete: (msg: string, duration?: number) => showToast(msg, "delete", duration),
+      error: (msg: string, duration?: number) => showToast(msg, "error", duration),
+      info: (msg: string, duration?: number) => showToast(msg, "info", duration),
+    }),
+    [showToast]
+  );
+
+  const contextValue = useMemo(() => ({ showToast, toast: toastMethods }), [showToast, toastMethods]);
 
   return (
-    <ToastContext.Provider value={{ showToast, toast: toastMethods }}>
+    <ToastContext.Provider value={contextValue}>
       {children}
 
       {/* Global Center Toast with Backdrop Blur */}

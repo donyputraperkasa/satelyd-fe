@@ -145,7 +145,7 @@ export function QuestionEditorForm({
         <textarea
           rows={3}
           disabled={isReadOnly}
-          value={currentQ.questionText}
+          value={currentQ.questionText ?? ""}
           onChange={(e) => onUpdateQuestion({ questionText: e.target.value })}
           placeholder="Ketikkan teks pertanyaan soal di sini..."
           className="w-full rounded-xl border border-[#E5D7DC] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] p-3 text-sm font-medium text-[#451420] dark:text-[#F8FAFC] placeholder-[#BFAAB2] dark:placeholder-[#64748B] placeholder:font-normal focus:border-[#C67D00] focus:outline-none transition shadow-2xs disabled:bg-gray-50 dark:disabled:bg-[#141720]"
