@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Tv, Settings2, ChevronRight, Copy, Check } from "lucide-react";
 import type { Deck } from "@/types";
+import { formatDeckDate } from "../deck-constants";
 
 interface DeckCardItemFooterProps {
   deck: Deck;
@@ -43,7 +44,7 @@ export function DeckCardItemFooter({
 
         <div className="flex items-center gap-2">
           <span className="text-[10px] text-[#8F6672] dark:text-[#94A3B8] bg-white dark:bg-[#1C202C] px-2 py-0.5 rounded border border-[#DFD0D5] dark:border-[#282E3E]">
-            {deck.createdAt}
+            {formatDeckDate(deck.createdAt)}
           </span>
           <button
             type="button"

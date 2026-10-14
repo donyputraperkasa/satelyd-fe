@@ -97,8 +97,17 @@ export async function createOrGetGameSession(
  */
 export async function fetchGameSessionByPin(pinCode: string): Promise<GameSession | null> {
   const cleanPin = pinCode.trim().toUpperCase();
+  if (!cleanPin) return null;
 
-  // Try backend API first
+  // Normalizer helper
+  const norm = (s: string) => s.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+  const fuzzy = (s: string) =>
+    norm(s).replace(/^TV/, "").replace(/U/g, "V").replace(/O/g, "0").replace(/I/g, "1").replace(/L/g, "1");
+
+  const cleanNorm = norm(cleanPin);
+  const cleanFuzzy = fuzzy(cleanPin);
+
+  // 1. Coba ambil dari Backend API
   try {
     const apiSession = await apiClient<{
       id: string;
@@ -124,19 +133,54 @@ export async function fetchGameSessionByPin(pinCode: string): Promise<GameSessio
       };
     }
   } catch {
-    // Fallback to local storage
+    // Jika tidak ada prefix TV-, coba dengan TV-
+    if (!cleanPin.startsWith("TV-")) {
+      try {
+        const withPrefix = `TV-${cleanPin.replace(/^TV/, "")}`;
+        const apiSession = await apiClient<{
+          id: string;
+          roomCode?: string;
+          pinCode?: string;
+          deckId: string;
+          selectedMode?: GameType;
+          gameType?: GameType;
+          deck?: Deck;
+        }>(`/games/tv-sessions/${encodeURIComponent(withPrefix)}`);
+        if (apiSession && apiSession.deck) {
+          return {
+            id: apiSession.id,
+            pinCode: apiSession.roomCode || apiSession.pinCode || withPrefix,
+            deckId: apiSession.deckId,
+            deck: apiSession.deck,
+            gameType: apiSession.selectedMode || apiSession.gameType || "FLIP_CARD",
+            status: "ACTIVE",
+            createdAt: new Date().toISOString(),
+            teams: JSON.parse(JSON.stringify(DEFAULT_TEAMS)),
+            openedCardIds: [],
+          };
+        }
+      } catch {}
+    }
   }
 
+  // 2. Cari di sesi aktif lokal (localStorage)
   const current = getStoredGameSessions();
   const found = current.find(
-    (s) => s.pinCode.toUpperCase() === cleanPin && s.status === "ACTIVE"
+    (s) =>
+      s.status === "ACTIVE" &&
+      (s.pinCode.toUpperCase() === cleanPin ||
+        norm(s.pinCode) === cleanNorm ||
+        fuzzy(s.pinCode) === cleanFuzzy)
   );
   if (found) return found;
 
-  // If not found in stored sessions, check if there is a deck with this pin
+  // 3. Jika sesi belum dibuat tapi deck ada, buat / aktifkan otomatis
   const deck = await fetchDeckByPinOrId(cleanPin);
   if (deck) {
-    return createOrGetGameSession(deck.id, "FLIP_CARD", cleanPin);
+    const sessionPin =
+      deck.pinCode ||
+      `TV-${deck.id.replace(/[^0-9A-Z]/gi, "").slice(-4).toUpperCase() || "8821"}`;
+    return createOrGetGameSession(deck.id, "FLIP_CARD", sessionPin);
   }
 
   return null;

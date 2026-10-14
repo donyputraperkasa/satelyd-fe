@@ -13,78 +13,42 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
   const loadParticipants = useCallback(async () => {
     if (!isOpen || !exam) return;
 
+    const realStudents: LiveStudent[] = [];
+
     try {
       const live = await fetchLiveParticipants(exam.id);
-      if (live && live.length > 0) {
-        setStudents(live);
-        return;
+      if (Array.isArray(live) && live.length > 0) {
+        realStudents.push(...live);
       }
     } catch {}
 
-    const baseList: LiveStudent[] = [
-      {
-        id: "stu-1",
-        name: "Ahmad Fauzi",
-        className: exam.gradeLevel || "XII IPA 1",
-        attendanceNumber: "02",
-        answeredCount: Math.min(exam.totalQuestions || 20, 18),
-        totalQuestions: exam.totalQuestions || 20,
-        violations: 0,
-        isBlocked: false,
-        isSubmitted: false,
-        startedAt: "10 mnt lalu",
-      },
-      {
-        id: "stu-2",
-        name: "Siti Rahmawati",
-        className: exam.gradeLevel || "XII IPA 1",
-        attendanceNumber: "28",
-        answeredCount: exam.totalQuestions || 20,
-        totalQuestions: exam.totalQuestions || 20,
-        violations: 1,
-        isBlocked: false,
-        isSubmitted: true,
-        score: 88,
-        startedAt: "25 mnt lalu",
-      },
-      {
-        id: "stu-3",
-        name: "Budi Pratama",
-        className: exam.gradeLevel || "XII IPA 1",
-        attendanceNumber: "08",
-        answeredCount: 12,
-        totalQuestions: exam.totalQuestions || 20,
-        violations: 3,
-        isBlocked: true,
-        isSubmitted: false,
-        startedAt: "15 mnt lalu",
-      },
-    ];
-
+    // Check if there is an active local participant session (e.g. testing in browser)
     if (typeof window !== "undefined" && exam.tokenCode) {
       const clean = exam.tokenCode.toUpperCase();
       const saved = localStorage.getItem(`satelyd.exam_session_${clean}`);
       if (saved) {
         try {
           const session: StudentExamSession = JSON.parse(saved);
-          baseList.unshift({
-            id: session.participant.id,
-            name: session.participant.name,
-            className: session.participant.className,
-            attendanceNumber: session.participant.attendanceNumber,
-            answeredCount: Object.keys(session.answers || {}).length,
-            totalQuestions: exam.questions?.length || exam.totalQuestions || 20,
-            violations: session.violationCount || 0,
-            isBlocked: (session.violationCount || 0) >= 3,
-            isSubmitted: session.isSubmitted,
-            score: session.score,
-            startedAt: "Sesi Aktif",
-          });
+          if (session?.participant?.id && !realStudents.some((s) => s.id === session.participant.id)) {
+            realStudents.unshift({
+              id: session.participant.id,
+              name: session.participant.name,
+              className: session.participant.className,
+              attendanceNumber: session.participant.attendanceNumber,
+              answeredCount: Object.keys(session.answers || {}).length,
+              totalQuestions: exam.questions?.length || exam.totalQuestions || 20,
+              violations: session.violationCount || 0,
+              isBlocked: (session.violationCount || 0) >= 3,
+              isSubmitted: session.isSubmitted,
+              score: session.score,
+              startedAt: "Sesi Aktif",
+            });
+          }
         } catch {}
       }
     }
 
-    setStudents(baseList);
+    setStudents(realStudents);
   }, [isOpen, exam]);
 
   useEffect(() => {

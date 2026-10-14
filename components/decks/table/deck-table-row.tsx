@@ -3,7 +3,7 @@
 import { Layers, Tv, Settings2, ChevronRight } from "lucide-react";
 import type { DeckTableRowProps } from "@/types";
 import { DeckActionsDropdown } from "../cards/deck-actions-dropdown";
-import { DIFFICULTY_BADGES, getDeckSessionPin } from "../deck-constants";
+import { DIFFICULTY_BADGES, getDeckSessionPin, formatDeckDate } from "../deck-constants";
 
 export function DeckTableRow({
   deck,
@@ -20,31 +20,33 @@ export function DeckTableRow({
   return (
     <tr className="hover:bg-[#FAF7F8] dark:hover:bg-[#141720]/60 transition-colors group">
       {/* Nomor */}
-      <td className="py-4 px-6 text-xs font-bold text-[#7A5661] dark:text-[#94A3B8]">
+      <td className="py-4 px-4 text-center text-xs font-bold text-[#7A5661] dark:text-[#94A3B8]">
         {index + 1}
       </td>
 
       {/* Judul & Mata Pelajaran */}
-      <td className="py-4 px-6">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="rounded-md bg-[#FAF0F3] dark:bg-[#252B39] border border-[#ECD0D8] dark:border-[#394253] px-2 py-0.5 text-[11px] font-bold text-[#7A283C] dark:text-[#F8FAFC]">
-            {deck.subject}
-          </span>
-          <span className="rounded-md bg-[#F5EFEB] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] px-2 py-0.5 text-[11px] font-semibold text-[#573E47] dark:text-[#94A3B8]">
-            {deck.gradeLevel}
-          </span>
-          <span className="font-mono text-[11px] font-black text-[#451420] dark:text-[#F8FAFC] bg-white dark:bg-[#1C202C] border border-[#DFD0D5] dark:border-[#282E3E] px-2 py-0.5 rounded">
-            PIN: {sessionPin}
-          </span>
+      <td className="py-4 px-6 min-w-[280px]">
+        <div className="flex flex-col gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="inline-flex items-center whitespace-nowrap rounded-md bg-[#FAF0F3] dark:bg-[#252B39] border border-[#ECD0D8] dark:border-[#394253] px-2 py-0.5 text-[11px] font-bold text-[#7A283C] dark:text-[#F8FAFC]">
+              {deck.subject}
+            </span>
+            <span className="inline-flex items-center whitespace-nowrap rounded-md bg-[#F5EFEB] dark:bg-[#141720] border border-[#E5D7DC] dark:border-[#282E3E] px-2 py-0.5 text-[11px] font-semibold text-[#573E47] dark:text-[#94A3B8]">
+              {deck.gradeLevel}
+            </span>
+            <span className="inline-flex items-center whitespace-nowrap font-mono text-[11px] font-black text-[#451420] dark:text-[#F8FAFC] bg-[#FAF7F2] dark:bg-[#1C202C] border border-[#DFD0D5] dark:border-[#282E3E] px-2 py-0.5 rounded">
+              PIN: {sessionPin}
+            </span>
+          </div>
+          <h4 className="font-black text-sm text-[#451420] dark:text-[#F8FAFC] group-hover:text-[#6E1F33] dark:group-hover:text-[#F1F5F9] transition-colors line-clamp-1">
+            {deck.title}
+          </h4>
+          {deck.description && (
+            <p className="text-xs text-[#7A5661] dark:text-[#94A3B8] line-clamp-1 max-w-md">
+              {deck.description}
+            </p>
+          )}
         </div>
-        <h4 className="font-black text-sm text-[#451420] dark:text-[#F8FAFC] group-hover:text-[#6E1F33] dark:group-hover:text-[#F1F5F9] transition-colors line-clamp-1">
-          {deck.title}
-        </h4>
-        {deck.description && (
-          <p className="text-xs text-[#7A5661] dark:text-[#94A3B8] line-clamp-1 mt-0.5 max-w-md">
-            {deck.description}
-          </p>
-        )}
       </td>
 
       {/* Jumlah Kartu */}
@@ -59,20 +61,20 @@ export function DeckTableRow({
       <td className="py-4 px-4 text-center whitespace-nowrap">
         {deck.difficulty ? (
           <span
-            className={`rounded-lg border px-2.5 py-1 text-xs font-bold ${
+            className={`inline-block rounded-lg border px-2.5 py-1 text-xs font-bold ${
               DIFFICULTY_BADGES[deck.difficulty] || DIFFICULTY_BADGES.SEDANG
             }`}
           >
             {deck.difficulty}
           </span>
         ) : (
-          <span className="text-xs text-[#9C737F] dark:text-[#64748B]">-</span>
+          <span className="text-xs font-medium text-[#9C737F] dark:text-[#64748B]">-</span>
         )}
       </td>
 
       {/* Tanggal */}
-      <td className="py-4 px-4 text-center whitespace-nowrap text-xs text-[#7A5661] dark:text-[#94A3B8]">
-        {deck.createdAt}
+      <td className="py-4 px-4 text-center whitespace-nowrap text-xs font-medium text-[#7A5661] dark:text-[#94A3B8]">
+        {formatDeckDate(deck.createdAt)}
       </td>
 
       {/* Aksi */}

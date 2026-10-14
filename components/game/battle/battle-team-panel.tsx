@@ -136,7 +136,7 @@ export function BattleTeamPanel({
         >
           <div className="flex items-center gap-2">
             <Bell size={20} className={isReady ? "animate-wiggle" : ""} />
-            <span>BUZZER</span>
+            <span>Jawab</span>
           </div>
           <span className="text-[11px] font-semibold opacity-90">
             {isReady ? `Klik / Tombol [${team.shortcutKey}]` : isBuzzed ? "Terkunci!" : "Menunggu..."}

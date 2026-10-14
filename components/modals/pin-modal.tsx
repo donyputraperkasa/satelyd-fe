@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Gamepad2, GraduationCap, Loader2, Sparkles } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { checkGameRoom, fetchExamByToken, fetchDeckByPinOrId } from "@/services";
+import { checkGameRoom, fetchExamByToken, fetchDeckByPinOrId, fetchGameSessionByPin } from "@/services";
 import type { PinModalProps } from "@/types";
 import { BaseModal } from "./base-modal";
 
@@ -32,19 +32,13 @@ export function PinModal({
     try {
       if (mode === "game") {
         // 1. Coba periksa apakah ini sesi TV aktif atau Deck game yang valid
-        let isGameValid = false;
-        try {
-          await checkGameRoom(cleanPin);
-          isGameValid = true;
-        } catch {
-          // Cek apakah ada deck dengan PIN ini
-          const deck = await fetchDeckByPinOrId(cleanPin);
-          if (deck) isGameValid = true;
-        }
-
-        if (isGameValid) {
-          setSuccessMsg(`Sesi game "${cleanPin}" valid! Membuka arena game...`);
-          setTimeout(() => { onClose(); router.push(`/game/${encodeURIComponent(cleanPin)}`); }, 600);
+        const session = await fetchGameSessionByPin(cleanPin);
+        if (session) {
+          setSuccessMsg(`Sesi game "${session.pinCode}" valid! Membuka arena game...`);
+          setTimeout(() => {
+            onClose();
+            router.push(`/game/${encodeURIComponent(session.pinCode)}`);
+          }, 600);
           return;
         }
 
@@ -52,38 +46,39 @@ export function PinModal({
         const exam = await fetchExamByToken(cleanPin);
         if (exam) {
           setSuccessMsg(`Token Ujian "${exam.title}" ditemukan! Mengalihkan ke lembar ujian...`);
-          setTimeout(() => { onClose(); router.push(`/exam/${encodeURIComponent(cleanPin)}`); }, 600);
+          setTimeout(() => {
+            onClose();
+            router.push(`/exam/${encodeURIComponent(exam.tokenCode)}`);
+          }, 600);
           return;
         }
 
         // Jika keduanya tidak ditemukan
-        throw new Error(`PIN "${cleanPin}" tidak ditemukan. Pastikan kode sesuai dengan layar guru.`);
+        throw new Error(`PIN Game "${cleanPin}" tidak ditemukan. Pastikan kode sesuai dengan layar guru atau TV.`);
       } else {
         // Mode Ujian
         const exam = await fetchExamByToken(cleanPin);
         if (exam) {
           setSuccessMsg(`Ujian "${exam.title}" valid! Mengalihkan ke lembar ujian...`);
-          setTimeout(() => { onClose(); router.push(`/exam/${encodeURIComponent(cleanPin)}`); }, 600);
+          setTimeout(() => {
+            onClose();
+            router.push(`/exam/${encodeURIComponent(exam.tokenCode)}`);
+          }, 600);
           return;
         }
 
         // Fallback: Siapa tahu user mengetik PIN Game saat berada di tab Ujian
-        let isGameValid = false;
-        try {
-          await checkGameRoom(cleanPin);
-          isGameValid = true;
-        } catch {
-          const deck = await fetchDeckByPinOrId(cleanPin);
-          if (deck) isGameValid = true;
-        }
-
-        if (isGameValid) {
-          setSuccessMsg(`PIN Game "${cleanPin}" valid! Mengalihkan ke arena game...`);
-          setTimeout(() => { onClose(); router.push(`/game/${encodeURIComponent(cleanPin)}`); }, 600);
+        const session = await fetchGameSessionByPin(cleanPin);
+        if (session) {
+          setSuccessMsg(`PIN Game "${session.pinCode}" valid! Mengalihkan ke arena game...`);
+          setTimeout(() => {
+            onClose();
+            router.push(`/game/${encodeURIComponent(session.pinCode)}`);
+          }, 600);
           return;
         }
 
-        throw new Error(`Token Ujian "${cleanPin}" tidak ditemukan.`);
+        throw new Error(`Token Ujian "${cleanPin}" tidak ditemukan. Pastikan token sesuai dengan yang dibagikan guru.`);
       }
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "PIN/Kode tidak ditemukan");
@@ -97,7 +92,7 @@ export function PinModal({
       <div className="mb-6 text-center">
         <h2 className="font-display text-2xl font-bold text-[#451420] dark:text-[#F8FAFC]">Masukkan PIN Sesi</h2>
         <p className="mt-1 text-xs sm:text-sm text-[#7A5661] dark:text-[#94A3B8]">
-          {mode === "game" ? "Ketik 6 karakter kode di TV kelas" : "Masukkan token ujian dari guru"}
+          {mode === "game" ? "Ketik 4-6 karakter kode di TV kelas (cth: TV-H3U0)" : "Masukkan token ujian dari guru"}
         </p>
       </div>
 
@@ -137,11 +132,13 @@ export function PinModal({
         <input
           type="text"
           required
-          maxLength={10}
+          maxLength={45}
           value={pin}
           onChange={(e) => setPin(e.target.value.toUpperCase())}
-          placeholder={mode === "game" ? "CTH: ABC123" : "TOKEN UJIAN"}
-          className="w-full text-center tracking-[0.25em] font-mono text-xl sm:text-2xl font-black rounded-xl border-2 border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] py-2.5 px-4 text-[#451420] dark:text-[#F8FAFC] placeholder-[#C5B3B9] dark:placeholder-[#64748B] transition focus:border-[#C67D00] focus:outline-none focus:ring-2 focus:ring-[#C67D00]/20 uppercase"
+          placeholder={mode === "game" ? "CTH: TV-H3U0 / H3U0" : "TEMPEL TOKEN UJIAN"}
+          className={`w-full text-center font-mono font-black rounded-xl border-2 border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#141720] py-2.5 px-4 text-[#451420] dark:text-[#F8FAFC] placeholder-[#C5B3B9] dark:placeholder-[#64748B] transition focus:border-[#C67D00] focus:outline-none focus:ring-2 focus:ring-[#C67D00]/20 uppercase ${
+            pin.length > 12 ? "text-sm sm:text-base tracking-wider" : "text-xl sm:text-2xl tracking-[0.2em]"
+          }`}
         />
 
         <button

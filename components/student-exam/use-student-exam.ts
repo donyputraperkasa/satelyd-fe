@@ -90,7 +90,9 @@ export function useStudentExam(token: string) {
 
   // Anti-Cheat: Visibility Change & Window Blur
   const sessionRef = useRef(session);
-  sessionRef.current = session;
+  useEffect(() => {
+    sessionRef.current = session;
+  }, [session]);
   const maxViolations = 3;
 
   useEffect(() => {

@@ -1,11 +1,27 @@
 "use client";
 
-import { Unlock } from "lucide-react";
+import { Unlock, Users } from "lucide-react";
 import type { LiveStudent, MonitorTableProps } from "@/types";
 
 export type { LiveStudent };
 
 export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
+  if (students.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 px-4 rounded-2xl border border-dashed border-[#DFD0D5] dark:border-[#282E3E] bg-[#FAF7F2]/40 dark:bg-[#141720]/40 text-center">
+        <div className="w-12 h-12 rounded-2xl bg-[#F5EDF0] dark:bg-[#1C202C] flex items-center justify-center text-[#7A283C] dark:text-[#C67D00] mb-3">
+          <Users size={24} />
+        </div>
+        <h4 className="text-sm font-bold text-[#451420] dark:text-[#F8FAFC]">
+          Belum Ada Siswa Bergabung
+        </h4>
+        <p className="text-xs text-[#7A5661] dark:text-[#94A3B8] max-w-sm mt-1">
+          Bagikan link atau token ujian kepada siswa. Siswa yang mulai mengerjakan akan langsung muncul di sini secara real-time.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-[#DFD0D5] dark:border-[#282E3E] bg-white dark:bg-[#1C202C] shadow-xs">
       <table className="w-full text-left text-xs">

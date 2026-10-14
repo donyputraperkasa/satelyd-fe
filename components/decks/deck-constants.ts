@@ -11,3 +11,19 @@ export function getDeckSessionPin(deckId: string, customPin?: string): string {
     `TV-${deckId.replace(/[^0-9A-Z]/gi, "").slice(-4).toUpperCase() || "8821"}`
   );
 }
+
+export function formatDeckDate(isoOrDateStr?: string): string {
+  if (!isoOrDateStr) return "-";
+  try {
+    const d = new Date(isoOrDateStr);
+    if (isNaN(d.getTime())) return isoOrDateStr;
+    return new Intl.DateTimeFormat("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(d);
+  } catch {
+    return isoOrDateStr;
+  }
+}
+

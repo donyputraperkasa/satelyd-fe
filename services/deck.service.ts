@@ -100,17 +100,73 @@ export async function fetchDeckByPinOrId(pinOrId: string): Promise<Deck | null> 
   const clean = pinOrId.trim().toUpperCase();
   if (!clean) return null;
 
-  // 1. Coba cari langsung by ID
-  const direct = await fetchDeckById(clean);
-  if (direct) return direct;
+  // 1. Coba cari langsung by ID hanya jika menyerupai UUID (panjang > 20)
+  if (clean.length > 20 || /^[0-9A-F]{8}-[0-9A-F]{4}/i.test(clean)) {
+    const direct = await fetchDeckById(clean);
+    if (direct) return direct;
+  }
 
   // 2. Ambil semua deck yang tersedia (baik dari backend maupun storage lokal)
   const allDecks = await fetchDecks();
-  const matched = allDecks.find((d) => {
-    if (d.id?.toUpperCase() === clean) return true;
-    if (d.pinCode?.toUpperCase() === clean) return true;
-    const sessionPin = `TV-${d.id.replace(/[^0-9A-Z]/gi, "").slice(-4).toUpperCase() || "8821"}`;
+  const decksToSearch = [...allDecks];
+
+  // Kumpulkan deck dari localStorage jika ada
+  if (typeof window !== "undefined") {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && (key.startsWith("satelyd.decks") || key === "satelyd.decks.v1")) {
+        try {
+          const list = JSON.parse(localStorage.getItem(key) || "[]");
+          if (Array.isArray(list)) {
+            for (const item of list) {
+              if (item?.id && !decksToSearch.some((d) => d.id === item.id)) {
+                decksToSearch.push(item);
+              }
+            }
+          }
+        } catch {}
+      }
+    }
+  }
+
+  // Helper normalisasi karakter PIN
+  const norm = (s: string) => s.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+  // Fuzzy: menyamakan huruf U dengan V dan angka 0 dengan huruf O, serta 1 dengan I
+  const fuzzy = (s: string) =>
+    norm(s)
+      .replace(/^TV/, "")
+      .replace(/U/g, "V")
+      .replace(/O/g, "0")
+      .replace(/I/g, "1")
+      .replace(/L/g, "1");
+
+  const cleanNorm = norm(clean);
+  const cleanFuzzy = fuzzy(clean);
+
+  const matched = decksToSearch.find((d) => {
+    // a. Pencocokan ID
+    if (d.id?.toUpperCase() === clean || norm(d.id || "") === cleanNorm) return true;
+
+    // b. Pencocokan custom pinCode
+    if (d.pinCode) {
+      if (d.pinCode.toUpperCase() === clean) return true;
+      if (norm(d.pinCode) === cleanNorm) return true;
+      if (fuzzy(d.pinCode) === cleanFuzzy) return true;
+    }
+
+    // c. Pencocokan generated sessionPin (misal TV-H3U0)
+    const autoSuffix = d.id ? d.id.replace(/[^0-9A-Za-z]/gi, "").slice(-4).toUpperCase() : "";
+    const sessionPin = `TV-${autoSuffix || "8821"}`;
+
     if (sessionPin === clean) return true;
+    if (norm(sessionPin) === cleanNorm) return true;
+    if (fuzzy(sessionPin) === cleanFuzzy) return true;
+
+    // d. Pencocokan kode 4 karakter saja (misal user hanya mengetik "H3U0" atau "H3V0")
+    if (autoSuffix && (norm(autoSuffix) === cleanNorm || fuzzy(autoSuffix) === cleanFuzzy)) {
+      return true;
+    }
+
     return false;
   });
 
