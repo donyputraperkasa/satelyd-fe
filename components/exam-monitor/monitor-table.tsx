@@ -59,13 +59,13 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
                 </span>
               </td>
               <td className="py-3 px-3 text-center">
-                {s.isBlocked ? (
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FAF0F3] dark:bg-rose-950/50 text-[#8A1F2D] dark:text-rose-300 border border-[#ECD0D8] dark:border-rose-900/60">
-                    Terkunci
-                  </span>
-                ) : s.isSubmitted ? (
+                {s.isSubmitted ? (
                   <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/60">
                     ✓ Selesai ({s.score ?? 0})
+                  </span>
+                ) : s.isBlocked ? (
+                  <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FAF0F3] dark:bg-rose-950/50 text-[#8A1F2D] dark:text-rose-300 border border-[#ECD0D8] dark:border-rose-900/60">
+                    Terkunci
                   </span>
                 ) : (
                   <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/60">
@@ -74,7 +74,11 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
                 )}
               </td>
               <td className="py-3 px-4 text-right">
-                {s.isBlocked ? (
+                {s.isSubmitted ? (
+                  <span className="text-[11px] text-[#1D6C31] dark:text-emerald-400 font-semibold">
+                    ✓ {s.startedAt}
+                  </span>
+                ) : s.isBlocked ? (
                   <button
                     type="button"
                     onClick={() => onUnblock(s.id)}
@@ -83,7 +87,7 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
                   >
                     <Unlock size={13} /> Buka Kunci
                   </button>
-                ) : !s.isSubmitted ? (
+                ) : (
                   <div className="flex items-center justify-end gap-2">
                     <button
                       type="button"
@@ -95,8 +99,6 @@ export function MonitorTable({ students, onUnblock }: MonitorTableProps) {
                     </button>
                     <span className="text-[11px] text-[#8F6672] dark:text-[#94A3B8] font-medium hidden sm:inline">{s.startedAt}</span>
                   </div>
-                ) : (
-                  <span className="text-[11px] text-[#8F6672] dark:text-[#94A3B8] font-medium">{s.startedAt}</span>
                 )}
               </td>
             </tr>

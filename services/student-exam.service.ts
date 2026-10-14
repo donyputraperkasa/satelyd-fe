@@ -205,20 +205,28 @@ export async function submitStudentExam(
     ? Math.round((correctCount / questions.length) * 100)
     : 0;
 
-  // Coba kirimkan submit ke backend API
+  let serverScore: number | undefined;
+
+  // Coba kirimkan submit ke backend API beserta seluruh jawaban
   try {
-    await apiClient(
+    const res = await apiClient<{ score?: number; status?: string }>(
       `/teacher-exams/participants/${encodeURIComponent(session.participant.participantToken)}/submit`,
-      { method: "POST" }
+      {
+        method: "POST",
+        body: JSON.stringify({ answers }),
+      }
     );
-  } catch {
-    // Lanjut lokal
+    if (res && typeof res.score === "number") {
+      serverScore = res.score;
+    }
+  } catch (err) {
+    console.warn("submitStudentExam API notice:", err);
   }
 
   const finishedSession: StudentExamSession = {
     ...session,
     isSubmitted: true,
-    score: finalScore,
+    score: serverScore ?? finalScore,
     submittedAt: new Date().toISOString(),
   };
 

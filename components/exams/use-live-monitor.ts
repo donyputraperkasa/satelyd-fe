@@ -49,9 +49,21 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
                 realStudents[existingIdx].violations,
                 session.violationCount || 0
               );
-              realStudents[existingIdx].answeredCount = Object.keys(session.answers || {}).length;
-              realStudents[existingIdx].isBlocked =
-                realStudents[existingIdx].isBlocked || (session.violationCount || 0) >= 3;
+              realStudents[existingIdx].answeredCount = Math.max(
+                realStudents[existingIdx].answeredCount,
+                Object.keys(session.answers || {}).length
+              );
+              realStudents[existingIdx].isSubmitted =
+                realStudents[existingIdx].isSubmitted || Boolean(session.isSubmitted);
+              if (realStudents[existingIdx].isSubmitted) {
+                realStudents[existingIdx].isBlocked = false;
+                if (session.score !== undefined && (realStudents[existingIdx].score === undefined || realStudents[existingIdx].score === null)) {
+                  realStudents[existingIdx].score = session.score;
+                }
+              } else {
+                realStudents[existingIdx].isBlocked =
+                  realStudents[existingIdx].isBlocked || (session.violationCount || 0) >= 3;
+              }
             } else {
               realStudents.unshift({
                 id: session.participant.id,
@@ -144,12 +156,12 @@ export function useLiveMonitor(isOpen: boolean, exam: Exam | null) {
 
   const filtered = students.filter((s) => {
     if (filterTab === "WORKING") return !s.isSubmitted && !s.isBlocked;
-    if (filterTab === "BLOCKED") return s.isBlocked;
+    if (filterTab === "BLOCKED") return s.isBlocked && !s.isSubmitted;
     if (filterTab === "DONE") return s.isSubmitted;
     return true;
   });
 
-  const blockedCount = students.filter((s) => s.isBlocked).length;
+  const blockedCount = students.filter((s) => s.isBlocked && !s.isSubmitted).length;
   const workingCount = students.filter((s) => !s.isSubmitted && !s.isBlocked).length;
   const doneCount = students.filter((s) => s.isSubmitted).length;
 

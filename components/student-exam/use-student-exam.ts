@@ -290,7 +290,7 @@ export function useStudentExam(token: string) {
       return updated;
     });
     if (session?.participant?.participantToken && currentQuestion?.id) {
-      recordStudentAnswer(session.participant.participantToken, currentQuestion.id);
+      recordStudentAnswer(session.participant.participantToken, currentQuestion.id, optionKey);
     }
   };
 
