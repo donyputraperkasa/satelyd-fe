@@ -1,11 +1,6 @@
 "use client";
 
-import type { DeckDifficulty } from "@/types";
-
-interface DeckDifficultySelectorProps {
-  difficulty: DeckDifficulty;
-  setDifficulty: (val: DeckDifficulty) => void;
-}
+import type { DeckDifficulty, DeckDifficultySelectorProps } from "@/types";
 
 const DIFFICULTIES: DeckDifficulty[] = ["MUDAH", "SEDANG", "SULIT", "CAMPURAN"];
 

@@ -83,6 +83,9 @@ export default function DecksPage() {
         setManagingDeck={pageState.setManagingDeck}
         deleteCandidate={pageState.deleteCandidate}
         setDeleteCandidate={pageState.setDeleteCandidate}
+        exportCandidate={pageState.exportCandidate}
+        setExportCandidate={pageState.setExportCandidate}
+        onExportSuccess={pageState.handleExportSuccess}
         sessionDeck={pageState.sessionDeck}
         setSessionDeck={pageState.setSessionDeck}
         isGuideModalOpen={isGuideModalOpen}

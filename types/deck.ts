@@ -208,3 +208,53 @@ export interface DeckCreateFieldsProps {
   pinCode: string;
   setPinCode: (val: string) => void;
 }
+
+export interface ExportToExamModalProps {
+  isOpen: boolean;
+  deck: Deck | null;
+  onClose: () => void;
+  onSuccess: (examId: string) => void;
+}
+
+export interface ExportToExamFieldsProps {
+  title: string;
+  setTitle: (val: string) => void;
+  durationMinutes: number;
+  setDurationMinutes: (val: number) => void;
+  customPin: string;
+  setCustomPin: (val: string) => void;
+  description: string;
+  setDescription: (val: string) => void;
+}
+
+export interface ExportToExamSummaryProps {
+  subject: string;
+  gradeLevel: string;
+  cardCount: number;
+}
+
+export interface DeckPageModalsProps {
+  isCreateModalOpen: boolean;
+  setIsCreateModalOpen: (val: boolean) => void;
+  editingDeck: Deck | null;
+  setEditingDeck: (deck: Deck | null) => void;
+  managingDeck: Deck | null;
+  setManagingDeck: (deck: Deck | null) => void;
+  deleteCandidate: Deck | null;
+  setDeleteCandidate: (deck: Deck | null) => void;
+  exportCandidate: Deck | null;
+  setExportCandidate: (deck: Deck | null) => void;
+  onExportSuccess: (examId: string) => void;
+  sessionDeck: Deck | null;
+  setSessionDeck: (deck: Deck | null) => void;
+  isGuideModalOpen: boolean;
+  setIsGuideModalOpen: (val: boolean) => void;
+  handleCreateOrUpdate: (payload: CreateDeckPayload) => Promise<void>;
+  handleSaveCards: (deckId: string, cards: DeckCard[]) => Promise<void>;
+  handleConfirmDelete: (deckId: string) => Promise<void>;
+}
+
+export interface DeckDifficultySelectorProps {
+  difficulty: DeckDifficulty;
+  setDifficulty: (val: DeckDifficulty) => void;
+}

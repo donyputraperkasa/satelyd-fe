@@ -21,6 +21,7 @@ export function useDecksPage() {
   const [managingDeck, setManagingDeck] = useState<Deck | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<Deck | null>(null);
   const [sessionDeck, setSessionDeck] = useState<Deck | null>(null);
+  const [exportCandidate, setExportCandidate] = useState<Deck | null>(null);
 
   const loadData = async () => {
     setIsLoading(true);
@@ -60,8 +61,11 @@ export function useDecksPage() {
   const handlePlayOnTv = (deck: Deck) => setSessionDeck(deck);
 
   const handleExportToExam = (deck: Deck) => {
-    toast.info(`Mengimpor butir soal dari "${deck.title}" ke paket Ujian Sekolah...`);
-    router.push(`/dashboard/exams?importDeckId=${encodeURIComponent(deck.id)}`);
+    setExportCandidate(deck);
+  };
+
+  const handleExportSuccess = (examId: string) => {
+    router.push(`/dashboard/exams?manageExamId=${encodeURIComponent(examId)}`);
   };
 
   return {
@@ -81,10 +85,13 @@ export function useDecksPage() {
     setManagingDeck,
     deleteCandidate,
     setDeleteCandidate,
+    exportCandidate,
+    setExportCandidate,
     sessionDeck,
     setSessionDeck,
     ...crud,
     handlePlayOnTv,
     handleExportToExam,
+    handleExportSuccess,
   };
 }

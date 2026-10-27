@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import type { Exam, ExamStatus } from "@/types";
+import type { DeckCard, Exam, ExamQuestion, ExamStatus } from "@/types";
 import { useToast } from "@/components/ui";
 import {
   fetchTeacherExams,
@@ -11,7 +11,46 @@ import {
   publishTeacherExam,
   closeTeacherExam,
   deleteTeacherExam,
+  fetchDeckById,
 } from "@/services";
+import { extractCorrectKey } from "@/components/game/battle/battle-constants";
+
+function convertCardsToQuestions(cards: DeckCard[]): ExamQuestion[] {
+  return cards.map((card, idx) => {
+    let options =
+      card.options && card.options.length > 0
+        ? card.options.map((opt) => ({
+            key: opt.key.trim().toUpperCase(),
+            text: opt.text.trim(),
+          }))
+        : [];
+
+    if (options.length < 2) {
+      const rawAns =
+        card.backAnswer?.replace(/^[A-E]\.\s*/i, "").trim() || "Pilihan A";
+      options = [
+        { key: "A", text: rawAns },
+        { key: "B", text: "Pilihan B" },
+        { key: "C", text: "Pilihan C" },
+        { key: "D", text: "Pilihan D" },
+      ];
+    }
+
+    const correctKey = extractCorrectKey(card);
+
+    return {
+      id: card.id || `q-${idx + 1}-${Date.now()}`,
+      number: idx + 1,
+      questionText: card.frontQuestion || `Pertanyaan #${idx + 1}`,
+      questionType: "MULTIPLE_CHOICE",
+      options,
+      correctAnswer: correctKey,
+      points: card.points || 10,
+      imageUrl: card.imageUrl,
+      explanation: card.explanation,
+    };
+  });
+}
 
 export function useExamsPage() {
   const { toast } = useToast();
@@ -92,7 +131,85 @@ export function useExamsPage() {
         }
       }
     }
-  }, [exams]);
+
+    const manageExamId = params.get("manageExamId");
+    if (manageExamId) {
+      const found = exams.find((e) => e.id === manageExamId);
+      if (found) {
+        handleOpenManage(found);
+        const url = new URL(window.location.href);
+        url.searchParams.delete("manageExamId");
+        window.history.replaceState(null, "", url.toString());
+      } else if (!isLoading && exams.length > 0) {
+        fetchTeacherExamById(manageExamId).then((full) => {
+          if (full) {
+            setExams((prev) => [full, ...prev.filter((e) => e.id !== full.id)]);
+            setManagingExam(full);
+            const url = new URL(window.location.href);
+            url.searchParams.delete("manageExamId");
+            window.history.replaceState(null, "", url.toString());
+          }
+        });
+      }
+    }
+
+    const importDeckId = params.get("importDeckId");
+    if (importDeckId) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("importDeckId");
+      window.history.replaceState(null, "", url.toString());
+
+      fetchDeckById(importDeckId).then(async (deck) => {
+        if (!deck) {
+          toast.error("Bank soal tidak ditemukan.");
+          return;
+        }
+        toast.info(
+          `Mengonversi "${deck.title}" menjadi paket Ujian Siswa...`
+        );
+        try {
+          const generatedPin = Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
+
+          const pinCode = deck.pinCode
+            ? deck.pinCode.replace(/[^A-Za-z0-9]/g, "").slice(0, 6).toUpperCase()
+            : generatedPin;
+
+          const duration = Math.max(
+            15,
+            Math.min(120, Math.ceil((deck.cardCount || 10) * 2))
+          );
+
+          const created = await createTeacherExam({
+            title: deck.title,
+            description: deck.description,
+            durationMinutes: duration,
+            pin: pinCode,
+          });
+
+          const rawCards = deck.cards || [];
+          if (rawCards.length > 0) {
+            const questionsPayload = convertCardsToQuestions(rawCards);
+            await saveExamQuestions(created.id, questionsPayload);
+          }
+
+          setExams((prev) => [created, ...prev]);
+          handleOpenManage(created);
+          toast.success(
+            `Paket Ujian "${created.title}" berhasil dibuat dengan ${rawCards.length} butir soal!`
+          );
+        } catch (err: unknown) {
+          const msg =
+            err instanceof Error
+              ? err.message
+              : "Gagal mengimpor paket ujian.";
+          toast.error(msg);
+        }
+      });
+    }
+  }, [exams, isLoading]);
 
   const handleOpenManage = async (exam: Exam) => {
     setManagingExam(exam);
